@@ -1,0 +1,16 @@
+{
+  "description": "Historical navigation SOC experiment, NOT a pretrained Flow experiment. Byte-identical sources and executed output.",
+  "source_commit": "7079956050f5e17cefe2957ca54b2af4344c0cfb",
+  "files": [
+    {
+      "original": "notebooks/02_navigation_am_and_candidates.py",
+      "archived": "notebooks/archive/02_navigation_am_and_candidates.py",
+      "sha256": "8ab25fcca6c2993783aed2c5626d068f1bf490043a119b2ea4efafd525528861"
+    },
+    {
+      "original": "notebooks/02_navigation_am_and_candidates.ipynb",
+      "archived": "notebooks/archive/02_navigation_am_and_candidates.ipynb",
+      "sha256": "865c551b84642c1dbc0c46a6a3199b1c0f7532f4b04dc2b50a01a66b5a410269"
+    }
+  ]
+}

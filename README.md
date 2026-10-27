@@ -4,7 +4,7 @@
 
 **状态：探索性研究，不是已经验证有效的新算法。** PAGR 是暂定的、与具体框架无关的研究方向名称；当前使用 lean Adjoint Matching（AM）作为可复现试验平台。仓库保留负结果、开发阶段的选择过程和数值审计警告。
 
-发布验证（2026-10-27）：本地 42/42 次固定输入重放的最终指标与 actor 参数精确一致，notebook 已实际执行。GitHub hosted CI 的首个作业未能启动，**尚无云端测试通过结论**；参见 [运行记录](https://github.com/ruio248/pagr/actions/runs/40471107459) 与 [本地验证数据](provenance/publication_validation.json)。
+历史发布验证（2026-10-27）：本地 42/42 次固定输入重放的最终指标与 actor 参数精确一致，旧 notebook 已实际执行。GitHub hosted CI 的首个作业未能启动，**尚无云端测试通过结论**；参见 [运行记录](https://github.com/ruio248/pagr/actions/runs/40471107459) 与 [本地验证数据](provenance/publication_validation.json)。本轮 Flow 升级只在本地修改、验证，未 push 或变更远端设置。
 
 > Under a fixed true control objective, terminal-value estimation and terminal-gradient reliability are different questions. This repository studies how terminal-gradient errors propagate through adjoints into actor learning signals. It does **not** establish a generally superior robust-control algorithm or a new HJBI equation.
 
@@ -14,9 +14,26 @@
 
 区分三件事：终点数值误差、传播后的标签/actor 更新误差、最终真实控制代价。梯度 disagreement 不是已校准的梯度误差；局部 matching loss 的下降也不是一般意义的真实控制代价下降。
 
-当前 toy 数据来自同一动力学下的自然离线轨迹和带执行噪声的终点观测，**没有为得到正结果而人为叠加高频梯度污染**。二维避障是四维位置–速度状态；另一任务是六关节平面臂的随机位姿生成，不是实物机器人实验。
+新的主 Notebook 2 使用**真实预训练的二维行为 Flow**和有限、带噪声的标量奖励观测，固定 base 与五成员奖励模型后比较 learned/oracle lean AM；没有 TD 自举，没有人为高频梯度污染，也不加入“救结果”的新候选。这是单步 bandit 的 Flow policy extraction 平台，不是 OGBench 或 TRQAM 复现。
 
-## 当前结果
+旧 toy 数据来自自定义动力学上的自然离线轨迹和带执行噪声的终点观测。旧二维避障是四维位置–速度状态；另一旧任务是六关节平面臂的随机位姿生成，不是实物机器人实验。它们已明确归为历史导航/控制 SOC 实验，不能当作 pretrained Flow 的结果。
+
+## 新 Flow AM 结果
+
+正式 seeds 28001–28003，真实 FM 预训练后各微调300步，固定最终 checkpoint，4096个评估动作。下表为三个独立训练 seed 的均值；真实奖励与带路径 KL 的目标分开报告。
+
+| 方法 | SDE 真实奖励 ↑ | 真实离散 J ↓ | finite-chain path KL（MC均值） |
+|---|---:|---:|---:|
+| Frozen pretrained Flow | 0.783288 | -1.174933 | 0 |
+| AM-learned | 1.174199 | -1.466112 | 0.295187 |
+| AM-oracle（诊断） | 1.186407 | -1.465560 | 0.314051 |
+| AM-learned-2x（双倍轨迹） | 1.199065 | -1.474315 | 0.324283 |
+
+Oracle 比 learned 的真实奖励提高 **0.012208（3/3 seed）**，但真实 J 差值为 **+0.000552**，95%配对t区间 `[-0.011603, 0.012707]`，没有确认含能量目标的稳定收益。最终共同 checkpoint 的值 RMSE/真实奖励标准差平均14.28%，梯度相对RMS误差30.43%；不能称奖励模型数值“近乎完美”。K64重训首 seed 的reward排名还发生变化，需保留离散化/有限预算限制。
+
+已完成9次主微调、2次预定K64重训、57项运行时核验，以及**38组保存 checkpoint 的逐样本精确评估重放、101项产物验证**。见 [新 notebook](notebooks/02_flow_am_terminal_gradient.ipynb)、[完整正式运行产物（含 checkpoint）](runs/02-flow-am-formal-drdkjy4g)、[结果细节](docs/results.md#预训练-flow-am平台)、[验证记录](provenance/flow_am_validation.json)、[开发修正历史](provenance/flow_am_development.json)。这是初步机制诊断，不是新算法获胜或普适 motivation 证明。
+
+## 历史导航 / Arm 结果（不属于新 Flow 平台）
 
 固定 3 个开发 seed（18001–18003），每种方法 1000 次 actor 更新；表中是真实评估代价，越低越好。每个最终 actor 用 4096 条评估轨迹，统计单位仍是 **3 个训练 seed**，不是 12288 次独立训练。
 
@@ -60,24 +77,27 @@ python -m pagr replay --task arm --seed 18001 --method am_adam --output runs/arm
 | 内容 | 入口 |
 |---|---|
 | **Notebook 1：可解析 motivation、AM 标签误差、因果干预与反例** | [01_motivation_analytic.ipynb](notebooks/01_motivation_analytic.ipynb) · [完整 Python 脚本](notebooks/01_motivation_analytic.py) |
-| **Notebook 2：自然二维避障，从零构造数据、拟合 critic、实现/训练/测评 AM 与改进候选** | [02_navigation_am_and_candidates.ipynb](notebooks/02_navigation_am_and_candidates.ipynb) · [完整 Python 脚本](notebooks/02_navigation_am_and_candidates.py) |
+| **Notebook 2：预训练 Flow AM、终端梯度可靠性与实际 Adam 步诊断** | [02_flow_am_terminal_gradient.ipynb](notebooks/02_flow_am_terminal_gradient.ipynb) · [完整 Python 脚本](notebooks/02_flow_am_terminal_gradient.py) · [固定配置](configs/flow_am.json) |
+| 历史导航 SOC Notebook 2：源码与执行输出字节不变 | [归档 notebook](notebooks/archive/02_navigation_am_and_candidates.ipynb) · [源码](notebooks/archive/02_navigation_am_and_candidates.py) · [SHA-256 manifest](notebooks/archive/manifest.json) |
 | 完整实验参数、随机种子、预算和指标 | [docs/settings.md](docs/settings.md) |
 | 公式、lean adjoint、有限位移 guard 与实现对应 | [docs/methods.md](docs/methods.md) |
 | 历史总览 notebook：全结果、两条真实重放、轨迹、机制与警告 | [notebooks/reproduce.ipynb](notebooks/reproduce.ipynb) |
 | 历史实验报告及可编译 TeX 源文件 | [reports/lean_am_followup.pdf](reports/lean_am_followup.pdf)、[TeX](reports/lean_am_followup.tex) |
 | 全部 42 个逐 seed 结果和最终 actor | [src/pagr/assets/reference/followup](src/pagr/assets/reference/followup) |
 | 离线数据、原始/替代 critic | [src/pagr/assets](src/pagr/assets) |
-| 当前实现的轻量测试 | [tests/test_research.py](tests/test_research.py) |
+| 当前实现的轻量测试 | [Flow AM 数值审计](tests/test_flow_am.py) · [历史实现测试](tests/test_research.py) |
 | 来源、公开包转换和 SHA256 | [provenance/export_manifest.json](provenance/export_manifest.json) |
 | GitHub 设置、隐私边界、许可证状态 | [docs/repository.md](docs/repository.md) |
 
 两份新 notebook 的关键数学和实现直接写在单元格中，不是调用 `replay()` 的薄包装。
 第一份包含严格的一步有限批量 AM–SGD 存在性结果，以及此前的冻结轨迹 AM 回归实验；
-第二份从头拟合 30 个 critic、训练三个固定 seeds 下五种方法共 15 个 actor，全部使用 lean adjoint + Adam。
-两者分别回答“动机在什么条件下成立”和“自然任务中这些候选实际表现如何”，不把前者当作后者成功的证明。
+第二份从头做 FM 预训练和标量 reward ensemble 拟合，比较 frozen、AM-learned、AM-oracle、AM-learned-2x；三个正式 seeds、共同 checkpoint 的误差/Adam 诊断，以及 K/2K 数值敏感性。
+两者分别回答“解析动机在什么条件下成立”和“自然估计误差在真实训练的 Flow 上是否产生可恢复损失”，不把前者当作后者成功的证明。
 执行命令、输出和证据边界见下方链接中的 [Notebook 部分](docs/reproduction.md#notebook)。
 
-本地 Run All 验证：第一份 387 项数值核验通过；第二份重新生成的 12 组数据数组、30 个 critic 和 15 个最终 actor 与冻结参考逐元素一致，最终/细网格指标也一致；10 项实现测试通过。完整记录在 [notebook_validation.json](provenance/notebook_validation.json)。这是同协议重建，不是新的独立 seeds。自然导航诊断没有得到“值误差可忽略”的前提，因此不把它写成解析存在性结果在自然任务上的完整因果证明。
+**历史** Run All 验证：Notebook 1 的 387 项数值核验通过；归档导航 notebook 重新生成的 12 组数据数组、30 个 critic 和 15 个最终 actor 与冻结参考逐元素一致，最终/细网格指标也一致；历史 10 项实现测试通过。原始记录 [notebook_validation.json](provenance/notebook_validation.json) 原样保留。这是同协议重建，不是新的独立 seeds。自然导航诊断没有得到“值误差可忽略”的前提，因此不把它写成解析存在性结果在自然任务上的完整因果证明。
+
+新 Flow notebook 的数值审计、端点近似和正式结果分别见 [方法](docs/methods.md#预训练-flow-am平台)、[设置](docs/settings.md#预训练-flow-am固定协议)、[结果](docs/results.md#预训练-flow-am平台)。历史 audits 不被新结果覆盖。
 
 ## 公开范围与许可
 

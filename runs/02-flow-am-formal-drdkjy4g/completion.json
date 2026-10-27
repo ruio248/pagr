@@ -1,0 +1,25 @@
+{
+  "status": "complete",
+  "config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+  "profile": "formal",
+  "seeds": [
+    28001,
+    28002,
+    28003
+  ],
+  "figures": [
+    "01_behavior_and_pretrained_flow.png",
+    "02_reward_and_value_error.png",
+    "03_initial_middle_terminal_states.png",
+    "04_reward_learning_and_pretraining.png",
+    "05_regularized_objective_and_path_KL.png",
+    "06_adjoint_error_and_propagation_gain.png",
+    "07_parameter_gradient_and_actual_Adam_step.png",
+    "08_final_seed_results_and_sampler_gap.png",
+    "09_SDE_and_ODE_distributions.png",
+    "10_pathwise_vs_conditional_label_error.png"
+  ],
+  "checks": 57,
+  "elapsed_seconds": 49.52091887500137,
+  "source_sha256": "3b0543036e032b1d2421557699fbca7e58aa9a4049d976fcd4a171940322e36e"
+}

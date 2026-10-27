@@ -1,0 +1,97 @@
+[
+  {
+    "name": "exact full pretrained initialization",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "rollout detached and initial control zero",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "no reward guide implies zero AM gradient",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "exact deterministic replay with fixed noise",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "base VJP equals explicit Jacobian transpose",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "batched base Jacobian includes minus I/t",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "terminal label is scalar ensemble autograd",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "discrete terminal error product identity",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "labels and Jacobians detached",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "actor Jacobian projection identity",
+    "passed": true,
+    "value": 6.039388608769514e-06
+  },
+  {
+    "name": "weighted velocity-target loss equivalence",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "frozen-label directional finite difference",
+    "passed": true,
+    "value": 1.2605447241575973e-10
+  },
+  {
+    "name": "no rollout/adjoint backprop graph",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "learned update succeeds with both truth APIs blocked",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "base and reward parameters unchanged",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "base and reward grads never populated",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "Gaussian-transition KL equals control energy",
+    "passed": true,
+    "value": 2.2724270820617676e-07
+  },
+  {
+    "name": "2x noise streams have identical prefix",
+    "passed": true,
+    "value": null
+  },
+  {
+    "name": "K and 2K increments correctly coupled",
+    "passed": true,
+    "value": null
+  }
+]

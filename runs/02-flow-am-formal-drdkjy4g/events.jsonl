@@ -1,0 +1,96 @@
+{"event": "start", "utc": "2026-10-27T12:12:14Z", "config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b", "note": "No formal configuration changes or win-based selection allowed"}
+{"event": "pretrain_start", "utc": "2026-10-27T12:12:14Z", "seed": 28001}
+{"event": "progress", "utc": "2026-10-27T12:12:17Z", "seed": 28001, "method": "AM-learned", "train_K": 32, "update": 0}
+{"event": "progress", "utc": "2026-10-27T12:12:18Z", "seed": 28001, "method": "AM-learned", "train_K": 32, "update": 50}
+{"event": "progress", "utc": "2026-10-27T12:12:18Z", "seed": 28001, "method": "AM-learned", "train_K": 32, "update": 100}
+{"event": "progress", "utc": "2026-10-27T12:12:19Z", "seed": 28001, "method": "AM-learned", "train_K": 32, "update": 150}
+{"event": "progress", "utc": "2026-10-27T12:12:20Z", "seed": 28001, "method": "AM-learned", "train_K": 32, "update": 200}
+{"event": "progress", "utc": "2026-10-27T12:12:20Z", "seed": 28001, "method": "AM-learned", "train_K": 32, "update": 250}
+{"event": "progress", "utc": "2026-10-27T12:12:20Z", "seed": 28001, "method": "AM-learned", "train_K": 32, "update": 300}
+{"event": "actor_completed", "utc": "2026-10-27T12:12:21Z", "seed": 28001, "method": "AM-learned", "train_K": 32}
+{"event": "progress", "utc": "2026-10-27T12:12:21Z", "seed": 28001, "method": "AM-oracle", "train_K": 32, "update": 0}
+{"event": "progress", "utc": "2026-10-27T12:12:21Z", "seed": 28001, "method": "AM-oracle", "train_K": 32, "update": 50}
+{"event": "progress", "utc": "2026-10-27T12:12:21Z", "seed": 28001, "method": "AM-oracle", "train_K": 32, "update": 100}
+{"event": "progress", "utc": "2026-10-27T12:12:22Z", "seed": 28001, "method": "AM-oracle", "train_K": 32, "update": 150}
+{"event": "progress", "utc": "2026-10-27T12:12:22Z", "seed": 28001, "method": "AM-oracle", "train_K": 32, "update": 200}
+{"event": "progress", "utc": "2026-10-27T12:12:22Z", "seed": 28001, "method": "AM-oracle", "train_K": 32, "update": 250}
+{"event": "progress", "utc": "2026-10-27T12:12:23Z", "seed": 28001, "method": "AM-oracle", "train_K": 32, "update": 300}
+{"event": "actor_completed", "utc": "2026-10-27T12:12:23Z", "seed": 28001, "method": "AM-oracle", "train_K": 32}
+{"event": "progress", "utc": "2026-10-27T12:12:23Z", "seed": 28001, "method": "AM-learned-2x", "train_K": 32, "update": 0}
+{"event": "progress", "utc": "2026-10-27T12:12:23Z", "seed": 28001, "method": "AM-learned-2x", "train_K": 32, "update": 50}
+{"event": "progress", "utc": "2026-10-27T12:12:24Z", "seed": 28001, "method": "AM-learned-2x", "train_K": 32, "update": 100}
+{"event": "progress", "utc": "2026-10-27T12:12:24Z", "seed": 28001, "method": "AM-learned-2x", "train_K": 32, "update": 150}
+{"event": "progress", "utc": "2026-10-27T12:12:25Z", "seed": 28001, "method": "AM-learned-2x", "train_K": 32, "update": 200}
+{"event": "progress", "utc": "2026-10-27T12:12:25Z", "seed": 28001, "method": "AM-learned-2x", "train_K": 32, "update": 250}
+{"event": "progress", "utc": "2026-10-27T12:12:26Z", "seed": 28001, "method": "AM-learned-2x", "train_K": 32, "update": 300}
+{"event": "actor_completed", "utc": "2026-10-27T12:12:26Z", "seed": 28001, "method": "AM-learned-2x", "train_K": 32}
+{"event": "progress", "utc": "2026-10-27T12:12:28Z", "seed": 28001, "method": "AM-learned", "train_K": 64, "update": 0}
+{"event": "progress", "utc": "2026-10-27T12:12:29Z", "seed": 28001, "method": "AM-learned", "train_K": 64, "update": 50}
+{"event": "progress", "utc": "2026-10-27T12:12:29Z", "seed": 28001, "method": "AM-learned", "train_K": 64, "update": 100}
+{"event": "progress", "utc": "2026-10-27T12:12:30Z", "seed": 28001, "method": "AM-learned", "train_K": 64, "update": 150}
+{"event": "progress", "utc": "2026-10-27T12:12:31Z", "seed": 28001, "method": "AM-learned", "train_K": 64, "update": 200}
+{"event": "progress", "utc": "2026-10-27T12:12:31Z", "seed": 28001, "method": "AM-learned", "train_K": 64, "update": 250}
+{"event": "progress", "utc": "2026-10-27T12:12:32Z", "seed": 28001, "method": "AM-learned", "train_K": 64, "update": 300}
+{"event": "actor_completed", "utc": "2026-10-27T12:12:32Z", "seed": 28001, "method": "AM-learned", "train_K": 64}
+{"event": "progress", "utc": "2026-10-27T12:12:32Z", "seed": 28001, "method": "AM-oracle", "train_K": 64, "update": 0}
+{"event": "progress", "utc": "2026-10-27T12:12:33Z", "seed": 28001, "method": "AM-oracle", "train_K": 64, "update": 50}
+{"event": "progress", "utc": "2026-10-27T12:12:33Z", "seed": 28001, "method": "AM-oracle", "train_K": 64, "update": 100}
+{"event": "progress", "utc": "2026-10-27T12:12:34Z", "seed": 28001, "method": "AM-oracle", "train_K": 64, "update": 150}
+{"event": "progress", "utc": "2026-10-27T12:12:35Z", "seed": 28001, "method": "AM-oracle", "train_K": 64, "update": 200}
+{"event": "progress", "utc": "2026-10-27T12:12:35Z", "seed": 28001, "method": "AM-oracle", "train_K": 64, "update": 250}
+{"event": "progress", "utc": "2026-10-27T12:12:36Z", "seed": 28001, "method": "AM-oracle", "train_K": 64, "update": 300}
+{"event": "actor_completed", "utc": "2026-10-27T12:12:36Z", "seed": 28001, "method": "AM-oracle", "train_K": 64}
+{"event": "seed_completed", "utc": "2026-10-27T12:12:36Z", "seed": 28001}
+{"event": "pretrain_start", "utc": "2026-10-27T12:12:36Z", "seed": 28002}
+{"event": "progress", "utc": "2026-10-27T12:12:39Z", "seed": 28002, "method": "AM-learned", "train_K": 32, "update": 0}
+{"event": "progress", "utc": "2026-10-27T12:12:40Z", "seed": 28002, "method": "AM-learned", "train_K": 32, "update": 50}
+{"event": "progress", "utc": "2026-10-27T12:12:40Z", "seed": 28002, "method": "AM-learned", "train_K": 32, "update": 100}
+{"event": "progress", "utc": "2026-10-27T12:12:40Z", "seed": 28002, "method": "AM-learned", "train_K": 32, "update": 150}
+{"event": "progress", "utc": "2026-10-27T12:12:41Z", "seed": 28002, "method": "AM-learned", "train_K": 32, "update": 200}
+{"event": "progress", "utc": "2026-10-27T12:12:41Z", "seed": 28002, "method": "AM-learned", "train_K": 32, "update": 250}
+{"event": "progress", "utc": "2026-10-27T12:12:42Z", "seed": 28002, "method": "AM-learned", "train_K": 32, "update": 300}
+{"event": "actor_completed", "utc": "2026-10-27T12:12:42Z", "seed": 28002, "method": "AM-learned", "train_K": 32}
+{"event": "progress", "utc": "2026-10-27T12:12:42Z", "seed": 28002, "method": "AM-oracle", "train_K": 32, "update": 0}
+{"event": "progress", "utc": "2026-10-27T12:12:42Z", "seed": 28002, "method": "AM-oracle", "train_K": 32, "update": 50}
+{"event": "progress", "utc": "2026-10-27T12:12:42Z", "seed": 28002, "method": "AM-oracle", "train_K": 32, "update": 100}
+{"event": "progress", "utc": "2026-10-27T12:12:43Z", "seed": 28002, "method": "AM-oracle", "train_K": 32, "update": 150}
+{"event": "progress", "utc": "2026-10-27T12:12:43Z", "seed": 28002, "method": "AM-oracle", "train_K": 32, "update": 200}
+{"event": "progress", "utc": "2026-10-27T12:12:43Z", "seed": 28002, "method": "AM-oracle", "train_K": 32, "update": 250}
+{"event": "progress", "utc": "2026-10-27T12:12:44Z", "seed": 28002, "method": "AM-oracle", "train_K": 32, "update": 300}
+{"event": "actor_completed", "utc": "2026-10-27T12:12:44Z", "seed": 28002, "method": "AM-oracle", "train_K": 32}
+{"event": "progress", "utc": "2026-10-27T12:12:44Z", "seed": 28002, "method": "AM-learned-2x", "train_K": 32, "update": 0}
+{"event": "progress", "utc": "2026-10-27T12:12:44Z", "seed": 28002, "method": "AM-learned-2x", "train_K": 32, "update": 50}
+{"event": "progress", "utc": "2026-10-27T12:12:45Z", "seed": 28002, "method": "AM-learned-2x", "train_K": 32, "update": 100}
+{"event": "progress", "utc": "2026-10-27T12:12:45Z", "seed": 28002, "method": "AM-learned-2x", "train_K": 32, "update": 150}
+{"event": "progress", "utc": "2026-10-27T12:12:46Z", "seed": 28002, "method": "AM-learned-2x", "train_K": 32, "update": 200}
+{"event": "progress", "utc": "2026-10-27T12:12:46Z", "seed": 28002, "method": "AM-learned-2x", "train_K": 32, "update": 250}
+{"event": "progress", "utc": "2026-10-27T12:12:47Z", "seed": 28002, "method": "AM-learned-2x", "train_K": 32, "update": 300}
+{"event": "actor_completed", "utc": "2026-10-27T12:12:47Z", "seed": 28002, "method": "AM-learned-2x", "train_K": 32}
+{"event": "seed_completed", "utc": "2026-10-27T12:12:49Z", "seed": 28002}
+{"event": "pretrain_start", "utc": "2026-10-27T12:12:49Z", "seed": 28003}
+{"event": "progress", "utc": "2026-10-27T12:12:51Z", "seed": 28003, "method": "AM-learned", "train_K": 32, "update": 0}
+{"event": "progress", "utc": "2026-10-27T12:12:52Z", "seed": 28003, "method": "AM-learned", "train_K": 32, "update": 50}
+{"event": "progress", "utc": "2026-10-27T12:12:52Z", "seed": 28003, "method": "AM-learned", "train_K": 32, "update": 100}
+{"event": "progress", "utc": "2026-10-27T12:12:53Z", "seed": 28003, "method": "AM-learned", "train_K": 32, "update": 150}
+{"event": "progress", "utc": "2026-10-27T12:12:53Z", "seed": 28003, "method": "AM-learned", "train_K": 32, "update": 200}
+{"event": "progress", "utc": "2026-10-27T12:12:54Z", "seed": 28003, "method": "AM-learned", "train_K": 32, "update": 250}
+{"event": "progress", "utc": "2026-10-27T12:12:54Z", "seed": 28003, "method": "AM-learned", "train_K": 32, "update": 300}
+{"event": "actor_completed", "utc": "2026-10-27T12:12:54Z", "seed": 28003, "method": "AM-learned", "train_K": 32}
+{"event": "progress", "utc": "2026-10-27T12:12:54Z", "seed": 28003, "method": "AM-oracle", "train_K": 32, "update": 0}
+{"event": "progress", "utc": "2026-10-27T12:12:54Z", "seed": 28003, "method": "AM-oracle", "train_K": 32, "update": 50}
+{"event": "progress", "utc": "2026-10-27T12:12:55Z", "seed": 28003, "method": "AM-oracle", "train_K": 32, "update": 100}
+{"event": "progress", "utc": "2026-10-27T12:12:55Z", "seed": 28003, "method": "AM-oracle", "train_K": 32, "update": 150}
+{"event": "progress", "utc": "2026-10-27T12:12:56Z", "seed": 28003, "method": "AM-oracle", "train_K": 32, "update": 200}
+{"event": "progress", "utc": "2026-10-27T12:12:56Z", "seed": 28003, "method": "AM-oracle", "train_K": 32, "update": 250}
+{"event": "progress", "utc": "2026-10-27T12:12:56Z", "seed": 28003, "method": "AM-oracle", "train_K": 32, "update": 300}
+{"event": "actor_completed", "utc": "2026-10-27T12:12:56Z", "seed": 28003, "method": "AM-oracle", "train_K": 32}
+{"event": "progress", "utc": "2026-10-27T12:12:56Z", "seed": 28003, "method": "AM-learned-2x", "train_K": 32, "update": 0}
+{"event": "progress", "utc": "2026-10-27T12:12:57Z", "seed": 28003, "method": "AM-learned-2x", "train_K": 32, "update": 50}
+{"event": "progress", "utc": "2026-10-27T12:12:57Z", "seed": 28003, "method": "AM-learned-2x", "train_K": 32, "update": 100}
+{"event": "progress", "utc": "2026-10-27T12:12:58Z", "seed": 28003, "method": "AM-learned-2x", "train_K": 32, "update": 150}
+{"event": "progress", "utc": "2026-10-27T12:12:58Z", "seed": 28003, "method": "AM-learned-2x", "train_K": 32, "update": 200}
+{"event": "progress", "utc": "2026-10-27T12:12:59Z", "seed": 28003, "method": "AM-learned-2x", "train_K": 32, "update": 250}
+{"event": "progress", "utc": "2026-10-27T12:13:00Z", "seed": 28003, "method": "AM-learned-2x", "train_K": 32, "update": 300}
+{"event": "actor_completed", "utc": "2026-10-27T12:13:00Z", "seed": 28003, "method": "AM-learned-2x", "train_K": 32}
+{"event": "seed_completed", "utc": "2026-10-27T12:13:02Z", "seed": 28003}
+{"event": "suite_completed", "utc": "2026-10-27T12:13:02Z", "actor_runs": 11}

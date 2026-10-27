@@ -1,0 +1,27 @@
+{
+  "seed": 28003,
+  "method": "AM-learned-2x",
+  "train_K": 32,
+  "updates": 300,
+  "training_paths": 38400,
+  "actor_true_reward_queries": 0,
+  "actor_true_gradient_points": 0,
+  "wall_seconds": 3.1286205421201885,
+  "frozen_hashes_before": [
+    "8c92acdcd395575df7dbfbbb407fa3e7589a236ed05f83b3d11306588a17168e",
+    "9e943c3da8811da1dd55efdfdc40e8b63ac3591863e19fba1d0e0846067fd4ad",
+    "35dbcf4c27e6d145b4c454f2eaf0e093184ecd37f475f6864082f125841dfc40",
+    "602b5b40cfb46830cab6bdee24dfd3af27a3ca96fbf0653037cd470813d8d309",
+    "4ef80a1bc97c3b0bbf0c2032855b98436ba9e0e413ba9d15bfb8bf0e32110903",
+    "74d6d38bf9f8ad8c6c2dce494db16dd3e25eb1d6d180e07caf26b0597855bcb1"
+  ],
+  "frozen_hashes_after": [
+    "8c92acdcd395575df7dbfbbb407fa3e7589a236ed05f83b3d11306588a17168e",
+    "9e943c3da8811da1dd55efdfdc40e8b63ac3591863e19fba1d0e0846067fd4ad",
+    "35dbcf4c27e6d145b4c454f2eaf0e093184ecd37f475f6864082f125841dfc40",
+    "602b5b40cfb46830cab6bdee24dfd3af27a3ca96fbf0653037cd470813d8d309",
+    "4ef80a1bc97c3b0bbf0c2032855b98436ba9e0e413ba9d15bfb8bf0e32110903",
+    "74d6d38bf9f8ad8c6c2dce494db16dd3e25eb1d6d180e07caf26b0597855bcb1"
+  ],
+  "final_checkpoint_rule": "fixed final update"
+}

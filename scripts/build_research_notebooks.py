@@ -1,4 +1,4 @@
-"""Build the two teaching notebooks from their reviewable percent-format scripts.
+"""Build teaching notebooks from their reviewable percent-format scripts.
 
 No experiments run here. Existing executed notebooks are only replaced when
 --replace is supplied. Notebook cell IDs are deterministic for clean diffs.
@@ -10,7 +10,8 @@ from pathlib import Path
 import nbformat
 
 ROOT = Path(__file__).resolve().parents[1]
-NAMES = ('01_motivation_analytic', '02_navigation_am_and_candidates')
+NAMES = ('01_motivation_analytic', '02_navigation_am_and_candidates', '02_flow_am_terminal_gradient')
+CURRENT = ('01_motivation_analytic', '02_flow_am_terminal_gradient')
 
 
 def cells_from_script(path):
@@ -44,7 +45,7 @@ def main():
     parser.add_argument('--replace', action='store_true')
     parser.add_argument('--name', choices=NAMES, action='append')
     args = parser.parse_args()
-    for name in args.name or NAMES:
+    for name in args.name or CURRENT:
         source = ROOT/'notebooks'/f'{name}.py'
         target = source.with_suffix('.ipynb')
         if target.exists() and not args.replace:

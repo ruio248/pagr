@@ -73,25 +73,43 @@ python -m pagr replay --task arm --seed 18001 --method silu --inputs runs/genera
 ### 两份逐行展开的研究 notebook
 
 1. [`01_motivation_analytic.ipynb`](../notebooks/01_motivation_analytic.ipynb)：解析的“值准、梯度不准”例子；一次实际 AM–SGD 更新的精确期望损害；三维线性 Gaussian 下的逐轨迹/条件均值误差；有限样本 AM 回归、状态反馈、同 KL 控制性能；梯度修复与值偏移对照；精确全局优化的反例。A 是 SGD，B 是冻结轨迹回归，不冒充多轮 Adam 实验。
-2. [`02_navigation_am_and_candidates.ipynb`](../notebooks/02_navigation_am_and_candidates.ipynb)：自然二维导航（4 维位置–速度状态）的场景、数据、观测代价、critic 拟合、原始 lean AM + Adam、nominal/robust finite-value guard、SiLU 消融、训练、评价、误差传播诊断。三个既有开发 seeds；30 个 critic 和 15 个 actor 全部从头训练，不从资产读取模型或曲线。
+2. [`02_flow_am_terminal_gradient.ipynb`](../notebooks/02_flow_am_terminal_gradient.ipynb)：四模式行为分布、真实 FM 预训练、有限标量奖励模型、随机生成、lean AM、learned/oracle/2x 对照、实际 Adam 和 conditional averaging 诊断。三个新固定 seeds，不从历史模型或结果 replay。完整设置见 [`configs/flow_am.json`](../configs/flow_am.json)。
+
+旧 Notebook 2 为[历史导航 SOC 实验](../notebooks/archive/02_navigation_am_and_candidates.ipynb)，源码与已执行输出按 SHA-256 原样归档，原位置保留供旧审计兼容。它不是预训练 Flow 实验。
 
 ```bash
 python scripts/execute_notebook.py --notebook notebooks/01_motivation_analytic.ipynb --output runs/notebooks/01_motivation.executed.ipynb
-python scripts/execute_notebook.py --notebook notebooks/02_navigation_am_and_candidates.ipynb --output runs/notebooks/02_navigation.executed.ipynb
+python scripts/execute_notebook.py --notebook notebooks/02_flow_am_terminal_gradient.ipynb --output runs/notebooks/02_flow_am.executed.ipynb
 ```
 
-每条命令使用当前解释器对应的临时 kernel；不会偷偷切换到系统 Python。默认每个 cell 允许 1800 秒，可用 `--timeout` 调整。输出文件已存在时必须明确加 `--replace` 或换文件名。每次 Run All 另外创建唯一的 `runs/01-motivation-*` / `runs/02-navigation-*` 目录，保存全部表格、图、协议与模型，不覆盖上一次。
+每条命令使用当前解释器对应的临时 kernel；不会偷偷切换到系统 Python。默认每个 cell 允许 1800 秒，可用 `--timeout` 调整。输出文件已存在时必须明确加 `--replace` 或换文件名。每次 Run All 另外创建唯一的 `runs/01-motivation-*` / `runs/02-flow-am-formal-*` 目录，保存全部表格、图、协议与模型，不覆盖上一次。Flow 的失败会写入该目录 `events.jsonl` 并抛错，不会静默跳过 seed。
 
 同名 `.py` 是可直接执行的 percent-cell 源文件，代码和 notebook 一致；脚本模式建议使用非交互绘图后端：
 
 ```bash
 MPLBACKEND=Agg python notebooks/01_motivation_analytic.py
-MPLBACKEND=Agg python notebooks/02_navigation_am_and_candidates.py
+MPLBACKEND=Agg python notebooks/02_flow_am_terminal_gradient.py
 ```
 
-若编辑了 `.py`，用 `python scripts/build_research_notebooks.py --replace` 重新生成两份 notebook（**会清除它们的执行输出**），再运行。轻量测试会验证 source/notebook 一致性、离线数据重建、动力学/评价、lean AM 梯度和原始 Adam/guard 的一致性。
+若只编辑新 Flow `.py`，使用 `python scripts/build_research_notebooks.py --name 02_flow_am_terminal_gradient --replace`（**只清除新 notebook 的执行输出**），再执行。不要无意重建 Notebook 1 或归档文件。轻量测试包含 source/notebook 一致性、旧导航审计以及新的 Flow AM 离散误差传播、VJP、有限差分、oracle guard 和 RNG coupling。
 
-完整执行后，可用下面的命令检查从零训练的结果；将示例目录替换为 notebook 最后实际打印的目录：
+独立开发 smoke（seed 91001，不使用正式 seeds，不能据此宣称预训练质量或方法效果）：
+
+```bash
+PAGR_FLOW_PROFILE=smoke python scripts/execute_notebook.py --notebook notebooks/02_flow_am_terminal_gradient.ipynb --output runs/notebooks/02_flow_am.smoke.ipynb
+```
+
+正式环境变量默认 `formal`。每个 Flow run 内含 `config.json`、环境/source hash、数据、base/reward/actor checkpoints、optimizer history、CSV/JSON、诊断 NPZ、十张 PNG、执行事件与自动结论。`runs/` 默认 gitignored，以免普通重跑覆盖或误提交产物；已审计的[正式运行目录](../runs/02-flow-am-formal-drdkjy4g)作为例外纳入仓库，包含 checkpoint。开发 smoke 与被替代的初次运行仅保留本地及开发日志，不作为正式结果上传。
+
+对新Flow运行做产物与checkpoint重放审计（目录改成实际输出；output必须是新的路径）：
+
+```bash
+python scripts/validate_flow_notebook.py --run runs/02-flow-am-formal-drdkjy4g --output runs/02-flow-am-validation.json
+```
+
+该脚本核对配置、执行source hash、Notebook已执行输出、冻结参数、所有训练步是否有限、归档字节，并从保存checkpoint重新生成全部38组最终评估。当前本地参考环境下逐样本数组精确相等；其他平台可能存在浮点差异，不应隐瞒为算法变化。
+
+**仅针对历史导航 notebook**，完整执行后可用下面的命令检查从零训练的结果；该旧 validator 不适用于新 Flow 数据；将示例目录替换为旧 notebook 最后打印的目录：
 
 ```bash
 python scripts/validate_research_notebooks.py --analytic-run runs/01-motivation-EXAMPLE --toy-run runs/02-navigation-EXAMPLE

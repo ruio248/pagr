@@ -1,0 +1,57 @@
+{
+  "formal_seeds": [28001, 28002, 28003],
+  "smoke_seeds": [91001],
+  "unit_test_seeds": [82004, 82005],
+  "events": [
+    {
+      "stage": "initial unit tests, before smoke or formal training",
+      "status": "failed",
+      "details": "2x RNG prefix test exposed shape-dependent torch.randn CPU behavior for 12 vs 24 initial-noise samples. Fixed by constant-size 64-sample blocks. No task, reward, seed or optimization setting changed."
+    },
+    {
+      "stage": "initial unit tests, before archive creation",
+      "status": "failed",
+      "details": "Archive manifest test ran before archive had been created. Byte-preserving copies and manifest were then created; originals remain unchanged."
+    },
+    {
+      "stage": "repeat unit tests before RNG fix",
+      "status": "failed",
+      "details": "The same RNG prefix failure recurred; archive byte audit already passed. Both failed unit invocations were retained in the development history."
+    },
+    {
+      "stage": "unit tests after RNG fix",
+      "status": "passed",
+      "details": "All four Flow AM unittest cases passed, including nineteen numerical/implementation subchecks. No formal training had started."
+    },
+    {
+      "stage": "independent seed 91001 end-to-end smoke",
+      "status": "passed",
+      "run": "runs/02-flow-am-smoke-rx1sfcxz",
+      "notebook": "runs/02-flow-am-smoke.executed.ipynb",
+      "details": "All six code cells completed with zero errors. Four-update main comparisons, first-seed 2K retrain, diagnostics, ten figures, and auto report executed. No task/optimizer/formal seed settings changed after observing smoke results; added pre-execution source hash metadata only."
+    },
+    {
+      "stage": "first complete formal Run All, then independent-seed audit",
+      "status": "superseded",
+      "run": "runs/02-flow-am-formal-1_blv1k9",
+      "config_sha256": "1651a665e978fa34ce02d16fcf856535e1cc36aa04d4595e5d8600e6b1d98db4",
+      "source_sha256": "eeec0a0a5b0847609d4314fb928adb53d2277c6923d2b7c12daaf07f4bfa22f3",
+      "details": "All eleven actor fits, 57 runtime checks, and six notebook code cells completed, with no NaNs. Post-execution audit found additive root_seed+role_offset caused cross-seed stream collisions. Original run is preserved unchanged, not used as final independent-seed evidence. Fix: root_seed*10000000+role_offset, plus regression test enumerating stream IDs. Only RNG namespace implementation changed; reward, mixture, data counts, networks, formal seed IDs, optimizers, budgets and endpoints unchanged. User informed before rerun."
+    },
+    {
+      "stage": "namespaced RNG smoke then formal rerun",
+      "status": "passed",
+      "smoke_run": "runs/02-flow-am-smoke-g1g15jxe",
+      "formal_run": "runs/02-flow-am-formal-drdkjy4g",
+      "config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+      "source_sha256": "3b0543036e032b1d2421557699fbca7e58aa9a4049d976fcd4a171940322e36e",
+      "details": "Independent smoke completed again, followed by formal Run All: 3 bases, 15 reward models, 9 main actor fits, 2 pre-specified 2K fits, 57 runtime checks, six executed code cells, no failures/NaNs. Added cross-seed stream regression test; all 15 unittest cases passed. No further changes to the experiment code after this run."
+    },
+    {
+      "stage": "saved-checkpoint and artifact validation",
+      "status": "passed",
+      "audit": "provenance/flow_am_validation.json",
+      "details": "101 checks passed; all 38 final saved-checkpoint evaluations reproduced exactly per sample (including both SDE grids, ODE and 2K retrains). Old navigation source/executed output remain byte-identical."
+    }
+  ]
+}

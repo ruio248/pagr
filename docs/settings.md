@@ -1,6 +1,6 @@
 # 实验设置：以实现和冻结协议为准
 
-这里只描述仓库中可直接重放的最新 42-run follow-up：2 个任务 × 3 个 seed × 7 个方法。历史协议保留在 `src/pagr/assets/reference/history/`，不能混用其 full-adjoint 或非 Adam 设置来解释本表。
+前半部分描述仓库中可直接重放的历史 42-run follow-up：2 个任务 × 3 个 seed × 7 个方法。历史协议保留在 `src/pagr/assets/reference/history/`，不能混用其 full-adjoint 或非 Adam 设置来解释本表。新的 Flow AM 固定协议见文末，不能与旧动力学实验混为一组结果。
 
 机器可读任务配置为 [`configs/tasks.json`](../configs/tasks.json)，方法配置为 [`configs/methods.json`](../configs/methods.json)。历史 task config 中存在继承的 `updates`、`batch` 等字段；**最新 actor 训练使用方法 `Options` 的 1000 / 64，而不是这些历史默认值**。CLI 不读取 `configs/tasks.json` 作为可调覆盖文件；它是冻结 `assets/original/protocol.json` 的可读镜像。
 
@@ -99,3 +99,31 @@ Success：整条轨迹无碰撞、终点位置误差 <0.4、速度误差 <0.5。
 公开包保存全部原始 42 个离线输入文件（每 seed 为 data.npz、fit.json、5 个 critic），替代 critic、42 个最终 actor、逐 run JSON、协议、诊断与报告。原始逐步大 rollout 数组未上传；`replay` 会重新生成它们。
 
 原始环境的 Python 和核心科学计算包版本见 [`configs/environment.json`](../configs/environment.json)。这固定了核心版本，不是所有操作系统/所有传递依赖的完整锁文件。没有保证跨 CPU 架构 bitwise 相同；每次 replay 都生成数值比较报告。
+
+## 预训练 Flow AM 固定协议
+
+机器可读参数为 [`configs/flow_am.json`](../configs/flow_am.json)，源码中的 frozen dataclass 与其一致，测试会核对。以下与前面的历史导航/Arm 完全分开。
+
+| 项目 | 新 Flow 实验 |
+|---|---|
+| 正式 / 开发 seeds | 28001–28003 / 独立 smoke 91001 |
+| RNG 分配 | root_seed × 10000000 + role_offset；同 seed 方法共享相应子流，跨 seed 命名空间互斥 |
+| 行为数据 | 4096 train、2048 held-out，四等权 Gaussian；中心 `(±1.5,±1.5)`，每轴 std=0.4 |
+| 真实奖励 | 宽度0.85的四 bump，高度0.2/0.8/1.4/2；减 `0.025*||a||²` |
+| 观测 | 512 train + 256 validation 个 scalar observations；独立 Gaussian noise，std=0.2（variance=0.04） |
+| FM 网络 / 训练 | SiLU MLP，64×64 hidden；输入 x、t、sin(pi*t)、cos(pi*t)；2500 updates，batch256，lr0.001 |
+| FM 选择 | 固定 held-out bridge loss，每100步评估，最早达到最小值的 checkpoint；不看真实 reward |
+| Reward ensemble | 五个64×64 SiLU scalar MLP；bootstrap同一批观测，1800 updates，batch128，lr0.001；最早最小 noisy validation MSE |
+| 微调预算 | 300 updates；AM-learned / oracle batch64（19200条），learned-2x batch128（38400条）；base frozen |
+| Actor Adam | lr0.0003，betas0.9/0.999，eps1e-8，global norm clip5；beta固定1.5 |
+| 端点 | 0→epsilon0.05由 frozen base RK2 warmup8步；epsilon→1 EM K32；无确定性最后一步 |
+| 曲线 / 最终 | 每50步768 paths；固定最终 actor，4096 paths，另报 Monte Carlo SE |
+| 机制诊断 | AM-learned step0/150/300，各256条共同路径，learned与oracle标签对照 |
+| 虚拟 Adam 步 | 两份相同 optimizer history；2048条独立于诊断/训练的新公共评估噪声；不污染正式 actor |
+| Conditional | K的1/4、1/2、3/4处，诊断路径中前3个状态，各256个未来样本；保存均值各分量 SE 和方差迹 |
+| K/2K | 全部最终 actor 在K64上重新评估；只在预定首 seed 28001额外重训 learned和oracle K64 |
+| ODE | 同一最终 fine velocity，从0→1，128步RK2；单独报告 reward、模式占比和 empirical sliced W2；不报告 action KL |
+
+初次实现使用 `root_seed+offset`，首次完整运行之后审计发现跨 seed 子流重合。所有旧结果保留，但最终统计改用修复后命名空间的重跑；没有按方法胜负调整场景或优化预算。完整开发/重启记录见 [`flow_am_development.json`](../provenance/flow_am_development.json)。不能把这次实现开发过程称为完全事前注册的确认性实验。
+
+三个正式 seed 只提供初步配对诊断。2x多花训练样本；机制诊断/虚拟步带来额外评估计算，不计入正式 actor 更新预算。单个 actor 的 `*_mc_se` 与跨 seed SD/配对t区间分开。表格中的 ODE cost/energy 空值、终端时刻不存在的 matching label 空值是“不适用”，不是被掩盖的训练 NaN。

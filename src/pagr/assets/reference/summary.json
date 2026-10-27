@@ -1,0 +1,322 @@
+{
+  "stage": "Adaptive developmental follow-up on REUSED seeds; not independent confirmation.",
+  "seeds": [
+    18001,
+    18002,
+    18003
+  ],
+  "training_runs": 42,
+  "tasks": {
+    "navigation": {
+      "am_adam": {
+        "label": "Original lean AM + Adam",
+        "costs": [
+          19.47522735595703,
+          19.085798263549805,
+          19.84217643737793
+        ],
+        "mean": 19.46773401896159,
+        "wins": 0,
+        "mean_delta_vs_original": 0.0,
+        "reduction_pct": -0.0,
+        "descriptive_paired_t95": [
+          0.0,
+          0.0
+        ],
+        "fine_grid_mean": 19.544518152872723,
+        "mean_seconds": 6.5182010139493896,
+        "actor_rollouts": 64000,
+        "total_model_rollouts": 64000
+      },
+      "am_2x": {
+        "label": "AM + Adam (2x rollouts)",
+        "costs": [
+          19.166278839111328,
+          19.770586013793945,
+          19.304691314697266
+        ],
+        "mean": 19.413852055867512,
+        "wins": 2,
+        "mean_delta_vs_original": -0.05388196309407552,
+        "reduction_pct": 0.2767757307635005,
+        "descriptive_paired_t95": [
+          -1.6681547634531035,
+          1.5603908372649526
+        ],
+        "fine_grid_mean": 19.923892974853516,
+        "mean_seconds": 8.983660319664827,
+        "actor_rollouts": 128000,
+        "total_model_rollouts": 128000
+      },
+      "nominal_guard": {
+        "label": "AM + nominal value guard",
+        "costs": [
+          19.5706729888916,
+          19.40424919128418,
+          19.86238670349121
+        ],
+        "mean": 19.612436294555664,
+        "wins": 0,
+        "mean_delta_vs_original": 0.14470227559407553,
+        "reduction_pct": -0.7432928529490663,
+        "descriptive_paired_t95": [
+          -0.24059169333617667,
+          0.5299962445243277
+        ],
+        "fine_grid_mean": 19.860149383544922,
+        "mean_seconds": 8.075697291952869,
+        "actor_rollouts": 64000,
+        "total_model_rollouts": 128000,
+        "alpha_counts": {
+          "0.0": 43,
+          "0.25": 20,
+          "0.5": 35,
+          "1.0": 52
+        }
+      },
+      "robust_guard": {
+        "label": "AM + robust value guard",
+        "costs": [
+          19.751617431640625,
+          19.312782287597656,
+          19.862083435058594
+        ],
+        "mean": 19.642161051432293,
+        "wins": 0,
+        "mean_delta_vs_original": 0.17442703247070312,
+        "reduction_pct": -0.8959801500308718,
+        "descriptive_paired_t95": [
+          -0.16361263787443875,
+          0.5124667028158449
+        ],
+        "fine_grid_mean": 19.9181391398112,
+        "mean_seconds": 8.106651416281238,
+        "actor_rollouts": 64000,
+        "total_model_rollouts": 128000,
+        "alpha_counts": {
+          "0.0": 54,
+          "0.25": 25,
+          "0.5": 35,
+          "1.0": 36
+        }
+      },
+      "smooth": {
+        "label": "AM + RBF critic",
+        "costs": [
+          19.864253997802734,
+          19.12141990661621,
+          18.96297836303711
+        ],
+        "mean": 19.31621742248535,
+        "wins": 1,
+        "mean_delta_vs_original": -0.15151659647623697,
+        "reduction_pct": 0.7782960067600044,
+        "descriptive_paired_t95": [
+          -1.777372911945842,
+          1.4743397189933678
+        ],
+        "fine_grid_mean": 19.382944742838543,
+        "mean_seconds": 6.649752124988784,
+        "actor_rollouts": 64000,
+        "total_model_rollouts": 64000
+      },
+      "residual": {
+        "label": "AM + residual correction",
+        "costs": [
+          19.484529495239258,
+          18.82225227355957,
+          19.787860870361328
+        ],
+        "mean": 19.36488087972005,
+        "wins": 2,
+        "mean_delta_vs_original": -0.10285313924153645,
+        "reduction_pct": 0.5283261993478923,
+        "descriptive_paired_t95": [
+          -0.457471496592529,
+          0.2517652181094561
+        ],
+        "fine_grid_mean": 19.713593165079754,
+        "mean_seconds": 7.112356583665435,
+        "actor_rollouts": 64000,
+        "total_model_rollouts": 64000
+      },
+      "silu": {
+        "label": "AM + SiLU critic",
+        "costs": [
+          19.80181884765625,
+          20.355073928833008,
+          20.369544982910156
+        ],
+        "mean": 20.175479253133137,
+        "wins": 0,
+        "mean_delta_vs_original": 0.7077452341715494,
+        "reduction_pct": -3.6354782404680734,
+        "descriptive_paired_t95": [
+          -0.5257615327156432,
+          1.941252001058742
+        ],
+        "fine_grid_mean": 19.930090586344402,
+        "mean_seconds": 6.29400001365381,
+        "actor_rollouts": 64000,
+        "total_model_rollouts": 64000
+      }
+    },
+    "arm": {
+      "am_adam": {
+        "label": "Original lean AM + Adam",
+        "costs": [
+          10.392496109008789,
+          10.999873161315918,
+          11.52820873260498
+        ],
+        "mean": 10.973526000976562,
+        "wins": 0,
+        "mean_delta_vs_original": 0.0,
+        "reduction_pct": -0.0,
+        "descriptive_paired_t95": [
+          0.0,
+          0.0
+        ],
+        "fine_grid_mean": 10.625832557678223,
+        "mean_seconds": 4.505437708226964,
+        "actor_rollouts": 64000,
+        "total_model_rollouts": 64000
+      },
+      "am_2x": {
+        "label": "AM + Adam (2x rollouts)",
+        "costs": [
+          10.19536304473877,
+          10.806855201721191,
+          11.425457954406738
+        ],
+        "mean": 10.8092254002889,
+        "wins": 3,
+        "mean_delta_vs_original": -0.16430060068766275,
+        "reduction_pct": 1.497245285362619,
+        "descriptive_paired_t95": [
+          -0.29681296823534453,
+          -0.031788233139981
+        ],
+        "fine_grid_mean": 10.426260312398275,
+        "mean_seconds": 6.547527249747266,
+        "actor_rollouts": 128000,
+        "total_model_rollouts": 128000
+      },
+      "nominal_guard": {
+        "label": "AM + nominal value guard",
+        "costs": [
+          10.484834671020508,
+          11.062145233154297,
+          11.740835189819336
+        ],
+        "mean": 11.095938364664713,
+        "wins": 0,
+        "mean_delta_vs_original": 0.12241236368815105,
+        "reduction_pct": -1.1155244328692278,
+        "descriptive_paired_t95": [
+          -0.07522784733726352,
+          0.32005257471356563
+        ],
+        "fine_grid_mean": 10.77357037862142,
+        "mean_seconds": 5.927356861376514,
+        "actor_rollouts": 64000,
+        "total_model_rollouts": 128000,
+        "alpha_counts": {
+          "0.0": 7,
+          "0.25": 22,
+          "0.5": 34,
+          "1.0": 87
+        }
+      },
+      "robust_guard": {
+        "label": "AM + robust value guard",
+        "costs": [
+          10.6692476272583,
+          11.132959365844727,
+          11.827226638793945
+        ],
+        "mean": 11.209811210632324,
+        "wins": 0,
+        "mean_delta_vs_original": 0.23628520965576172,
+        "reduction_pct": -2.153229596710611,
+        "descriptive_paired_t95": [
+          0.012554521627781784,
+          0.4600158976837416
+        ],
+        "fine_grid_mean": 10.90315055847168,
+        "mean_seconds": 5.878885055659339,
+        "actor_rollouts": 64000,
+        "total_model_rollouts": 128000,
+        "alpha_counts": {
+          "0.0": 20,
+          "0.25": 27,
+          "0.5": 33,
+          "1.0": 70
+        }
+      },
+      "smooth": {
+        "label": "AM + RBF critic",
+        "costs": [
+          14.582574844360352,
+          11.276491165161133,
+          13.276946067810059
+        ],
+        "mean": 13.045337359110514,
+        "wins": 0,
+        "mean_delta_vs_original": 2.0718113581339517,
+        "reduction_pct": -18.88008793116794,
+        "descriptive_paired_t95": [
+          -2.8384161673618773,
+          6.98203888362978
+        ],
+        "fine_grid_mean": 12.716588973999023,
+        "mean_seconds": 4.666359111666679,
+        "actor_rollouts": 64000,
+        "total_model_rollouts": 64000
+      },
+      "residual": {
+        "label": "AM + residual correction",
+        "costs": [
+          10.706615447998047,
+          11.09079360961914,
+          11.256168365478516
+        ],
+        "mean": 11.0178591410319,
+        "wins": 1,
+        "mean_delta_vs_original": 0.04433314005533854,
+        "reduction_pct": -0.40400086582373995,
+        "descriptive_paired_t95": [
+          -0.6905837230528366,
+          0.7792500031635136
+        ],
+        "fine_grid_mean": 10.676989555358887,
+        "mean_seconds": 5.2624090276658535,
+        "actor_rollouts": 64000,
+        "total_model_rollouts": 64000
+      },
+      "silu": {
+        "label": "AM + SiLU critic",
+        "costs": [
+          10.256925582885742,
+          11.357586860656738,
+          10.45067024230957
+        ],
+        "mean": 10.68839422861735,
+        "wins": 2,
+        "mean_delta_vs_original": -0.2851317723592122,
+        "reduction_pct": 2.598360566456375,
+        "descriptive_paired_t95": [
+          -2.096617788688858,
+          1.5263542439704334
+        ],
+        "fine_grid_mean": 10.33541488647461,
+        "mean_seconds": 4.4276809579848,
+        "actor_rollouts": 64000,
+        "total_model_rollouts": 64000
+      }
+    }
+  },
+  "scope": "Every actor uses lean adjoints and Adam. New true terminal observations in training: zero.",
+  "advance_to_confirmation": false,
+  "reason": "No candidate passes its prespecified >=1% and 3/3-win gate. SiLU arm is a partial lead (2/3), not a validated uncertainty method."
+}

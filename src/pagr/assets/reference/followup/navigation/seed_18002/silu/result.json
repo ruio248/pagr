@@ -1,0 +1,493 @@
+{
+  "task": "navigation",
+  "seed": 18002,
+  "config": {
+    "name": "precision_docking",
+    "steps": 40,
+    "updates": 500,
+    "batch": 64,
+    "eval_every": 50,
+    "eval_paths": 1024,
+    "sigma": 0.5,
+    "start": [
+      -2.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "goal": [
+      2.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "base_velocity": [
+      3.6,
+      0.4
+    ],
+    "base_arch": 0.9,
+    "drift_matrix": [
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.25
+      ]
+    ],
+    "obstacles": [
+      [
+        -0.65,
+        0.2,
+        0.4
+      ],
+      [
+        0.65,
+        -0.2,
+        0.4
+      ]
+    ],
+    "obstacle_weight": 55.0,
+    "terminal_weight": 1.0,
+    "outcome_std": 0.1,
+    "success_radius": 0.4,
+    "critic_train": 1024,
+    "critic_valid": 512,
+    "critic_mc": 4,
+    "critic_updates": 2200,
+    "critic_width": 128,
+    "critic_lr": 0.002,
+    "actor_width": 64,
+    "actor_lr": 0.002,
+    "actor_lr_schedule": "constant",
+    "secant_h": 0.3,
+    "consistency_fraction": 0.25,
+    "horizon": 2.0,
+    "velocity_weight": 0.25,
+    "quartic_weight": 0.0,
+    "velocity_outcome_std": 0.15,
+    "success_velocity": 0.5,
+    "damping": 1.0,
+    "stiffness": 0.8,
+    "capture_reward": 35.0,
+    "capture_position_scale": 0.4,
+    "capture_velocity_scale": 0.5
+  },
+  "options": {
+    "method": "am_adam",
+    "rho": 0.3,
+    "validation_slack": 0.1,
+    "updates": 1000,
+    "batch": 64,
+    "lr": 0.002,
+    "beta2": 0.99,
+    "epsilon": 0.01,
+    "max_update_norm": 0.3,
+    "eval_every": 100,
+    "final_paths": 4096,
+    "adjoint": "lean"
+  },
+  "final": {
+    "cost": 20.355073928833008,
+    "cost_mc_se": 0.09407810121774673,
+    "energy": 1.7265386581420898,
+    "running": 2.4046711921691895,
+    "terminal": 16.223865509033203,
+    "success": 0.689208984375,
+    "collision": 0.000732421875,
+    "distance": 0.2685156464576721,
+    "speed": 0.33228278160095215
+  },
+  "fine_grid": {
+    "cost": 20.13536262512207,
+    "cost_mc_se": 0.13081632617549224,
+    "energy": 1.6123802661895752,
+    "running": 2.813633918762207,
+    "terminal": 15.709348678588867,
+    "success": 0.724609375,
+    "collision": 0.00146484375,
+    "distance": 0.2687339186668396,
+    "speed": 0.309579998254776
+  },
+  "history": [
+    {
+      "step": 0,
+      "cost": 28.70855140686035,
+      "cost_mc_se": 0.2705129086971283,
+      "energy": 0.0,
+      "running": 5.188413619995117,
+      "terminal": 23.520137786865234,
+      "success": 0.2939453125,
+      "collision": 0.0869140625,
+      "distance": 0.4599440395832062,
+      "speed": 0.435775488615036
+    },
+    {
+      "step": 100,
+      "cost": 24.953441619873047,
+      "cost_mc_se": 0.23242506384849548,
+      "energy": 1.1030648946762085,
+      "running": 2.8348801136016846,
+      "terminal": 21.01549530029297,
+      "success": 0.3896484375,
+      "collision": 0.005859375,
+      "distance": 0.38203179836273193,
+      "speed": 0.3988945186138153
+    },
+    {
+      "step": 200,
+      "cost": 23.37171173095703,
+      "cost_mc_se": 0.21693037450313568,
+      "energy": 1.3837709426879883,
+      "running": 2.571068286895752,
+      "terminal": 19.416872024536133,
+      "success": 0.466796875,
+      "collision": 0.001953125,
+      "distance": 0.3307429552078247,
+      "speed": 0.3913304805755615
+    },
+    {
+      "step": 300,
+      "cost": 23.205862045288086,
+      "cost_mc_se": 0.21170608699321747,
+      "energy": 1.586081624031067,
+      "running": 2.4672470092773438,
+      "terminal": 19.152530670166016,
+      "success": 0.49609375,
+      "collision": 0.0,
+      "distance": 0.3286077380180359,
+      "speed": 0.3809758424758911
+    },
+    {
+      "step": 400,
+      "cost": 21.703466415405273,
+      "cost_mc_se": 0.2091895490884781,
+      "energy": 1.4599971771240234,
+      "running": 2.667022705078125,
+      "terminal": 17.576446533203125,
+      "success": 0.5830078125,
+      "collision": 0.0029296875,
+      "distance": 0.2813403010368347,
+      "speed": 0.37237268686294556
+    },
+    {
+      "step": 500,
+      "cost": 21.470928192138672,
+      "cost_mc_se": 0.2052944451570511,
+      "energy": 1.4522042274475098,
+      "running": 2.645897626876831,
+      "terminal": 17.37282943725586,
+      "success": 0.6015625,
+      "collision": 0.0029296875,
+      "distance": 0.2888173460960388,
+      "speed": 0.3530203700065613
+    },
+    {
+      "step": 600,
+      "cost": 21.861007690429688,
+      "cost_mc_se": 0.2025371491909027,
+      "energy": 1.7450315952301025,
+      "running": 2.353980541229248,
+      "terminal": 17.76199722290039,
+      "success": 0.58203125,
+      "collision": 0.0,
+      "distance": 0.2952613830566406,
+      "speed": 0.36301109194755554
+    },
+    {
+      "step": 700,
+      "cost": 21.142757415771484,
+      "cost_mc_se": 0.2065574675798416,
+      "energy": 1.4752793312072754,
+      "running": 2.6603078842163086,
+      "terminal": 17.007169723510742,
+      "success": 0.623046875,
+      "collision": 0.0009765625,
+      "distance": 0.28162798285484314,
+      "speed": 0.3479235768318176
+    },
+    {
+      "step": 800,
+      "cost": 20.448272705078125,
+      "cost_mc_se": 0.1955924779176712,
+      "energy": 1.6272358894348145,
+      "running": 2.7166860103607178,
+      "terminal": 16.104351043701172,
+      "success": 0.697265625,
+      "collision": 0.0,
+      "distance": 0.26749876141548157,
+      "speed": 0.32593438029289246
+    },
+    {
+      "step": 900,
+      "cost": 20.616456985473633,
+      "cost_mc_se": 0.19839228689670563,
+      "energy": 1.545271873474121,
+      "running": 2.5819873809814453,
+      "terminal": 16.48919677734375,
+      "success": 0.6572265625,
+      "collision": 0.0,
+      "distance": 0.2765810191631317,
+      "speed": 0.33130285143852234
+    },
+    {
+      "step": 1000,
+      "cost": 20.57756233215332,
+      "cost_mc_se": 0.1972648650407791,
+      "energy": 1.7189122438430786,
+      "running": 2.4291200637817383,
+      "terminal": 16.42953109741211,
+      "success": 0.662109375,
+      "collision": 0.0,
+      "distance": 0.26797187328338623,
+      "speed": 0.3400880694389343
+    }
+  ],
+  "diagnostics": [
+    {
+      "step": 1,
+      "adjoint": "lean",
+      "matching_loss": 18.425968170166016,
+      "gradient_norm": 6.702966213226318
+    },
+    {
+      "step": 26,
+      "adjoint": "lean",
+      "matching_loss": 14.543208122253418,
+      "gradient_norm": 3.205958366394043
+    },
+    {
+      "step": 51,
+      "adjoint": "lean",
+      "matching_loss": 9.677177429199219,
+      "gradient_norm": 1.0295400619506836
+    },
+    {
+      "step": 76,
+      "adjoint": "lean",
+      "matching_loss": 9.35749340057373,
+      "gradient_norm": 3.2154581546783447
+    },
+    {
+      "step": 101,
+      "adjoint": "lean",
+      "matching_loss": 11.079732894897461,
+      "gradient_norm": 2.180063247680664
+    },
+    {
+      "step": 126,
+      "adjoint": "lean",
+      "matching_loss": 10.132837295532227,
+      "gradient_norm": 1.8075910806655884
+    },
+    {
+      "step": 151,
+      "adjoint": "lean",
+      "matching_loss": 7.318664073944092,
+      "gradient_norm": 4.431393623352051
+    },
+    {
+      "step": 176,
+      "adjoint": "lean",
+      "matching_loss": 8.052258491516113,
+      "gradient_norm": 5.8368635177612305
+    },
+    {
+      "step": 201,
+      "adjoint": "lean",
+      "matching_loss": 8.247836112976074,
+      "gradient_norm": 2.0369913578033447
+    },
+    {
+      "step": 226,
+      "adjoint": "lean",
+      "matching_loss": 7.6805419921875,
+      "gradient_norm": 5.240678310394287
+    },
+    {
+      "step": 251,
+      "adjoint": "lean",
+      "matching_loss": 7.940183162689209,
+      "gradient_norm": 4.7399492263793945
+    },
+    {
+      "step": 276,
+      "adjoint": "lean",
+      "matching_loss": 5.9666924476623535,
+      "gradient_norm": 5.829012870788574
+    },
+    {
+      "step": 301,
+      "adjoint": "lean",
+      "matching_loss": 6.660190582275391,
+      "gradient_norm": 7.24163293838501
+    },
+    {
+      "step": 326,
+      "adjoint": "lean",
+      "matching_loss": 5.786406993865967,
+      "gradient_norm": 4.58506441116333
+    },
+    {
+      "step": 351,
+      "adjoint": "lean",
+      "matching_loss": 7.066331386566162,
+      "gradient_norm": 4.09578800201416
+    },
+    {
+      "step": 376,
+      "adjoint": "lean",
+      "matching_loss": 6.527156352996826,
+      "gradient_norm": 1.6753549575805664
+    },
+    {
+      "step": 401,
+      "adjoint": "lean",
+      "matching_loss": 7.336350917816162,
+      "gradient_norm": 5.212724208831787
+    },
+    {
+      "step": 426,
+      "adjoint": "lean",
+      "matching_loss": 6.207284450531006,
+      "gradient_norm": 8.811783790588379
+    },
+    {
+      "step": 451,
+      "adjoint": "lean",
+      "matching_loss": 8.297187805175781,
+      "gradient_norm": 5.294591426849365
+    },
+    {
+      "step": 476,
+      "adjoint": "lean",
+      "matching_loss": 6.383336067199707,
+      "gradient_norm": 5.088669776916504
+    },
+    {
+      "step": 501,
+      "adjoint": "lean",
+      "matching_loss": 6.61746072769165,
+      "gradient_norm": 4.064720153808594
+    },
+    {
+      "step": 526,
+      "adjoint": "lean",
+      "matching_loss": 6.249061107635498,
+      "gradient_norm": 2.9381625652313232
+    },
+    {
+      "step": 551,
+      "adjoint": "lean",
+      "matching_loss": 8.069368362426758,
+      "gradient_norm": 4.700554370880127
+    },
+    {
+      "step": 576,
+      "adjoint": "lean",
+      "matching_loss": 5.854072093963623,
+      "gradient_norm": 2.492419481277466
+    },
+    {
+      "step": 601,
+      "adjoint": "lean",
+      "matching_loss": 6.040693283081055,
+      "gradient_norm": 6.534311771392822
+    },
+    {
+      "step": 626,
+      "adjoint": "lean",
+      "matching_loss": 6.49306058883667,
+      "gradient_norm": 4.545179843902588
+    },
+    {
+      "step": 651,
+      "adjoint": "lean",
+      "matching_loss": 4.873998165130615,
+      "gradient_norm": 2.9735233783721924
+    },
+    {
+      "step": 676,
+      "adjoint": "lean",
+      "matching_loss": 6.909780025482178,
+      "gradient_norm": 10.471607208251953
+    },
+    {
+      "step": 701,
+      "adjoint": "lean",
+      "matching_loss": 5.675378799438477,
+      "gradient_norm": 6.851729393005371
+    },
+    {
+      "step": 726,
+      "adjoint": "lean",
+      "matching_loss": 6.587205410003662,
+      "gradient_norm": 4.876505374908447
+    },
+    {
+      "step": 751,
+      "adjoint": "lean",
+      "matching_loss": 6.154733180999756,
+      "gradient_norm": 3.3714282512664795
+    },
+    {
+      "step": 776,
+      "adjoint": "lean",
+      "matching_loss": 5.134976387023926,
+      "gradient_norm": 6.174856662750244
+    },
+    {
+      "step": 801,
+      "adjoint": "lean",
+      "matching_loss": 4.936952114105225,
+      "gradient_norm": 1.908426284790039
+    },
+    {
+      "step": 826,
+      "adjoint": "lean",
+      "matching_loss": 4.983090400695801,
+      "gradient_norm": 3.8937597274780273
+    },
+    {
+      "step": 851,
+      "adjoint": "lean",
+      "matching_loss": 6.718914985656738,
+      "gradient_norm": 5.877411842346191
+    },
+    {
+      "step": 876,
+      "adjoint": "lean",
+      "matching_loss": 5.182164669036865,
+      "gradient_norm": 2.7284018993377686
+    },
+    {
+      "step": 901,
+      "adjoint": "lean",
+      "matching_loss": 5.068899631500244,
+      "gradient_norm": 3.844107151031494
+    },
+    {
+      "step": 926,
+      "adjoint": "lean",
+      "matching_loss": 5.076623916625977,
+      "gradient_norm": 4.482891082763672
+    },
+    {
+      "step": 951,
+      "adjoint": "lean",
+      "matching_loss": 5.388625621795654,
+      "gradient_norm": 4.652806758880615
+    },
+    {
+      "step": 976,
+      "adjoint": "lean",
+      "matching_loss": 6.221505165100098,
+      "gradient_norm": 7.624556064605713
+    }
+  ],
+  "seconds": 6.342122040921822,
+  "actor_training_rollouts": 64000,
+  "additional_scalar_cost_queries": 0,
+  "training_true_gradient_calls": 0
+}

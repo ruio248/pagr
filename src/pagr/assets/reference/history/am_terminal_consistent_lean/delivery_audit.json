@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "training_runs": 30,
+  "seeds_per_task": 3,
+  "input_hashes_checked": 42,
+  "frozen_source_files": 9,
+  "previous_sources_and_inputs_unchanged": true,
+  "logged_lean_updates": 1200,
+  "local_solver_certificates": 360,
+  "maximum_normalized_solver_gap": 3.338459472042809e-05,
+  "maximum_constraint_violation": 9.765144248774504e-11,
+  "maximum_primary_and_norm_control_gap": 2.808172023423261e-07,
+  "all_exploratory_solver_checks_passed": false,
+  "exploratory_numeric_warnings": [
+    {
+      "task": "arm",
+      "seed": 18003,
+      "method": "robust_1",
+      "step": 201,
+      "normalized_gap": 3.338459472042809e-05
+    },
+    {
+      "task": "arm",
+      "seed": 18003,
+      "method": "robust_1",
+      "step": 301,
+      "normalized_gap": 2.4845424368981914e-05
+    }
+  ],
+  "previous_am_baseline_max_metric_difference": 0,
+  "notebook_code_cells": 7,
+  "full_training_replays": 2,
+  "maximum_replay_metric_error": 0.0,
+  "replay_file": "SOURCE_WORKSPACE/experiments/am_terminal_consistent_lean/notebook_replay_e696d2d7/comparison.json"
+}

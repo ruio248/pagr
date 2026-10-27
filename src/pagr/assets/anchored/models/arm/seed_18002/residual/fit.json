@@ -1,0 +1,127 @@
+{
+  "task": "arm",
+  "seed": 18002,
+  "method": "residual",
+  "grid": [
+    {
+      "ell": 0.5,
+      "ridge": 0.001,
+      "validation_mse": 106.35078611516369
+    },
+    {
+      "ell": 0.5,
+      "ridge": 0.01,
+      "validation_mse": 106.18030233996132
+    },
+    {
+      "ell": 0.5,
+      "ridge": 0.1,
+      "validation_mse": 104.8990236362757
+    },
+    {
+      "ell": 0.5,
+      "ridge": 1.0,
+      "validation_mse": 101.34441890860484
+    },
+    {
+      "ell": 0.5,
+      "ridge": 10.0,
+      "validation_mse": 99.7963489031269
+    },
+    {
+      "ell": 1.0,
+      "ridge": 0.001,
+      "validation_mse": 185.11244409312837
+    },
+    {
+      "ell": 1.0,
+      "ridge": 0.01,
+      "validation_mse": 139.47719145832588
+    },
+    {
+      "ell": 1.0,
+      "ridge": 0.1,
+      "validation_mse": 109.20272111601622
+    },
+    {
+      "ell": 1.0,
+      "ridge": 1.0,
+      "validation_mse": 101.07250861851284
+    },
+    {
+      "ell": 1.0,
+      "ridge": 10.0,
+      "validation_mse": 99.88108625118356
+    },
+    {
+      "ell": 2.0,
+      "ridge": 0.001,
+      "validation_mse": 140.20511332015332
+    },
+    {
+      "ell": 2.0,
+      "ridge": 0.01,
+      "validation_mse": 103.66198877460565
+    },
+    {
+      "ell": 2.0,
+      "ridge": 0.1,
+      "validation_mse": 99.76122333040536
+    },
+    {
+      "ell": 2.0,
+      "ridge": 1.0,
+      "validation_mse": 99.97249288338205
+    },
+    {
+      "ell": 2.0,
+      "ridge": 10.0,
+      "validation_mse": 99.80068888112329
+    },
+    {
+      "ell": 4.0,
+      "ridge": 0.001,
+      "validation_mse": 99.93429898095599
+    },
+    {
+      "ell": 4.0,
+      "ridge": 0.01,
+      "validation_mse": 100.34229693422901
+    },
+    {
+      "ell": 4.0,
+      "ridge": 0.1,
+      "validation_mse": 100.17003919774265
+    },
+    {
+      "ell": 4.0,
+      "ridge": 1.0,
+      "validation_mse": 100.1293665058696
+    },
+    {
+      "ell": 4.0,
+      "ridge": 10.0,
+      "validation_mse": 99.99127718975589
+    }
+  ],
+  "chosen": {
+    "ell": 2.0,
+    "ridge": 0.1,
+    "validation_mse": 99.76122333040536
+  },
+  "original_validation_mse": 99.47239416066299,
+  "training_points": 1024,
+  "validation_points": 512,
+  "input_manifest": {
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18002/critics/critic_1.pt": "d63be05fa28777699d31ef2726800a99598ebedfdda6ccf69981f212b8f1109e",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18002/critics/critic_4.pt": "709e30ff4df576c2e4b90473c3adb9a5b678fdd9382b0e206255236308b9b0ca",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18002/critics/fit.json": "1c00cb6299b8454b3bdf780abeee9925b1c51f906251812955fae6675d85a197",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18002/critics/critic_0.pt": "68a3673ddad5281b53e08d77818a031434e70637eb3ce3f45443ddcc2043b0be",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18002/critics/critic_3.pt": "a639446d8608ab4f214f107ee88011c754115d11751caf76f38d14a0fe48c66c",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18002/critics/data.npz": "31e934d4bb1963d7965e5e7bc7d856ff2a027c5dd6e8a9756d1fc20916491275",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18002/critics/critic_2.pt": "e2a56bb2897582e599b749041d3ca462e60aee9ac90b2843e85a7ac652912981"
+  },
+  "seconds": 0.23654895881190896,
+  "real_new_terminal_queries": 0,
+  "gradient_labels_used": 0
+}

@@ -1,0 +1,271 @@
+{
+  "task": "navigation",
+  "seed": 18001,
+  "method": "am_2x",
+  "options": {
+    "updates": 1000,
+    "batch": 64,
+    "block": 20,
+    "guard_paths": 320,
+    "alphas": [
+      0.0,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "rho": 0.3,
+    "validation_slack": 0.1,
+    "lr": 0.002,
+    "eval_every": 100,
+    "final_paths": 4096
+  },
+  "config": {
+    "name": "precision_docking",
+    "steps": 40,
+    "updates": 500,
+    "batch": 64,
+    "eval_every": 50,
+    "eval_paths": 1024,
+    "sigma": 0.5,
+    "start": [
+      -2.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "goal": [
+      2.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "base_velocity": [
+      3.6,
+      0.4
+    ],
+    "base_arch": 0.9,
+    "drift_matrix": [
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.25
+      ]
+    ],
+    "obstacles": [
+      [
+        -0.65,
+        0.2,
+        0.4
+      ],
+      [
+        0.65,
+        -0.2,
+        0.4
+      ]
+    ],
+    "obstacle_weight": 55.0,
+    "terminal_weight": 1.0,
+    "outcome_std": 0.1,
+    "success_radius": 0.4,
+    "critic_train": 1024,
+    "critic_valid": 512,
+    "critic_mc": 4,
+    "critic_updates": 2200,
+    "critic_width": 128,
+    "critic_lr": 0.002,
+    "actor_width": 64,
+    "actor_lr": 0.002,
+    "actor_lr_schedule": "constant",
+    "secant_h": 0.3,
+    "consistency_fraction": 0.25,
+    "horizon": 2.0,
+    "velocity_weight": 0.25,
+    "quartic_weight": 0.0,
+    "velocity_outcome_std": 0.15,
+    "success_velocity": 0.5,
+    "damping": 1.0,
+    "stiffness": 0.8,
+    "capture_reward": 35.0,
+    "capture_position_scale": 0.4,
+    "capture_velocity_scale": 0.5
+  },
+  "final": {
+    "cost": 19.166278839111328,
+    "cost_mc_se": 0.08494870364665985,
+    "energy": 2.7811007499694824,
+    "running": 3.159797191619873,
+    "terminal": 13.225379943847656,
+    "success": 0.85302734375,
+    "collision": 0.003662109375,
+    "distance": 0.20452460646629333,
+    "speed": 0.28680866956710815
+  },
+  "fine_grid": {
+    "cost": 19.439640045166016,
+    "cost_mc_se": 0.121962558782233,
+    "energy": 2.5767734050750732,
+    "running": 3.6035218238830566,
+    "terminal": 13.259345054626465,
+    "success": 0.853515625,
+    "collision": 0.00634765625,
+    "distance": 0.20283447206020355,
+    "speed": 0.2901301085948944
+  },
+  "history": [
+    {
+      "step": 0,
+      "cost": 29.079578399658203,
+      "cost_mc_se": 0.25881949067115784,
+      "energy": 0.0,
+      "running": 5.00152063369751,
+      "terminal": 24.078060150146484,
+      "success": 0.255859375,
+      "collision": 0.0693359375,
+      "distance": 0.4732617437839508,
+      "speed": 0.4443138539791107
+    },
+    {
+      "step": 100,
+      "cost": 23.463512420654297,
+      "cost_mc_se": 0.2172686904668808,
+      "energy": 2.3530631065368652,
+      "running": 3.0326342582702637,
+      "terminal": 18.07781410217285,
+      "success": 0.56640625,
+      "collision": 0.0048828125,
+      "distance": 0.3127412497997284,
+      "speed": 0.35509538650512695
+    },
+    {
+      "step": 200,
+      "cost": 21.634952545166016,
+      "cost_mc_se": 0.19923244416713715,
+      "energy": 2.4713361263275146,
+      "running": 2.7312569618225098,
+      "terminal": 16.432361602783203,
+      "success": 0.671875,
+      "collision": 0.0029296875,
+      "distance": 0.25117579102516174,
+      "speed": 0.3640698194503784
+    },
+    {
+      "step": 300,
+      "cost": 21.615087509155273,
+      "cost_mc_se": 0.20773904025554657,
+      "energy": 2.805361032485962,
+      "running": 3.4667577743530273,
+      "terminal": 15.342967987060547,
+      "success": 0.7392578125,
+      "collision": 0.01171875,
+      "distance": 0.23565129935741425,
+      "speed": 0.33584997057914734
+    },
+    {
+      "step": 400,
+      "cost": 21.352436065673828,
+      "cost_mc_se": 0.20068064332008362,
+      "energy": 2.4442954063415527,
+      "running": 3.2299108505249023,
+      "terminal": 15.678230285644531,
+      "success": 0.7197265625,
+      "collision": 0.013671875,
+      "distance": 0.2501552104949951,
+      "speed": 0.33265095949172974
+    },
+    {
+      "step": 500,
+      "cost": 20.52530288696289,
+      "cost_mc_se": 0.19164934754371643,
+      "energy": 2.55902099609375,
+      "running": 2.751753330230713,
+      "terminal": 15.21452808380127,
+      "success": 0.7333984375,
+      "collision": 0.0029296875,
+      "distance": 0.21957069635391235,
+      "speed": 0.3490813374519348
+    },
+    {
+      "step": 600,
+      "cost": 20.088043212890625,
+      "cost_mc_se": 0.18571890890598297,
+      "energy": 2.6465442180633545,
+      "running": 3.0036771297454834,
+      "terminal": 14.437820434570312,
+      "success": 0.794921875,
+      "collision": 0.005859375,
+      "distance": 0.2232877016067505,
+      "speed": 0.31502002477645874
+    },
+    {
+      "step": 700,
+      "cost": 20.25048828125,
+      "cost_mc_se": 0.19311386346817017,
+      "energy": 2.794724225997925,
+      "running": 3.588446617126465,
+      "terminal": 13.867319107055664,
+      "success": 0.80859375,
+      "collision": 0.01171875,
+      "distance": 0.2073473036289215,
+      "speed": 0.3090549409389496
+    },
+    {
+      "step": 800,
+      "cost": 20.1151123046875,
+      "cost_mc_se": 0.17672009766101837,
+      "energy": 2.7318620681762695,
+      "running": 2.795253276824951,
+      "terminal": 14.587997436523438,
+      "success": 0.787109375,
+      "collision": 0.0029296875,
+      "distance": 0.24112388491630554,
+      "speed": 0.30025070905685425
+    },
+    {
+      "step": 900,
+      "cost": 19.64253807067871,
+      "cost_mc_se": 0.17795519530773163,
+      "energy": 3.031096935272217,
+      "running": 2.5447592735290527,
+      "terminal": 14.066680908203125,
+      "success": 0.802734375,
+      "collision": 0.001953125,
+      "distance": 0.20998802781105042,
+      "speed": 0.31377285718917847
+    },
+    {
+      "step": 1000,
+      "cost": 19.560142517089844,
+      "cost_mc_se": 0.17750313878059387,
+      "energy": 2.8275177478790283,
+      "running": 3.077500820159912,
+      "terminal": 13.655123710632324,
+      "success": 0.8330078125,
+      "collision": 0.0048828125,
+      "distance": 0.21231576800346375,
+      "speed": 0.2958748936653137
+    }
+  ],
+  "checks": [],
+  "seconds": 9.231271875090897,
+  "input_manifest": {
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18001/critics/critic_1.pt": "9315ec7fa0cdf07ea71688cfc312f847ce484bb301f48d7c113f5d6f7d3f2141",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18001/critics/critic_4.pt": "3a027e1187c5ffbf6de7728980311ce94bcdb748512dff2f2f889467bc6493ad",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18001/critics/fit.json": "2ed7a87a33d6202ffed38fa7b32369cb4200e6c68583d16b7977802482c80534",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18001/critics/critic_0.pt": "99b5818eabcfd8b352271678a1fc7d7450095c985a451c042d57cd731ec0c854",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18001/critics/critic_3.pt": "bdc1752f67bc19ef3bb12903c8d4816cb503d0e05b42a12b1e97039e082dc57b",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18001/critics/data.npz": "63a8f448131f4367922decfd0845224c1008a31e9d903d1f0c5dfcfc41c1dd69",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18001/critics/critic_2.pt": "2725f3616c45ea3e061a335d0cd90d882b628870e84938ea0b624c7cad92facf"
+  },
+  "actor_training_rollouts": 128000,
+  "extra_model_rollouts": 0,
+  "total_training_model_rollouts": 128000,
+  "extra_critic_value_queries": 0,
+  "additional_real_terminal_queries": 0,
+  "true_gradient_training_calls": 0,
+  "adjoint": "lean",
+  "optimizer": "Adam",
+  "optimizer_state_policy": "Moments advance on all proposals; only parameters are interpolated."
+}

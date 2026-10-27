@@ -1,0 +1,12 @@
+{
+  "stage": "development; reused seeds; not independent confirmation",
+  "tasks": ["navigation", "arm"],
+  "seeds": [18001, 18002, 18003],
+  "methods": ["am_adam", "am_2x", "nominal_guard", "robust_guard", "smooth", "residual", "silu"],
+  "actor": {"adjoint": "lean", "optimizer": "Adam", "updates": 1000, "batch": 64, "lr": 0.002, "betas": [0.9, 0.999], "eps": 1e-8, "weight_decay": 0, "clip_norm": 5.0, "hidden_width": 64, "hidden_layers": 2, "activation": "Tanh", "zero_last_layer": true},
+  "am_2x_override": {"batch": 128},
+  "guard": {"block": 20, "guard_paths": 320, "alphas": [0.0, 0.25, 0.5, 1.0], "rho": 0.3, "validation_slack": 0.1, "optimizer_state_policy": "advance all proposal moments; interpolate parameters only"},
+  "rbf": {"length_scales": [0.5, 1.0, 2.0, 4.0], "ridges": [0.001, 0.01, 0.1, 1.0, 10.0], "selection": "original noisy validation MSE only"},
+  "evaluation": {"every": 100, "curve_paths": 1024, "final_paths": 4096, "fine_grid_paths": 2048, "fine_grid_steps_multiplier": 2, "checkpoint": "fixed update 1000"},
+  "note": "Human-readable frozen setting mirror; not a CLI override file. See docs/settings.md for task-specific fields and actual code precedence."
+}

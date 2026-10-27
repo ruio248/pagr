@@ -1,0 +1,51 @@
+{
+  "tasks": [
+    "navigation",
+    "arm"
+  ],
+  "seeds": [
+    18001,
+    18002,
+    18003
+  ],
+  "methods": [
+    "smooth",
+    "residual"
+  ],
+  "length_scales": [
+    0.5,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "ridges": [
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "selection": "Only original noisy scalar validation MSE. No return/true-cost/gradient tuning.",
+  "primary": "smooth vs original lean AM+Adam. Residual repair is a second prespecified candidate, not a hidden sweep.",
+  "gate": "At least 1% mean cost improvement and 3/3 wins vs original AM on either task; independent new-seed confirmation required before broad claims.",
+  "actor": {
+    "method": "am_adam",
+    "rho": 0.3,
+    "validation_slack": 0.1,
+    "updates": 1000,
+    "batch": 64,
+    "lr": 0.002,
+    "beta2": 0.99,
+    "epsilon": 0.01,
+    "max_update_norm": 0.3,
+    "eval_every": 100,
+    "final_paths": 4096,
+    "adjoint": "lean"
+  },
+  "interpretation": "Same framework/optimizer and data, different terminal gradient estimator. Gains cannot be attributed to HJBI or to uncertainty suppression without further ablations.",
+  "prior": "Stationary Gaussian RBF smoothness in data-standardized coordinates; NOT learned or calibrated gradient-error coverage.",
+  "provenance": {
+    "SOURCE_WORKSPACE/experiments/am_data_anchored_gradient/anchored_am.py": "3bdce03a53e019f1fe36b3041e0d0fd0330110e8748a68005d301447127a4af9",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent_lean/lean_am.py": "1ddbaca8617a2ed139f75ebfff8dc390f06689cc0be2fbc0ef3597c1fa79e160"
+  }
+}

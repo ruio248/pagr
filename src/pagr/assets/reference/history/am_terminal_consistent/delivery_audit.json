@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "independent_pilot_runs": 36,
+  "independent_training_seeds_per_task": 3,
+  "reused_input_hashes_checked": 42,
+  "frozen_training_source_files": 8,
+  "solver_certificates": 360,
+  "maximum_normalized_solver_gap": 3.682693735485368e-06,
+  "maximum_constraint_violation": 9.892109353870637e-11,
+  "notebook_code_cells": 7,
+  "full_training_replays": 2,
+  "maximum_replay_metric_error": 0.0,
+  "replay_file": "SOURCE_WORKSPACE/experiments/am_terminal_consistent/notebook_replay_05b4fc2f/comparison.json",
+  "expansion": {
+    "tasks": {
+      "navigation": {
+        "progress": false
+      },
+      "arm": {
+        "progress": false
+      }
+    },
+    "confirmation_task": null,
+    "frozen_rho": 0.3
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "task": "navigation",
+  "seed": 18003,
+  "method": "residual",
+  "grid": [
+    {
+      "ell": 0.5,
+      "ridge": 0.001,
+      "validation_mse": 2.959838771766374
+    },
+    {
+      "ell": 0.5,
+      "ridge": 0.01,
+      "validation_mse": 1.5122736363071547
+    },
+    {
+      "ell": 0.5,
+      "ridge": 0.1,
+      "validation_mse": 1.1955023532569493
+    },
+    {
+      "ell": 0.5,
+      "ridge": 1.0,
+      "validation_mse": 1.1810937544690974
+    },
+    {
+      "ell": 0.5,
+      "ridge": 10.0,
+      "validation_mse": 1.33270865035568
+    },
+    {
+      "ell": 1.0,
+      "ridge": 0.001,
+      "validation_mse": 1.4582377853291475
+    },
+    {
+      "ell": 1.0,
+      "ridge": 0.01,
+      "validation_mse": 1.1195463324135384
+    },
+    {
+      "ell": 1.0,
+      "ridge": 0.1,
+      "validation_mse": 1.1782555534587638
+    },
+    {
+      "ell": 1.0,
+      "ridge": 1.0,
+      "validation_mse": 1.327827556707496
+    },
+    {
+      "ell": 1.0,
+      "ridge": 10.0,
+      "validation_mse": 1.4330203900149945
+    },
+    {
+      "ell": 2.0,
+      "ridge": 0.001,
+      "validation_mse": 1.314209597091926
+    },
+    {
+      "ell": 2.0,
+      "ridge": 0.01,
+      "validation_mse": 1.3651809480125807
+    },
+    {
+      "ell": 2.0,
+      "ridge": 0.1,
+      "validation_mse": 1.4376139087287845
+    },
+    {
+      "ell": 2.0,
+      "ridge": 1.0,
+      "validation_mse": 1.4602614652029178
+    },
+    {
+      "ell": 2.0,
+      "ridge": 10.0,
+      "validation_mse": 1.4635185601035776
+    },
+    {
+      "ell": 4.0,
+      "ridge": 0.001,
+      "validation_mse": 1.4450239210076146
+    },
+    {
+      "ell": 4.0,
+      "ridge": 0.01,
+      "validation_mse": 1.4599346695995175
+    },
+    {
+      "ell": 4.0,
+      "ridge": 0.1,
+      "validation_mse": 1.4656302418202363
+    },
+    {
+      "ell": 4.0,
+      "ridge": 1.0,
+      "validation_mse": 1.4640865671751386
+    },
+    {
+      "ell": 4.0,
+      "ridge": 10.0,
+      "validation_mse": 1.4622373328443463
+    }
+  ],
+  "chosen": {
+    "ell": 1.0,
+    "ridge": 0.01,
+    "validation_mse": 1.1195463324135384
+  },
+  "original_validation_mse": 1.4452445678832593,
+  "training_points": 1024,
+  "validation_points": 512,
+  "input_manifest": {
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18003/critics/critic_1.pt": "b6a331fdcaa03a1c81cf49eface745af2e033dec960748672d4a4ae08778c1c8",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18003/critics/critic_4.pt": "25b3b66c60a3f1d176e7e530d3775ed2254406450eeea198629b75d0bf1325e5",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18003/critics/fit.json": "c8251697ef71eb2bc2f1b210916f4ca7fe39e63a1b99c7b3dce19920277845d8",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18003/critics/critic_0.pt": "6a482f6b1835d917fc95d71c51bb4a3424232b159260065dbed2d6de3cc9a23a",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18003/critics/critic_3.pt": "9dae06e6c0bb7e8fe494f164caf21d0a0be0534b1ec3a764387d55842886707a",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18003/critics/data.npz": "af72a06f1719f20a3d77ea0977aae4e5220838d15a775bd5002e2ce27c6e436e",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/navigation/seed_18003/critics/critic_2.pt": "be3562f086c5db2312ab712ef5fcabac194e83be35d1875ccac636ae9872c212"
+  },
+  "seconds": 0.19832895905710757,
+  "real_new_terminal_queries": 0,
+  "gradient_labels_used": 0
+}

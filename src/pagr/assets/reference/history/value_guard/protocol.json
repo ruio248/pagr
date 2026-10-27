@@ -1,0 +1,51 @@
+{
+  "options": {
+    "updates": 1000,
+    "batch": 64,
+    "block": 20,
+    "guard_paths": 320,
+    "alphas": [
+      0.0,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "rho": 0.3,
+    "validation_slack": 0.1,
+    "lr": 0.002,
+    "eval_every": 100,
+    "final_paths": 4096
+  },
+  "tasks": [
+    "navigation",
+    "arm"
+  ],
+  "seeds": [
+    18001,
+    18002,
+    18003
+  ],
+  "methods": [
+    "am_adam",
+    "am_2x",
+    "nominal_guard",
+    "robust_guard"
+  ],
+  "primary": "robust_guard vs native lean AM+Adam AND equal-model-rollout AM+Adam batch128",
+  "secondary": "robust_guard vs nominal_guard isolates critic-mixture uncertainty.",
+  "selection": "Fixed final checkpoint at 1000 updates; no best true-evaluation selection.",
+  "gate": "At least 1% mean reduction and 3/3 seed wins against both Adam baselines on either task. This is only a development gate, NOT statistical confirmation.",
+  "budget": "Guard: 64000 AM rollouts + 64000 model-only check rollouts. am_2x: 128000 AM rollouts. Wall-clock and derivative compute differ.",
+  "reuse": "Seeds/data are reused developmental data, NOT independent confirmation. No new tuning after seeing these results.",
+  "boundaries": [
+    "All methods lean adjoint. Same unchanged Adam proposals.",
+    "Frozen original five critics, no new real outcome labels.",
+    "No engineered gradient corruption, altered dynamics, or objective.",
+    "Empirical finite-cost minimax safeguard is not a new HJBI PDE.",
+    "No uncertainty coverage or true-J descent guarantee is assumed."
+  ],
+  "sources": {
+    "SOURCE_WORKSPACE/experiments/am_finite_value_guard/value_guard.py": "6c00a53feb33bf923c49f3f79129dbc59fa7a97c4b0111516b9c298dd1aa2bf0",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent_lean/lean_am.py": "1ddbaca8617a2ed139f75ebfff8dc390f06689cc0be2fbc0ef3597c1fa79e160"
+  }
+}

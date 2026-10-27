@@ -1,0 +1,17 @@
+{
+  "reference_python": "3.13.11",
+  "torch": "2.9.1",
+  "numpy": "2.3.5",
+  "scipy": "1.16.3",
+  "matplotlib": "3.10.8",
+  "nbformat": "5.10.4",
+  "nbclient": "0.10.4",
+  "device": "cpu",
+  "torch_num_threads": 1,
+  "training_dtype": "float32",
+  "kernel_and_convex_dtype": "float64",
+  "python_package_range": ">=3.11,<3.14",
+  "ci_python": "3.13.11",
+  "ci_os": "ubuntu-24.04",
+  "scope": "Pinned core dependencies; not a complete transitive or cross-platform lockfile. No CUDA or API credentials required."
+}

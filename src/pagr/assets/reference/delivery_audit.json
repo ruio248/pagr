@@ -1,0 +1,57 @@
+{
+  "passed": false,
+  "passed_required_integrity_checks": true,
+  "training_runs": 42,
+  "original_files_checked": 42,
+  "all_six_native_AM_baselines_exactly_reproduced": true,
+  "original_training_sources_unchanged": true,
+  "new_guard_and_kernel_and_silu_sources_frozen": true,
+  "silu_initial_parameters_and_counts_match": true,
+  "no_oracle_and_no_full_adjoint_silu_checks_passed": true,
+  "support_certificates": 1200,
+  "max_normalized_support_gap": 0.0010824337588413169,
+  "solver_warnings": [
+    {
+      "task": "navigation",
+      "seed": 18001,
+      "step": 320,
+      "gap": 2.5065345555502078e-05
+    },
+    {
+      "task": "navigation",
+      "seed": 18003,
+      "step": 40,
+      "gap": 0.00029923681658011736
+    },
+    {
+      "task": "navigation",
+      "seed": 18003,
+      "step": 120,
+      "gap": 0.0008521990681383818
+    },
+    {
+      "task": "arm",
+      "seed": 18002,
+      "step": 840,
+      "gap": 6.224636984066391e-05
+    },
+    {
+      "task": "arm",
+      "seed": 18002,
+      "step": 920,
+      "gap": 0.0010824337588413169
+    },
+    {
+      "task": "arm",
+      "seed": 18003,
+      "step": 500,
+      "gap": 9.231935468495545e-05
+    }
+  ],
+  "selected_step_certificates": 300,
+  "certified_selected_empirical_nonincrease": 300,
+  "uncertified_selected_steps": [],
+  "independent_confirmation_launched": false,
+  "executed_notebook_code_cells": 6,
+  "full_replays_final_max_error": 0.0
+}

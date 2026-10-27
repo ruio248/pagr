@@ -1,0 +1,262 @@
+{
+  "task": "arm",
+  "seed": 18003,
+  "method": "am_adam",
+  "options": {
+    "updates": 1000,
+    "batch": 64,
+    "block": 20,
+    "guard_paths": 320,
+    "alphas": [
+      0.0,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "rho": 0.3,
+    "validation_slack": 0.1,
+    "lr": 0.002,
+    "eval_every": 100,
+    "final_paths": 4096
+  },
+  "config": {
+    "name": "six_joint_reach",
+    "steps": 32,
+    "updates": 500,
+    "batch": 64,
+    "eval_every": 50,
+    "eval_paths": 1024,
+    "sigma": 0.7,
+    "start": [
+      0.0,
+      0.2,
+      -0.1,
+      0.1,
+      -0.1,
+      0.0
+    ],
+    "goal": [
+      1.4,
+      1.3
+    ],
+    "base_velocity": [
+      3.6,
+      0.4
+    ],
+    "base_arch": 0.0,
+    "drift_matrix": [
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.25
+      ]
+    ],
+    "obstacles": [],
+    "obstacle_weight": 22.0,
+    "terminal_weight": 12.0,
+    "outcome_std": 0.15,
+    "success_radius": 0.35,
+    "critic_train": 1024,
+    "critic_valid": 512,
+    "critic_mc": 4,
+    "critic_updates": 2500,
+    "critic_width": 128,
+    "critic_lr": 0.002,
+    "actor_width": 64,
+    "actor_lr": 0.002,
+    "actor_lr_schedule": "constant",
+    "secant_h": 0.3,
+    "consistency_fraction": 0.25,
+    "links": [
+      0.8,
+      0.65,
+      0.55,
+      0.4,
+      0.35,
+      0.25
+    ],
+    "orientation": 1.5707963267948966,
+    "stiffness": 1.0,
+    "orientation_weight": 2.0,
+    "posture_weight": 0.1
+  },
+  "final": {
+    "cost": 11.52820873260498,
+    "cost_mc_se": 0.0770888552069664,
+    "terminal": 8.778136253356934,
+    "energy": 2.7500736713409424,
+    "running": 0.0,
+    "success": 0.05615234375,
+    "collision": 0.0,
+    "distance": 0.6482109427452087,
+    "orientation_error": 0.48348110914230347
+  },
+  "fine_grid": {
+    "cost": 11.180007934570312,
+    "cost_mc_se": 0.09962819564974919,
+    "terminal": 8.434468269348145,
+    "energy": 2.7455406188964844,
+    "running": 0.0,
+    "success": 0.05859375,
+    "collision": 0.0,
+    "distance": 0.6322814226150513,
+    "orientation_error": 0.4704316258430481
+  },
+  "history": [
+    {
+      "step": 0,
+      "cost": 56.45924377441406,
+      "cost_mc_se": 1.410015344619751,
+      "terminal": 56.45924377441406,
+      "energy": 0.0,
+      "running": 0.0,
+      "success": 0.001953125,
+      "collision": 0.0,
+      "distance": 1.920379638671875,
+      "orientation_error": 1.5427557229995728
+    },
+    {
+      "step": 100,
+      "cost": 15.493793487548828,
+      "cost_mc_se": 0.24796558916568756,
+      "terminal": 12.758657455444336,
+      "energy": 2.7351367473602295,
+      "running": 0.0,
+      "success": 0.044921875,
+      "collision": 0.0,
+      "distance": 0.8320856690406799,
+      "orientation_error": 0.5990843772888184
+    },
+    {
+      "step": 200,
+      "cost": 14.495687484741211,
+      "cost_mc_se": 0.22440116107463837,
+      "terminal": 11.291997909545898,
+      "energy": 3.2036898136138916,
+      "running": 0.0,
+      "success": 0.0576171875,
+      "collision": 0.0,
+      "distance": 0.757040798664093,
+      "orientation_error": 0.6143428683280945
+    },
+    {
+      "step": 300,
+      "cost": 13.864770889282227,
+      "cost_mc_se": 0.2056034803390503,
+      "terminal": 10.625954627990723,
+      "energy": 3.2388150691986084,
+      "running": 0.0,
+      "success": 0.056640625,
+      "collision": 0.0,
+      "distance": 0.7328065633773804,
+      "orientation_error": 0.5758838653564453
+    },
+    {
+      "step": 400,
+      "cost": 12.966733932495117,
+      "cost_mc_se": 0.1913737952709198,
+      "terminal": 9.80704402923584,
+      "energy": 3.1596882343292236,
+      "running": 0.0,
+      "success": 0.0673828125,
+      "collision": 0.0,
+      "distance": 0.6930416226387024,
+      "orientation_error": 0.5402472615242004
+    },
+    {
+      "step": 500,
+      "cost": 12.577117919921875,
+      "cost_mc_se": 0.18437163531780243,
+      "terminal": 9.691688537597656,
+      "energy": 2.8854289054870605,
+      "running": 0.0,
+      "success": 0.06640625,
+      "collision": 0.0,
+      "distance": 0.6894478797912598,
+      "orientation_error": 0.5188724398612976
+    },
+    {
+      "step": 600,
+      "cost": 12.120027542114258,
+      "cost_mc_se": 0.17383843660354614,
+      "terminal": 9.462390899658203,
+      "energy": 2.6576366424560547,
+      "running": 0.0,
+      "success": 0.0625,
+      "collision": 0.0,
+      "distance": 0.6814924478530884,
+      "orientation_error": 0.5050667524337769
+    },
+    {
+      "step": 700,
+      "cost": 11.921051025390625,
+      "cost_mc_se": 0.16094765067100525,
+      "terminal": 9.167152404785156,
+      "energy": 2.7538981437683105,
+      "running": 0.0,
+      "success": 0.0556640625,
+      "collision": 0.0,
+      "distance": 0.6689302921295166,
+      "orientation_error": 0.4843195080757141
+    },
+    {
+      "step": 800,
+      "cost": 11.721322059631348,
+      "cost_mc_se": 0.1518319696187973,
+      "terminal": 8.87019157409668,
+      "energy": 2.8511312007904053,
+      "running": 0.0,
+      "success": 0.05859375,
+      "collision": 0.0,
+      "distance": 0.654580295085907,
+      "orientation_error": 0.4776202440261841
+    },
+    {
+      "step": 900,
+      "cost": 12.007173538208008,
+      "cost_mc_se": 0.1632130742073059,
+      "terminal": 9.174206733703613,
+      "energy": 2.8329663276672363,
+      "running": 0.0,
+      "success": 0.0556640625,
+      "collision": 0.0,
+      "distance": 0.6678574681282043,
+      "orientation_error": 0.49932700395584106
+    },
+    {
+      "step": 1000,
+      "cost": 11.713394165039062,
+      "cost_mc_se": 0.15132956206798553,
+      "terminal": 8.884517669677734,
+      "energy": 2.8288769721984863,
+      "running": 0.0,
+      "success": 0.056640625,
+      "collision": 0.0,
+      "distance": 0.6561763286590576,
+      "orientation_error": 0.4856458306312561
+    }
+  ],
+  "checks": [],
+  "seconds": 4.369590040994808,
+  "input_manifest": {
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18003/critics/critic_1.pt": "0e2efa7fb2763eecf1ea1c6c64580ef589c58e88967f4ab8ac7f1b8f2f29959d",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18003/critics/critic_4.pt": "a8d7bcb436626f0e7e280a6ab5293386daadd2b3bd010f294e39c7974c812e96",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18003/critics/fit.json": "190474df5b050d1ab215b6b598242db5bd11e980de63cdfb4193ed730b2ce1e4",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18003/critics/critic_0.pt": "8424d9751aab5b92a04a47780b2672a14a70b29482875c648266cdf4e644c860",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18003/critics/critic_3.pt": "e1aae363e3f126ca4bfcf20e28d4cfccfbf50d690096906f4f29043a31c75ce2",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18003/critics/data.npz": "2ccf42aef1d74b3a0661473e3cd550f802400a2a99e63d96d54de2ba2f76dec4",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/pilot/arm/seed_18003/critics/critic_2.pt": "caaf6a427c67bb4f6c4273672e41cde663cda099c8cf5ab7094df5e4284fada3"
+  },
+  "actor_training_rollouts": 64000,
+  "extra_model_rollouts": 0,
+  "total_training_model_rollouts": 64000,
+  "extra_critic_value_queries": 0,
+  "additional_real_terminal_queries": 0,
+  "true_gradient_training_calls": 0,
+  "adjoint": "lean",
+  "optimizer": "Adam",
+  "optimizer_state_policy": "Moments advance on all proposals; only parameters are interpolated."
+}

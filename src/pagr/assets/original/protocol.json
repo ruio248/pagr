@@ -1,0 +1,234 @@
+{
+  "tasks": [
+    "navigation",
+    "arm"
+  ],
+  "seeds": [
+    18001,
+    18002,
+    18003
+  ],
+  "arms": [
+    {
+      "id": "am",
+      "method": "am",
+      "rho": 0
+    },
+    {
+      "id": "full_adam",
+      "method": "full_adam",
+      "rho": 0
+    },
+    {
+      "id": "full_rms",
+      "method": "full_rms",
+      "rho": 0
+    },
+    {
+      "id": "robust_0.3",
+      "method": "robust",
+      "rho": 0.3
+    },
+    {
+      "id": "robust_1",
+      "method": "robust",
+      "rho": 1.0
+    },
+    {
+      "id": "norm_matched",
+      "method": "norm_matched",
+      "rho": 0.3
+    }
+  ],
+  "options": {
+    "method": "robust",
+    "rho": 0.3,
+    "validation_slack": 0.1,
+    "updates": 1000,
+    "batch": 64,
+    "lr": 0.002,
+    "beta2": 0.99,
+    "epsilon": 0.01,
+    "max_update_norm": 0.3,
+    "eval_every": 100,
+    "final_paths": 4096
+  },
+  "configs": {
+    "navigation": {
+      "name": "precision_docking",
+      "steps": 40,
+      "updates": 500,
+      "batch": 64,
+      "eval_every": 50,
+      "eval_paths": 1024,
+      "sigma": 0.5,
+      "start": [
+        -2.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "goal": [
+        2.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "base_velocity": [
+        3.6,
+        0.4
+      ],
+      "base_arch": 0.9,
+      "drift_matrix": [
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.25
+        ]
+      ],
+      "obstacles": [
+        [
+          -0.65,
+          0.2,
+          0.4
+        ],
+        [
+          0.65,
+          -0.2,
+          0.4
+        ]
+      ],
+      "obstacle_weight": 55.0,
+      "terminal_weight": 1.0,
+      "outcome_std": 0.1,
+      "success_radius": 0.4,
+      "critic_train": 1024,
+      "critic_valid": 512,
+      "critic_mc": 4,
+      "critic_updates": 2200,
+      "critic_width": 128,
+      "critic_lr": 0.002,
+      "actor_width": 64,
+      "actor_lr": 0.002,
+      "actor_lr_schedule": "constant",
+      "secant_h": 0.3,
+      "consistency_fraction": 0.25,
+      "horizon": 2.0,
+      "velocity_weight": 0.25,
+      "quartic_weight": 0.0,
+      "velocity_outcome_std": 0.15,
+      "success_velocity": 0.5,
+      "damping": 1.0,
+      "stiffness": 0.8,
+      "capture_reward": 35.0,
+      "capture_position_scale": 0.4,
+      "capture_velocity_scale": 0.5
+    },
+    "arm": {
+      "name": "six_joint_reach",
+      "steps": 32,
+      "updates": 500,
+      "batch": 64,
+      "eval_every": 50,
+      "eval_paths": 1024,
+      "sigma": 0.7,
+      "start": [
+        0.0,
+        0.2,
+        -0.1,
+        0.1,
+        -0.1,
+        0.0
+      ],
+      "goal": [
+        1.4,
+        1.3
+      ],
+      "base_velocity": [
+        3.6,
+        0.4
+      ],
+      "base_arch": 0.0,
+      "drift_matrix": [
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.25
+        ]
+      ],
+      "obstacles": [],
+      "obstacle_weight": 22.0,
+      "terminal_weight": 12.0,
+      "outcome_std": 0.15,
+      "success_radius": 0.35,
+      "critic_train": 1024,
+      "critic_valid": 512,
+      "critic_mc": 4,
+      "critic_updates": 2500,
+      "critic_width": 128,
+      "critic_lr": 0.002,
+      "actor_width": 64,
+      "actor_lr": 0.002,
+      "actor_lr_schedule": "constant",
+      "secant_h": 0.3,
+      "consistency_fraction": 0.25,
+      "links": [
+        0.8,
+        0.65,
+        0.55,
+        0.4,
+        0.35,
+        0.25
+      ],
+      "orientation": 1.5707963267948966,
+      "stiffness": 1.0,
+      "orientation_weight": 2.0,
+      "posture_weight": 0.1
+    }
+  },
+  "sources": {
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/tc_am.py": "585471feb691d73dd73414fb41c3f2728fe03caa5848dc9207f0594f5b2f0a87",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/run_experiment.py": "025550b9ea8fe278772e3afcec9f8ec871257dad9aaa130d36f49cb6743dcfc4",
+    "SOURCE_WORKSPACE/experiments/am_terminal_consistent/audit.py": "bf3b87d683b0a692db5f88c20dc57c25bfb61e8133e502da0ca0ac1bfd5bb937",
+    "SOURCE_WORKSPACE/experiments/am_hjbi_terminal_robustness/robust_hamiltonian.py": "285b7cfe7623da16850f20178f1b8c2652d8c9bf27f871833daf04ebd3b34904",
+    "SOURCE_WORKSPACE/experiments/am_propagation_reliability/reliability.py": "e549d4412b4df377d323736fafc0ad109831e468340ed50c4633fa1dc1867add",
+    "SOURCE_WORKSPACE/experiments/am_propagation_reliability/arm_task.py": "9cafa28fa96a4774386c3c8319179bb7feab692559ab54b7c4d2ac130675f64f",
+    "SOURCE_WORKSPACE/experiments/am_propagation_reliability/inertial_task.py": "3cfc1f210e2d16a718d2bc06dfae6dac89e7df1911988c555ce64b7bbae9b8f2",
+    "SOURCE_WORKSPACE/experiments/am_gradient_reliability_toys/toy_core.py": "a78199209a281f1d2f1ed0bfc10fd81a7c4eca386c15af466a7851f3978a209f"
+  },
+  "environment": {
+    "python": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:08) [Clang 20.1.8 ]",
+    "executable": "LOCAL_USER/miniconda3/bin/python",
+    "platform": "macOS-26.2-arm64-arm-64bit-Mach-O",
+    "torch": "2.9.1",
+    "numpy": "2.3.5",
+    "threads": 1
+  },
+  "primary": "robust_0.3 versus lean AM Adam; robust_1 exploratory only",
+  "primary_metric": "Final true expected control cost at update 1000; lower better; no best-checkpoint selection.",
+  "uncertainty": "Five shared bootstrap scalar critics; one global weight per update; KL(w||uniform)<=rho; noisy held-out value MSE <=1.1 times uniform-ensemble MSE. Not calibrated coverage.",
+  "optimizer": "Robust and full_rms use identical lagged RMS positive metric, beta2=.99, epsilon=.01; no momentum; direct lr=.002 step; positive scalar step cap .3. AM and full_adam use native Adam .002, gradient clip 5.",
+  "confirmation_gate": "Only primary rho=.3 can advance. At least 1% mean reduction versus both AM and full_rms, with >=2/3 wins against each. If both tasks qualify, navigation has priority. At most one task and five fresh seeds 18101-18105, same six arms, no retuning.",
+  "confirmation_seeds": [
+    18101,
+    18102,
+    18103,
+    18104,
+    18105
+  ],
+  "boundaries": [
+    "No artificial gradient corruption.",
+    "Same input data, five critics, actor initialization, Brownian stream, batch and updates within each seed.",
+    "No extra true terminal observations or gradients during any actor training.",
+    "Training rollout count matched, NOT wall-clock compute; time reported.",
+    "True evaluation metrics never feed updates or checkpoint choice.",
+    "Full adjoint discretize-then-differentiate consistency tested before training.",
+    "Finite-batch local minimax certificate is not true-J or population coverage proof."
+  ]
+}

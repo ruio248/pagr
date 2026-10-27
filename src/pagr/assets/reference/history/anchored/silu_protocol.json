@@ -1,0 +1,19 @@
+{
+  "tasks": [
+    "navigation",
+    "arm"
+  ],
+  "seeds": [
+    18001,
+    18002,
+    18003
+  ],
+  "activation": "SiLU; fixed, no activation sweep",
+  "matched": "Original data, network widths/parameter counts, initialization, bootstrap and minibatch streams, optimizer/lr, update budget, validation-selected critic checkpoints.",
+  "selection": "No true value, true derivative or control return used to select critic checkpoint.",
+  "actor": "Unchanged lean AM+Adam, 1000 updates, batch64, fixed final checkpoint.",
+  "motivation": "Diagnose whether differentiable scalar-estimation prior repairs labels before any uncertainty penalty.",
+  "gate": "Primary task arm: >=1% improvement AND 3/3 wins vs original AM+Adam. Secondary navigation; no claim of a novel HJBI algorithm.",
+  "stage": "Development after negative finite-guard and kernel diagnostics; reused seeds, not independent confirmation.",
+  "source_sha256": "a53ff73be4d21e3cd2669455f723bc1d01150dce2713469dccab5e14160786bc"
+}

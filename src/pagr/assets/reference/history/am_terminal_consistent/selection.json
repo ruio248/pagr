@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "navigation": {
+      "progress": false
+    },
+    "arm": {
+      "progress": false
+    }
+  },
+  "confirmation_task": null,
+  "frozen_rho": 0.3
+}

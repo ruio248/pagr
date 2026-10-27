@@ -13,6 +13,8 @@ from jupyter_client.kernelspec import KernelSpecManager
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--notebook', type=Path, default=Path('notebooks/reproduce.ipynb'))
+    parser.add_argument('--timeout', type=int, default=1800, help='Maximum seconds per cell')
     parser.add_argument('--output', type=Path, default=Path('runs/notebooks/reproduce.executed.ipynb'))
     parser.add_argument('--replace', action='store_true', help='Explicitly allow replacing a notebook output')
     args = parser.parse_args()
@@ -20,7 +22,7 @@ def main():
     output = args.output.resolve()
     if output.exists() and not args.replace:
         raise FileExistsError('Choose a new output path or explicitly pass --replace.')
-    notebook = nbformat.read(root/'notebooks/reproduce.ipynb', as_version=4)
+    notebook = nbformat.read(root/args.notebook, as_version=4)
     # Use a temporary kernelspec pointing to this exact interpreter. Do not
     # mutate the user's Jupyter installation or accidentally run another env.
     with tempfile.TemporaryDirectory(prefix='pagr-kernel-') as directory:
@@ -32,7 +34,11 @@ def main():
         manager = KernelManager(kernel_name='pagr-current',
                                 kernel_spec_manager=KernelSpecManager(kernel_dirs=[directory]))
         try:
-            NotebookClient(notebook, km=manager, timeout=300, allow_errors=False,
+            def progress(cell, cell_index):
+                if cell.cell_type == 'code':
+                    print(f'Executing cell {cell_index + 1}/{len(notebook.cells)}', flush=True)
+            NotebookClient(notebook, km=manager, timeout=args.timeout, allow_errors=False,
+                           on_cell_start=progress,
                            resources={'metadata': {'path': str(root)}}).execute()
         finally:
             if manager.has_kernel:

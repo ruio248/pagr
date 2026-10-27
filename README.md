@@ -59,15 +59,25 @@ python -m pagr replay --task arm --seed 18001 --method am_adam --output runs/arm
 
 | 内容 | 入口 |
 |---|---|
+| **Notebook 1：可解析 motivation、AM 标签误差、因果干预与反例** | [01_motivation_analytic.ipynb](notebooks/01_motivation_analytic.ipynb) · [完整 Python 脚本](notebooks/01_motivation_analytic.py) |
+| **Notebook 2：自然二维避障，从零构造数据、拟合 critic、实现/训练/测评 AM 与改进候选** | [02_navigation_am_and_candidates.ipynb](notebooks/02_navigation_am_and_candidates.ipynb) · [完整 Python 脚本](notebooks/02_navigation_am_and_candidates.py) |
 | 完整实验参数、随机种子、预算和指标 | [docs/settings.md](docs/settings.md) |
 | 公式、lean adjoint、有限位移 guard 与实现对应 | [docs/methods.md](docs/methods.md) |
-| 可运行 notebook：全结果、真实重放、轨迹、机制与警告 | [notebooks/reproduce.ipynb](notebooks/reproduce.ipynb) |
+| 历史总览 notebook：全结果、两条真实重放、轨迹、机制与警告 | [notebooks/reproduce.ipynb](notebooks/reproduce.ipynb) |
 | 历史实验报告及可编译 TeX 源文件 | [reports/lean_am_followup.pdf](reports/lean_am_followup.pdf)、[TeX](reports/lean_am_followup.tex) |
 | 全部 42 个逐 seed 结果和最终 actor | [src/pagr/assets/reference/followup](src/pagr/assets/reference/followup) |
 | 离线数据、原始/替代 critic | [src/pagr/assets](src/pagr/assets) |
 | 当前实现的轻量测试 | [tests/test_research.py](tests/test_research.py) |
 | 来源、公开包转换和 SHA256 | [provenance/export_manifest.json](provenance/export_manifest.json) |
 | GitHub 设置、隐私边界、许可证状态 | [docs/repository.md](docs/repository.md) |
+
+两份新 notebook 的关键数学和实现直接写在单元格中，不是调用 `replay()` 的薄包装。
+第一份包含严格的一步有限批量 AM–SGD 存在性结果，以及此前的冻结轨迹 AM 回归实验；
+第二份从头拟合 30 个 critic、训练三个固定 seeds 下五种方法共 15 个 actor，全部使用 lean adjoint + Adam。
+两者分别回答“动机在什么条件下成立”和“自然任务中这些候选实际表现如何”，不把前者当作后者成功的证明。
+执行命令、输出和证据边界见下方链接中的 [Notebook 部分](docs/reproduction.md#notebook)。
+
+本地 Run All 验证：第一份 387 项数值核验通过；第二份重新生成的 12 组数据数组、30 个 critic 和 15 个最终 actor 与冻结参考逐元素一致，最终/细网格指标也一致；10 项实现测试通过。完整记录在 [notebook_validation.json](provenance/notebook_validation.json)。这是同协议重建，不是新的独立 seeds。自然导航诊断没有得到“值误差可忽略”的前提，因此不把它写成解析存在性结果在自然任务上的完整因果证明。
 
 ## 公开范围与许可
 

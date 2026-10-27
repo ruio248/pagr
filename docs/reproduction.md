@@ -70,6 +70,39 @@ python -m pagr replay --task arm --seed 18001 --method silu --inputs runs/genera
 
 ## Notebook
 
+### 两份逐行展开的研究 notebook
+
+1. [`01_motivation_analytic.ipynb`](../notebooks/01_motivation_analytic.ipynb)：解析的“值准、梯度不准”例子；一次实际 AM–SGD 更新的精确期望损害；三维线性 Gaussian 下的逐轨迹/条件均值误差；有限样本 AM 回归、状态反馈、同 KL 控制性能；梯度修复与值偏移对照；精确全局优化的反例。A 是 SGD，B 是冻结轨迹回归，不冒充多轮 Adam 实验。
+2. [`02_navigation_am_and_candidates.ipynb`](../notebooks/02_navigation_am_and_candidates.ipynb)：自然二维导航（4 维位置–速度状态）的场景、数据、观测代价、critic 拟合、原始 lean AM + Adam、nominal/robust finite-value guard、SiLU 消融、训练、评价、误差传播诊断。三个既有开发 seeds；30 个 critic 和 15 个 actor 全部从头训练，不从资产读取模型或曲线。
+
+```bash
+python scripts/execute_notebook.py --notebook notebooks/01_motivation_analytic.ipynb --output runs/notebooks/01_motivation.executed.ipynb
+python scripts/execute_notebook.py --notebook notebooks/02_navigation_am_and_candidates.ipynb --output runs/notebooks/02_navigation.executed.ipynb
+```
+
+每条命令使用当前解释器对应的临时 kernel；不会偷偷切换到系统 Python。默认每个 cell 允许 1800 秒，可用 `--timeout` 调整。输出文件已存在时必须明确加 `--replace` 或换文件名。每次 Run All 另外创建唯一的 `runs/01-motivation-*` / `runs/02-navigation-*` 目录，保存全部表格、图、协议与模型，不覆盖上一次。
+
+同名 `.py` 是可直接执行的 percent-cell 源文件，代码和 notebook 一致；脚本模式建议使用非交互绘图后端：
+
+```bash
+MPLBACKEND=Agg python notebooks/01_motivation_analytic.py
+MPLBACKEND=Agg python notebooks/02_navigation_am_and_candidates.py
+```
+
+若编辑了 `.py`，用 `python scripts/build_research_notebooks.py --replace` 重新生成两份 notebook（**会清除它们的执行输出**），再运行。轻量测试会验证 source/notebook 一致性、离线数据重建、动力学/评价、lean AM 梯度和原始 Adam/guard 的一致性。
+
+完整执行后，可用下面的命令检查从零训练的结果；将示例目录替换为 notebook 最后实际打印的目录：
+
+```bash
+python scripts/validate_research_notebooks.py --analytic-run runs/01-motivation-EXAMPLE --toy-run runs/02-navigation-EXAMPLE
+```
+
+该审计以本地参考环境下的精确一致性为标准，包括 12 组数组、30 个 critic state_dict、15 个最终 actor、所有最终/细网格指标；在其他平台不保证 bitwise 一致。`provenance/notebook_validation.json` 记录本次执行结果，不替代尚未通过的 Ubuntu hosted CI。
+
+**方法边界**：解析例子允许人为构造误差，用于机制隔离；自然导航不做梯度腐化。Robust guard 是经验有限代价差 safeguard，不是新的 HJBI 方程，仍保留历史 6 项严格 support-certificate 警告。报告所有方法/seed 的负结果。三 seeds 的区间是探索性描述，不是独立确认。
+
+### 保留的历史总览 notebook
+
 [`notebooks/reproduce.ipynb`](../notebooks/reproduce.ipynb) 包含全部结果、两条真实训练重放、路径图、固定诊断及审计警告。两条示范选同一个 seed 18001，并非挑选收益最大的 seed 18003；整表始终显示全部 42 run。
 
 ```bash

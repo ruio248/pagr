@@ -1,0 +1,449 @@
+{
+  "notebooks": [
+    {
+      "name": "01_motivation_analytic",
+      "code_cells": 9,
+      "error_outputs": 0,
+      "source_sha256": "aa19d3e0c962741c98563c9c7f7575eb23c5553a84cdbe143542d7fdc0755848",
+      "notebook_sha256": "6dbe19ee6369d6a5e9c6987bb84527484567b783c4a1493cb3a5fc4f5d6d36cd"
+    },
+    {
+      "name": "02_navigation_am_and_candidates",
+      "code_cells": 10,
+      "error_outputs": 0,
+      "source_sha256": "8ab25fcca6c2993783aed2c5626d068f1bf490043a119b2ea4efafd525528861",
+      "notebook_sha256": "865c551b84642c1dbc0c46a6a3199b1c0f7532f4b04dc2b50a01a66b5a410269"
+    }
+  ],
+  "environment": {
+    "python": "3.13.11",
+    "torch": "2.9.1",
+    "numpy": "2.3.5",
+    "scipy": "1.16.3",
+    "pandas": "2.3.3",
+    "matplotlib": "3.10.8",
+    "device": "cpu",
+    "threads": 1
+  },
+  "bundled_integrity": {
+    "verified_files": 218,
+    "status": "ok",
+    "note": "Integrity is not algorithm efficacy. Historical solver warnings remain in the reference audit."
+  },
+  "analytic": {
+    "numerical_checks": 387,
+    "passed": 387,
+    "scalar_one_step": [
+      {
+        "epsilon": 0.5,
+        "value_error_bound": 0.5,
+        "gradient_RMSE": 1.414213562373104,
+        "exact_expected_cost_damage": 1.250017724290034e-05,
+        "measured_damage": 1.2418666429387402e-05,
+        "MC_standard_error": 1.7500842944030032e-07
+      },
+      {
+        "epsilon": 0.25,
+        "value_error_bound": 0.25,
+        "gradient_RMSE": 2.8284271247461903,
+        "exact_expected_cost_damage": 5e-05,
+        "measured_damage": 5.003939211942734e-05,
+        "MC_standard_error": 5.669977118050472e-07
+      },
+      {
+        "epsilon": 0.1,
+        "value_error_bound": 0.1,
+        "gradient_RMSE": 7.071067811865475,
+        "exact_expected_cost_damage": 0.00031249999999999995,
+        "measured_damage": 0.0003137092873143253,
+        "MC_standard_error": 3.185235332290628e-06
+      },
+      {
+        "epsilon": 0.05,
+        "value_error_bound": 0.05,
+        "gradient_RMSE": 14.14213562373095,
+        "exact_expected_cost_damage": 0.0012499999999999998,
+        "measured_damage": 0.0012797625802370128,
+        "MC_standard_error": 1.259183277847135e-05
+      }
+    ],
+    "feedback_models": 256,
+    "k200": {
+      "value": {
+        "k": 200.0,
+        "Q_uniform_bound": 0.01,
+        "Q_RMSE_theory": 0.007071067811865475,
+        "Q_RMSE_MC": 0.0070653204266689605,
+        "grad_RMSE_theory": 1.4142135623730951,
+        "grad_RMSE_MC": 1.4153621058724772,
+        "Q_shift_RMSE": 0.007071067811865475,
+        "Q_shift_grad_error": 0.0
+      },
+      "propagation": {
+        "k": 200.0,
+        "pathwise_integrated_adjoint_error": 9.587490796155148,
+        "effective_integrated_adjoint_error": 4.999999999996422e-05,
+        "effective_quad_error": 3.2486512341401852e-15,
+        "effective_integrated_exact": 5e-05,
+        "target_noise_energy": 3.8349763184620596
+      },
+      "time_only_N64": {
+        "condition": "Noisy gradient",
+        "k": 200.0,
+        "N": 64,
+        "mean_return": 0.6034257953805566,
+        "SD_return": 0.031497746738307554,
+        "mean_gap": 0.029029736653119288,
+        "SD_gap": 0.031497746738307526,
+        "mean_relative_gap": 0.04590004384936515,
+        "min_return": 0.507811169499725,
+        "max_return": 0.6324374480213453,
+        "replications": 64,
+        "mean_gap_CI95_half": 0.007867903038151294
+      },
+      "time_only_N4096": {
+        "condition": "Noisy gradient",
+        "k": 200.0,
+        "N": 4096,
+        "mean_return": 0.6318404918107038,
+        "SD_return": 0.0008257714486746567,
+        "mean_gap": 0.0006150402229720669,
+        "SD_gap": 0.0008257714486746469,
+        "mean_relative_gap": 0.000972463978604773,
+        "min_return": 0.6279911976791922,
+        "max_return": 0.6324546496960902,
+        "replications": 64,
+        "mean_gap_CI95_half": 0.00020627157059282898
+      },
+      "feedback_N64": {
+        "condition": "Noisy gradient",
+        "k": 200.0,
+        "N": 64,
+        "mean_return": 0.5544429748985076,
+        "SD_return": 0.04698318168981159,
+        "mean_gap": 0.07801255713516833,
+        "SD_gap": 0.04698318168981158,
+        "mean_relative_gap": 0.12334868332057605,
+        "min_return": 0.4130612560362712,
+        "max_return": 0.6212757770610092,
+        "replications": 64,
+        "mean_gap_CI95_half": 0.011736049598421077
+      },
+      "feedback_N1024": {
+        "condition": "Noisy gradient",
+        "k": 200.0,
+        "N": 1024,
+        "mean_return": 0.626341499965511,
+        "SD_return": 0.004975441407254675,
+        "mean_gap": 0.006114032068164892,
+        "SD_gap": 0.00497544140725469,
+        "mean_relative_gap": 0.009667133511355452,
+        "min_return": 0.6069170205976352,
+        "max_return": 0.6319696950560951,
+        "replications": 64,
+        "mean_gap_CI95_half": 0.0012428282851316868
+      },
+      "exact_optimum": {
+        "k": 200.0,
+        "beta": 0.6324397213568469,
+        "true_return": 0.6324397213568469,
+        "return_gap": 1.5810676828986736e-05,
+        "relative_gap": 2.4998875064223292e-05,
+        "actual_path_KL": 0.19999999999999993,
+        "global_gap_bound": 0.02
+      }
+    },
+    "outcomes": {
+      "value_close_gradient_inaccurate": true,
+      "time_only_finite_sample_gap": true,
+      "state_feedback_finite_sample_gap": true,
+      "gradient_repair_recovers_oracle": true,
+      "more_data_smaller_mean_gap": true,
+      "large_gradient_error_not_large_ideal_gap": true
+    }
+  },
+  "navigation": {
+    "from_scratch_offline_arrays_exact": 12,
+    "fitted_critic_states_exact": 30,
+    "final_actor_states_exact": 15,
+    "runs": [
+      {
+        "seed": 18001,
+        "method": "am_adam",
+        "cost": 19.47522735595703,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18001,
+        "method": "am_2x",
+        "cost": 19.166278839111328,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18001,
+        "method": "nominal_guard",
+        "cost": 19.5706729888916,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18001,
+        "method": "robust_guard",
+        "cost": 19.751617431640625,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18001,
+        "method": "silu",
+        "cost": 19.80181884765625,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18002,
+        "method": "am_adam",
+        "cost": 19.085798263549805,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18002,
+        "method": "am_2x",
+        "cost": 19.770586013793945,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18002,
+        "method": "nominal_guard",
+        "cost": 19.40424919128418,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18002,
+        "method": "robust_guard",
+        "cost": 19.312782287597656,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18002,
+        "method": "silu",
+        "cost": 20.355073928833008,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18003,
+        "method": "am_adam",
+        "cost": 19.84217643737793,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18003,
+        "method": "am_2x",
+        "cost": 19.304691314697266,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18003,
+        "method": "nominal_guard",
+        "cost": 19.86238670349121,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18003,
+        "method": "robust_guard",
+        "cost": 19.862083435058594,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      },
+      {
+        "seed": 18003,
+        "method": "silu",
+        "cost": 20.369544982910156,
+        "max_final_metric_error": 0.0,
+        "fine_grid_metric_error": 0.0,
+        "actor_state_exact": true
+      }
+    ],
+    "aggregate": [
+      {
+        "method": "am_adam",
+        "mean_cost": 19.46773401896159,
+        "seed_cost_sd": 0.3782447594288489,
+        "success": 0.818115234375,
+        "collision": 0.0016276041666666667,
+        "mean_paired_reduction_pct": 0.0,
+        "reduction_of_mean_cost_pct": 0.0,
+        "wins": 0,
+        "paired_cost_delta": 0.0,
+        "delta_CI95_low": 0.0,
+        "delta_CI95_high": 0.0,
+        "fine_mean_cost": 19.544518152872723
+      },
+      {
+        "method": "am_2x",
+        "mean_cost": 19.413852055867512,
+        "seed_cost_sd": 0.316597285052873,
+        "success": 0.845458984375,
+        "collision": 0.00390625,
+        "mean_paired_reduction_pct": 0.2357413134598015,
+        "reduction_of_mean_cost_pct": 0.27677573076351214,
+        "wins": 2,
+        "paired_cost_delta": -0.05388196309407552,
+        "delta_CI95_low": -1.6681547634531035,
+        "delta_CI95_high": 1.5603908372649526,
+        "fine_mean_cost": 19.923892974853516
+      },
+      {
+        "method": "nominal_guard",
+        "mean_cost": 19.612436294555664,
+        "seed_cost_sd": 0.23190650119779818,
+        "success": 0.7989095052083334,
+        "collision": 0.0020345052083333335,
+        "mean_paired_reduction_pct": -0.7534884810013733,
+        "reduction_of_mean_cost_pct": -0.7432928529490512,
+        "wins": 0,
+        "paired_cost_delta": 0.14470227559407553,
+        "delta_CI95_low": -0.24059169333617672,
+        "delta_CI95_high": 0.5299962445243278,
+        "fine_mean_cost": 19.860149383544922
+      },
+      {
+        "method": "robust_guard",
+        "mean_cost": 19.642161051432293,
+        "seed_cost_sd": 0.29054855364759447,
+        "success": 0.8002115885416666,
+        "collision": 0.002197265625,
+        "mean_paired_reduction_pct": -0.902932310300775,
+        "reduction_of_mean_cost_pct": -0.8959801500308728,
+        "wins": 0,
+        "paired_cost_delta": 0.17442703247070312,
+        "delta_CI95_low": -0.1636126378744387,
+        "delta_CI95_high": 0.5124667028158449,
+        "fine_mean_cost": 19.9181391398112
+      },
+      {
+        "method": "silu",
+        "mean_cost": 20.175479253133137,
+        "seed_cost_sd": 0.3236802848759717,
+        "success": 0.71875,
+        "collision": 0.001708984375,
+        "mean_paired_reduction_pct": -3.6617139242174357,
+        "reduction_of_mean_cost_pct": -3.6354782404680597,
+        "wins": 0,
+        "paired_cost_delta": 0.7077452341715494,
+        "delta_CI95_low": -0.5257615327156432,
+        "delta_CI95_high": 1.941252001058742,
+        "fine_mean_cost": 19.930090586344402
+      }
+    ],
+    "diagnostics": [
+      {
+        "seed": 18001,
+        "value_RMSE": 2.7767174243927,
+        "relative_value_RMSE": 0.19096424902515796,
+        "gradient_RMSE": 10.46630573272705,
+        "relative_gradient_RMSE": 0.303275375615202,
+        "integrated_target_error": 12.033607482910156,
+        "matching_gradient_error": 9.450394630432129,
+        "relative_matching_gradient_error": 0.3589484691619873,
+        "matching_gradient_cosine": 0.9836472272872925,
+        "ensemble_gradient_variance": 52.3065071105957
+      },
+      {
+        "seed": 18002,
+        "value_RMSE": 4.95463752746582,
+        "relative_value_RMSE": 0.3302714559215015,
+        "gradient_RMSE": 15.762242317199707,
+        "relative_gradient_RMSE": 0.4414783419597665,
+        "integrated_target_error": 26.051763916015627,
+        "matching_gradient_error": 19.097673416137695,
+        "relative_matching_gradient_error": 0.47401317954063416,
+        "matching_gradient_cosine": 0.9609194993972778,
+        "ensemble_gradient_variance": 42.37023162841797
+      },
+      {
+        "seed": 18003,
+        "value_RMSE": 2.5270845890045166,
+        "relative_value_RMSE": 0.1699636307215532,
+        "gradient_RMSE": 11.375974655151367,
+        "relative_gradient_RMSE": 0.31564118383668904,
+        "integrated_target_error": 14.137300109863283,
+        "matching_gradient_error": 20.762685775756836,
+        "relative_matching_gradient_error": 0.4761885404586792,
+        "matching_gradient_cosine": 0.9676517248153687,
+        "ensemble_gradient_variance": 53.009605407714844
+      }
+    ],
+    "numerical_checks": [
+      {
+        "name": "Analytic evaluation derivative agrees with autograd",
+        "passed": true
+      },
+      {
+        "name": "Terminal error propagation matches lean target difference",
+        "passed": true
+      },
+      {
+        "name": "Target error projected through actor Jacobian equals parameter-gradient error",
+        "passed": true
+      },
+      {
+        "name": "Proposal and guard complete while all terminal oracles forbidden",
+        "passed": true
+      },
+      {
+        "name": "Guard includes exact zero-difference incumbent",
+        "passed": true
+      },
+      {
+        "name": "Zero uncertainty radius equals nominal guard",
+        "passed": true
+      },
+      {
+        "name": "Activation ablation preserves initial parameters exactly",
+        "passed": true
+      },
+      {
+        "name": "All selected empirical model scores nonpositive",
+        "passed": true
+      },
+      {
+        "name": "All support optimizations satisfy tested feasibility tolerance",
+        "passed": true
+      },
+      {
+        "name": "All 15 fixed-seed training runs retained",
+        "passed": true
+      },
+      {
+        "name": "All frozen protocol fields unchanged",
+        "passed": true
+      }
+    ]
+  },
+  "boundary": "Local CPU reconstruction of three existing development seeds, not independent confirmation. Analytic evidence is finite-budget and conditional, not a universal AM theorem. No candidate superiority or new HJBI equation is established. Historical six support-certificate warnings remain unchanged."
+}

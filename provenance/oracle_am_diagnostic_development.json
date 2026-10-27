@@ -1,0 +1,104 @@
+{
+  "study": "Notebook 2 Oracle AM gain-space diagnosis",
+  "status": "exploratory completed; existing development seeds, not independent confirmation",
+  "repository_head_before_work": "401f798cab7d3181789ed33fa6a9399051f3dd05",
+  "previous_formal_run": "runs/02-flow-am-formal-drdkjy4g",
+  "final_formal_run": "runs/02-flow-am-formal-8u0sh2xk",
+  "formal_config": "configs/oracle_am_diagnostic.json",
+  "formal_config_sha256": "ab23d35f1c00b1ad1f63c4d3d1b7102658df3cfff1ee8daab0af4eb454f5f5db",
+  "notebook_source_sha256": "1afdd983f345795495022fd21da9cd4fbcd82dd69b55618858042b49cf781236",
+  "unchanged_flow_config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+  "environment": {
+    "python": "3.13.11",
+    "platform": "macOS 26.2 arm64",
+    "torch": "2.9.1",
+    "numpy": "2.3.5",
+    "pandas": "2.3.3",
+    "device": "CPU",
+    "torch_threads": 1,
+    "interpreter": ".venv/bin/python"
+  },
+  "scope_and_protection": {
+    "seeds": [28001, 28002, 28003],
+    "main_grid_K": 32,
+    "sensitivity_grid_K": 64,
+    "updates": 300,
+    "batches": [64, 128],
+    "fixed_checkpoints": [0, 150, 300],
+    "probe_repeats_per_seed_checkpoint_batch": 32,
+    "virtual_eval_paths_per_pair": 1024,
+    "final_eval_paths": 4096,
+    "unchanged": [
+      "behavior distribution",
+      "true reward",
+      "observation noise",
+      "reward ensemble architecture and data size",
+      "beta and pretrained base Flow",
+      "Lean adjoint endpoint and time indexing",
+      "matching loss and Adam settings"
+    ],
+    "no_new_uncertainty_or_control_algorithm": true,
+    "no_win_based_retuning_or_seed_selection": true,
+    "no_push": true
+  },
+  "implementation": {
+    "actor_routing": "explicit gradient_source and batch_size; method name is only a display label",
+    "learned_truth_guard": "learned actor updates remain within forbid_truth",
+    "oracle_true_gradient_queries": "B times update count, 19200 for B64/300 and 38400 for B128/300",
+    "rng": "root_seed*10000000+role_offset; B64 prefix of B128 in each role",
+    "main_comparison": "four-arm K32 SDE finite-chain reward, path KL energy, J; same evaluation noise",
+    "equal_rollout_comparison": "B64/300 and B128/150 each use 19200 training trajectories but different Adam-step counts",
+    "probe": "qL and qO on identical fixed-actor state paths, full Adam-state clones, paired virtual-step outcomes",
+    "variance": "trace covariance identity includes twice the cross covariance of qO and d",
+    "grid": "K32 actors evaluated at K32/K64; B64 learned/oracle actors trained at K64 in all three seeds"
+  },
+  "run_lineage": [
+    {
+      "run": "runs/02-flow-am-smoke-ah_za69j",
+      "type": "smoke",
+      "outcome": "failed in newly added figure code because grid labels were hardcoded to 32/64 while smoke uses 8/16; outputs preserved, excluded from research statistics"
+    },
+    {
+      "run": "runs/02-flow-am-formal-61smnb7s",
+      "type": "first complete formal implementation pass",
+      "outcome": "finished without notebook errors; four-arm and probe results inspected; retained, not pooled with final run",
+      "subsequent_change": "reporting/audit extension only: Frozen reference, initial Adam audit, terminal shift, probe summary fields; no model or optimizer hyperparameter change"
+    },
+    {
+      "run": "runs/02-flow-am-formal-8u0sh2xk",
+      "type": "final formal run",
+      "outcome": "complete; exact baseline deterministic replay and saved-array checks passed"
+    }
+  ],
+  "training_attribution": {
+    "retrained_and_historical_exact_replay_verified": [
+      "AM-learned-B64 for all three seeds",
+      "AM-oracle-B64 for all three seeds",
+      "AM-learned-B128 for all three seeds",
+      "K64 B64 learned/oracle for seed 28001"
+    ],
+    "new_training": [
+      "AM-oracle-B128 for all three seeds",
+      "K64 B64 learned/oracle for seeds 28002 and 28003"
+    ],
+    "new_diagnostics": "24 seed-checkpoint-batch groups, 768 gradient/virtual-step pairs",
+    "historical_runs_overwritten": false,
+    "historical_results_counted_as_additional_seeds": false
+  },
+  "validation": {
+    "baseline_audit": "runs/02-flow-am-formal-8u0sh2xk/baseline-validation.json",
+    "baseline_checks_passed": 101,
+    "baseline_runtime_checks_passed": 57,
+    "baseline_checkpoint_replays": 38,
+    "oracle_audit": "runs/02-flow-am-formal-8u0sh2xk/oracle-diagnostic/validation-v2.json",
+    "oracle_checks_passed": 492,
+    "formal_probe_pairs": 768,
+    "formal_checkpoint_rows": 36,
+    "formal_grid_rows": 30,
+    "unit_tests_passed": 19,
+    "targeted_flow_oracle_tests_passed": 9,
+    "notebook_executed_code_cells": 7,
+    "notebook_error_outputs": 0
+  },
+  "interpretation_limit": "Reward gains were accompanied by higher control energy; no stable three-seed true-J oracle benefit or grid-stable sign was observed. Training-seed variation, finite-rollout sampling, optimizer history, and discretization cannot be assigned independent causal shares from this design."
+}

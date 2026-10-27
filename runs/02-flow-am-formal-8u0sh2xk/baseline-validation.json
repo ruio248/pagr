@@ -1,0 +1,2530 @@
+{
+  "run": "runs/02-flow-am-formal-8u0sh2xk",
+  "status": "passed",
+  "source_sha256": "1afdd983f345795495022fd21da9cd4fbcd82dd69b55618858042b49cf781236",
+  "config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+  "checks": [
+    {
+      "name": "run config equals current frozen protocol",
+      "passed": true
+    },
+    {
+      "name": "source hash identical at start, completion and validation",
+      "passed": true
+    },
+    {
+      "name": "notebook source and metadata match",
+      "passed": true
+    },
+    {
+      "name": "all notebook code cells executed without errors",
+      "passed": true,
+      "code_cells": 7
+    },
+    {
+      "name": "formal suite completed without failures",
+      "passed": true
+    },
+    {
+      "name": "all runtime implementation checks passed",
+      "passed": true,
+      "count": 57
+    },
+    {
+      "name": "all planned result rows present",
+      "passed": true,
+      "rows": 38
+    },
+    {
+      "name": "28001 base hash",
+      "passed": true
+    },
+    {
+      "name": "28001 reward hashes",
+      "passed": true
+    },
+    {
+      "name": "28001 all observed data replay exactly",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned main exact initialization",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned main frozen and oracle-isolated",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned main all updates finite",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned main SDE K32 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "name": "28001 AM-learned main SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 7.632783294297951e-17
+    },
+    {
+      "name": "28001 AM-learned main ODE K128 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 3.469446951953614e-18
+    },
+    {
+      "name": "28001 AM-learned retrain-2K exact initialization",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned retrain-2K frozen and oracle-isolated",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned retrain-2K all updates finite",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned retrain-2K SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.8879238130678e-17
+    },
+    {
+      "name": "28001 AM-learned-2x main exact initialization",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned-2x main frozen and oracle-isolated",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned-2x main all updates finite",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned-2x main SDE K32 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "name": "28001 AM-learned-2x main SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "name": "28001 AM-learned-2x main ODE K128 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.020562075079397e-17
+    },
+    {
+      "name": "28001 AM-oracle main exact initialization",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle main frozen and oracle-isolated",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle main all updates finite",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle main SDE K32 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.020562075079397e-17
+    },
+    {
+      "name": "28001 AM-oracle main SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 6.765421556309548e-17
+    },
+    {
+      "name": "28001 AM-oracle main ODE K128 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.6020852139652106e-17
+    },
+    {
+      "name": "28001 AM-oracle retrain-2K exact initialization",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle retrain-2K frozen and oracle-isolated",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle retrain-2K all updates finite",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle retrain-2K SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "name": "28001 Frozen Flow main SDE K32 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 8.326672684688674e-17
+    },
+    {
+      "name": "28001 Frozen Flow main SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 5.724587470723463e-17
+    },
+    {
+      "name": "28001 Frozen Flow main ODE K128 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 1.0408340855860843e-17
+    },
+    {
+      "name": "28002 base hash",
+      "passed": true
+    },
+    {
+      "name": "28002 reward hashes",
+      "passed": true
+    },
+    {
+      "name": "28002 all observed data replay exactly",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned main exact initialization",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned main frozen and oracle-isolated",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned main all updates finite",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned main SDE K32 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 7.24247051220317e-17
+    },
+    {
+      "name": "28002 AM-learned main SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 8.413408858487514e-17
+    },
+    {
+      "name": "28002 AM-learned main ODE K128 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.7755575615628914e-17
+    },
+    {
+      "name": "28002 AM-learned-2x main exact initialization",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned-2x main frozen and oracle-isolated",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned-2x main all updates finite",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned-2x main SDE K32 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.150666335777657e-17
+    },
+    {
+      "name": "28002 AM-learned-2x main SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "name": "28002 AM-learned-2x main ODE K128 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 8.673617379884035e-18
+    },
+    {
+      "name": "28002 AM-oracle main exact initialization",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-oracle main frozen and oracle-isolated",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-oracle main all updates finite",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-oracle main SDE K32 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.80118763926896e-17
+    },
+    {
+      "name": "28002 AM-oracle main SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 8.500145032286355e-17
+    },
+    {
+      "name": "28002 AM-oracle main ODE K128 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.020562075079397e-17
+    },
+    {
+      "name": "28002 Frozen Flow main SDE K32 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.020562075079397e-17
+    },
+    {
+      "name": "28002 Frozen Flow main SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.6020852139652106e-17
+    },
+    {
+      "name": "28002 Frozen Flow main ODE K128 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.949029909160572e-17
+    },
+    {
+      "name": "28003 base hash",
+      "passed": true
+    },
+    {
+      "name": "28003 reward hashes",
+      "passed": true
+    },
+    {
+      "name": "28003 all observed data replay exactly",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned main exact initialization",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned main frozen and oracle-isolated",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned main all updates finite",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned main SDE K32 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "name": "28003 AM-learned main SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.540979117872439e-17
+    },
+    {
+      "name": "28003 AM-learned main ODE K128 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.020562075079397e-17
+    },
+    {
+      "name": "28003 AM-learned-2x main exact initialization",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned-2x main frozen and oracle-isolated",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned-2x main all updates finite",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned-2x main SDE K32 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "name": "28003 AM-learned-2x main SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 5.551115123125783e-17
+    },
+    {
+      "name": "28003 AM-learned-2x main ODE K128 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 4.85722573273506e-17
+    },
+    {
+      "name": "28003 AM-oracle main exact initialization",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-oracle main frozen and oracle-isolated",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-oracle main all updates finite",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-oracle main SDE K32 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 6.765421556309548e-17
+    },
+    {
+      "name": "28003 AM-oracle main SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 8.630249292984615e-17
+    },
+    {
+      "name": "28003 AM-oracle main ODE K128 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.540979117872439e-17
+    },
+    {
+      "name": "28003 Frozen Flow main SDE K32 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 8.847089727481716e-17
+    },
+    {
+      "name": "28003 Frozen Flow main SDE K64 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 5.204170427930421e-17
+    },
+    {
+      "name": "28003 Frozen Flow main ODE K128 checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 8.673617379884035e-17
+    },
+    {
+      "name": "figure 01_behavior_and_pretrained_flow.png",
+      "passed": true
+    },
+    {
+      "name": "figure 02_reward_and_value_error.png",
+      "passed": true
+    },
+    {
+      "name": "figure 03_initial_middle_terminal_states.png",
+      "passed": true
+    },
+    {
+      "name": "figure 04_reward_learning_and_pretraining.png",
+      "passed": true
+    },
+    {
+      "name": "figure 05_regularized_objective_and_path_KL.png",
+      "passed": true
+    },
+    {
+      "name": "figure 06_adjoint_error_and_propagation_gain.png",
+      "passed": true
+    },
+    {
+      "name": "figure 07_parameter_gradient_and_actual_Adam_step.png",
+      "passed": true
+    },
+    {
+      "name": "figure 08_final_seed_results_and_sampler_gap.png",
+      "passed": true
+    },
+    {
+      "name": "figure 09_SDE_and_ODE_distributions.png",
+      "passed": true
+    },
+    {
+      "name": "figure 10_pathwise_vs_conditional_label_error.png",
+      "passed": true
+    },
+    {
+      "name": "archive bytes: notebooks/02_navigation_am_and_candidates.py",
+      "passed": true
+    },
+    {
+      "name": "archive bytes: notebooks/archive/02_navigation_am_and_candidates.py",
+      "passed": true
+    },
+    {
+      "name": "archive bytes: notebooks/02_navigation_am_and_candidates.ipynb",
+      "passed": true
+    },
+    {
+      "name": "archive bytes: notebooks/archive/02_navigation_am_and_candidates.ipynb",
+      "passed": true
+    }
+  ],
+  "checkpoint_replays": [
+    {
+      "seed": 28001,
+      "method": "AM-learned",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 32,
+      "per_path_exact": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "seed": 28001,
+      "method": "AM-learned",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 7.632783294297951e-17
+    },
+    {
+      "seed": 28001,
+      "method": "AM-learned",
+      "experiment": "main",
+      "sampler": "ODE",
+      "eval_K": 128,
+      "per_path_exact": true,
+      "metric_max_abs": 3.469446951953614e-18
+    },
+    {
+      "seed": 28001,
+      "method": "AM-learned",
+      "experiment": "retrain-2K",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 9.8879238130678e-17
+    },
+    {
+      "seed": 28001,
+      "method": "AM-learned-2x",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 32,
+      "per_path_exact": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "seed": 28001,
+      "method": "AM-learned-2x",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "seed": 28001,
+      "method": "AM-learned-2x",
+      "experiment": "main",
+      "sampler": "ODE",
+      "eval_K": 128,
+      "per_path_exact": true,
+      "metric_max_abs": 9.020562075079397e-17
+    },
+    {
+      "seed": 28001,
+      "method": "AM-oracle",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 32,
+      "per_path_exact": true,
+      "metric_max_abs": 9.020562075079397e-17
+    },
+    {
+      "seed": 28001,
+      "method": "AM-oracle",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 6.765421556309548e-17
+    },
+    {
+      "seed": 28001,
+      "method": "AM-oracle",
+      "experiment": "main",
+      "sampler": "ODE",
+      "eval_K": 128,
+      "per_path_exact": true,
+      "metric_max_abs": 2.6020852139652106e-17
+    },
+    {
+      "seed": 28001,
+      "method": "AM-oracle",
+      "experiment": "retrain-2K",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "seed": 28001,
+      "method": "Frozen Flow",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 32,
+      "per_path_exact": true,
+      "metric_max_abs": 8.326672684688674e-17
+    },
+    {
+      "seed": 28001,
+      "method": "Frozen Flow",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 5.724587470723463e-17
+    },
+    {
+      "seed": 28001,
+      "method": "Frozen Flow",
+      "experiment": "main",
+      "sampler": "ODE",
+      "eval_K": 128,
+      "per_path_exact": true,
+      "metric_max_abs": 1.0408340855860843e-17
+    },
+    {
+      "seed": 28002,
+      "method": "AM-learned",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 32,
+      "per_path_exact": true,
+      "metric_max_abs": 7.24247051220317e-17
+    },
+    {
+      "seed": 28002,
+      "method": "AM-learned",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 8.413408858487514e-17
+    },
+    {
+      "seed": 28002,
+      "method": "AM-learned",
+      "experiment": "main",
+      "sampler": "ODE",
+      "eval_K": 128,
+      "per_path_exact": true,
+      "metric_max_abs": 2.7755575615628914e-17
+    },
+    {
+      "seed": 28002,
+      "method": "AM-learned-2x",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 32,
+      "per_path_exact": true,
+      "metric_max_abs": 9.150666335777657e-17
+    },
+    {
+      "seed": 28002,
+      "method": "AM-learned-2x",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "seed": 28002,
+      "method": "AM-learned-2x",
+      "experiment": "main",
+      "sampler": "ODE",
+      "eval_K": 128,
+      "per_path_exact": true,
+      "metric_max_abs": 8.673617379884035e-18
+    },
+    {
+      "seed": 28002,
+      "method": "AM-oracle",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 32,
+      "per_path_exact": true,
+      "metric_max_abs": 9.80118763926896e-17
+    },
+    {
+      "seed": 28002,
+      "method": "AM-oracle",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 8.500145032286355e-17
+    },
+    {
+      "seed": 28002,
+      "method": "AM-oracle",
+      "experiment": "main",
+      "sampler": "ODE",
+      "eval_K": 128,
+      "per_path_exact": true,
+      "metric_max_abs": 9.020562075079397e-17
+    },
+    {
+      "seed": 28002,
+      "method": "Frozen Flow",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 32,
+      "per_path_exact": true,
+      "metric_max_abs": 9.020562075079397e-17
+    },
+    {
+      "seed": 28002,
+      "method": "Frozen Flow",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 2.6020852139652106e-17
+    },
+    {
+      "seed": 28002,
+      "method": "Frozen Flow",
+      "experiment": "main",
+      "sampler": "ODE",
+      "eval_K": 128,
+      "per_path_exact": true,
+      "metric_max_abs": 2.949029909160572e-17
+    },
+    {
+      "seed": 28003,
+      "method": "AM-learned",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 32,
+      "per_path_exact": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "seed": 28003,
+      "method": "AM-learned",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 9.540979117872439e-17
+    },
+    {
+      "seed": 28003,
+      "method": "AM-learned",
+      "experiment": "main",
+      "sampler": "ODE",
+      "eval_K": 128,
+      "per_path_exact": true,
+      "metric_max_abs": 9.020562075079397e-17
+    },
+    {
+      "seed": 28003,
+      "method": "AM-learned-2x",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 32,
+      "per_path_exact": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "seed": 28003,
+      "method": "AM-learned-2x",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 5.551115123125783e-17
+    },
+    {
+      "seed": 28003,
+      "method": "AM-learned-2x",
+      "experiment": "main",
+      "sampler": "ODE",
+      "eval_K": 128,
+      "per_path_exact": true,
+      "metric_max_abs": 4.85722573273506e-17
+    },
+    {
+      "seed": 28003,
+      "method": "AM-oracle",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 32,
+      "per_path_exact": true,
+      "metric_max_abs": 6.765421556309548e-17
+    },
+    {
+      "seed": 28003,
+      "method": "AM-oracle",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 8.630249292984615e-17
+    },
+    {
+      "seed": 28003,
+      "method": "AM-oracle",
+      "experiment": "main",
+      "sampler": "ODE",
+      "eval_K": 128,
+      "per_path_exact": true,
+      "metric_max_abs": 9.540979117872439e-17
+    },
+    {
+      "seed": 28003,
+      "method": "Frozen Flow",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 32,
+      "per_path_exact": true,
+      "metric_max_abs": 8.847089727481716e-17
+    },
+    {
+      "seed": 28003,
+      "method": "Frozen Flow",
+      "experiment": "main",
+      "sampler": "SDE",
+      "eval_K": 64,
+      "per_path_exact": true,
+      "metric_max_abs": 5.204170427930421e-17
+    },
+    {
+      "seed": 28003,
+      "method": "Frozen Flow",
+      "experiment": "main",
+      "sampler": "ODE",
+      "eval_K": 128,
+      "per_path_exact": true,
+      "metric_max_abs": 8.673617379884035e-17
+    }
+  ],
+  "paired_seed_summary": [
+    {
+      "metric": "reward",
+      "sampler": "SDE",
+      "seeds": 3,
+      "paired_deltas": {
+        "28001": 0.012126673733291682,
+        "28002": 0.01580147602726356,
+        "28003": 0.008695398524650955
+      },
+      "mean_oracle_minus_learned": 0.012207849428402065,
+      "seed_sd": 0.0035537341611876013,
+      "seed_se": 0.0020517493745900307,
+      "ci95_low": 0.003379884381169918,
+      "ci95_high": 0.021035814475634212,
+      "favorable_seeds": 3
+    },
+    {
+      "metric": "cost",
+      "sampler": "SDE",
+      "seeds": 3,
+      "paired_deltas": {
+        "28001": 0.003203381216735579,
+        "28002": -0.005094401101814583,
+        "28003": 0.003547092626831727
+      },
+      "mean_oracle_minus_learned": 0.0005520242472509077,
+      "seed_sd": 0.004892966768769698,
+      "seed_se": 0.002824955681085079,
+      "ci95_low": -0.011602779025240432,
+      "ci95_high": 0.012706827519742246,
+      "favorable_seeds": 1
+    },
+    {
+      "metric": "reward",
+      "sampler": "ODE",
+      "seeds": 3,
+      "paired_deltas": {
+        "28001": 0.010884660136071034,
+        "28002": 0.0139169036920066,
+        "28003": 0.006881792747662985
+      },
+      "mean_oracle_minus_learned": 0.010561118858580206,
+      "seed_sd": 0.0035286974535210756,
+      "seed_se": 0.00203729442467914,
+      "ci95_low": 0.0017953484410397728,
+      "ci95_high": 0.01932688927612064,
+      "favorable_seeds": 3
+    }
+  ],
+  "elapsed_seconds": 6.590256833937019,
+  "artifacts": [
+    {
+      "path": "01_behavior_and_pretrained_flow.png",
+      "bytes": 203706,
+      "sha256": "50b3295d3388b4e62b604a1839b8b6ce13b0025f2b2c54dbb8c2a67c24489c25"
+    },
+    {
+      "path": "02_reward_and_value_error.png",
+      "bytes": 111018,
+      "sha256": "7b595a60a331fffb33483ebd40fcd2ac451c1c10cce2254c15eee46e81869da1"
+    },
+    {
+      "path": "03_initial_middle_terminal_states.png",
+      "bytes": 122862,
+      "sha256": "53c085341c9d0a23455fef84238861718edf3cb1b2085468addd748c750deb17"
+    },
+    {
+      "path": "04_reward_learning_and_pretraining.png",
+      "bytes": 105897,
+      "sha256": "1a409722012b6bf2930b5d2dac38a2322083043072d75ee9cec8cc691bf8c3ad"
+    },
+    {
+      "path": "05_regularized_objective_and_path_KL.png",
+      "bytes": 121830,
+      "sha256": "9329cd03e964a3f00bf18d161c325d4ee13e09f43041ba964dddecf26b088b8c"
+    },
+    {
+      "path": "06_adjoint_error_and_propagation_gain.png",
+      "bytes": 137896,
+      "sha256": "c41e3f2ae79993985fa18f106c9230353306c350613fc83d2f5882ac3b271c26"
+    },
+    {
+      "path": "07_parameter_gradient_and_actual_Adam_step.png",
+      "bytes": 164711,
+      "sha256": "09ca7cd8526285b8d60378607b2dae9d431d6870b2bde1b4f4573862501e9dd6"
+    },
+    {
+      "path": "08_final_seed_results_and_sampler_gap.png",
+      "bytes": 114053,
+      "sha256": "cb7b3679a36431b5cc5e5c2a4c18da0278778659e3e9bf510d6a05e1512f8323"
+    },
+    {
+      "path": "09_SDE_and_ODE_distributions.png",
+      "bytes": 287167,
+      "sha256": "37b2234475ef909a0925295dc200ff286dbe8b32e72a81c9ae457dc0137bb4c5"
+    },
+    {
+      "path": "10_pathwise_vs_conditional_label_error.png",
+      "bytes": 128532,
+      "sha256": "0e486999bfba1afe7d9824ce80bc4fdb9fcb4548906e7eb85aa1ddf4b5832084"
+    },
+    {
+      "path": "base-quality.csv",
+      "bytes": 548,
+      "sha256": "86db50c134f87334866f0fe6e41b88048981ef577e1c97b3125b8012f4c1d798"
+    },
+    {
+      "path": "completion.json",
+      "bytes": 811,
+      "sha256": "fb47bfd2f34f5982169a031bf2590e4359688ce3e558ca331dd555ce0677ef58"
+    },
+    {
+      "path": "conditional.csv",
+      "bytes": 17448,
+      "sha256": "f9a73c8a6e120f571fb3ff09af6cc345090c7aa0b96b1e84a856e06973e268ea"
+    },
+    {
+      "path": "config.json",
+      "bytes": 1390,
+      "sha256": "53752598f90c529e2aadd460ce74ef125792d072211589513d2ceb406de57941"
+    },
+    {
+      "path": "diagnostics.csv",
+      "bytes": 6341,
+      "sha256": "bbb33dcabf64b8fce0eaaa198c4d9c814b0541b56119f33a0809125d5f1902d1"
+    },
+    {
+      "path": "environment.json",
+      "bytes": 424,
+      "sha256": "ea32cb2bf95273fc89fce85f54c101bea4bac5e2f32e8908b8923215789cc117"
+    },
+    {
+      "path": "events.jsonl",
+      "bytes": 20550,
+      "sha256": "36d84ac1d20e7d03d2c9413909e6b3002d7349090ae230a6441f0a403346b222"
+    },
+    {
+      "path": "final.csv",
+      "bytes": 9078,
+      "sha256": "d9ded3e9ac5a42f54aaab78bc0dd60061fa6224b702f0e8ea5e9037c0ed4dae2"
+    },
+    {
+      "path": "implementation-tests.json",
+      "bytes": 7081,
+      "sha256": "a2c3c8d4b019cd4317a36a82df288426951614bc5e69688778aabe36ce86df2d"
+    },
+    {
+      "path": "learning-curves.csv",
+      "bytes": 24856,
+      "sha256": "b7f12e1a78262f0e2aa2b1913a43ba14ee5edacec2b739e83c44d87e356c60eb"
+    },
+    {
+      "path": "oracle-diagnostic/budgets.csv",
+      "bytes": 4172,
+      "sha256": "491e26b7f138dfc9ee0a95030d466305474bafb268f57f3f456d49fca43ba104"
+    },
+    {
+      "path": "oracle-diagnostic/checkpoint-evaluations.csv",
+      "bytes": 10691,
+      "sha256": "9ad0a620743bf74f4b0c7c6113324bb54d63326a03b11566486fc9de74472c6a"
+    },
+    {
+      "path": "oracle-diagnostic/complete-learning-curves.csv",
+      "bytes": 26391,
+      "sha256": "dc4d3fca11f7e66820c24649c03438d690b31df18de1bec0703fc7ea5d59c15b"
+    },
+    {
+      "path": "oracle-diagnostic/completion.json",
+      "bytes": 495,
+      "sha256": "f6116c747ecd8214367044ce77577eaca7f1d990be139bf2e0a52d98802f2045"
+    },
+    {
+      "path": "oracle-diagnostic/config.json",
+      "bytes": 2401,
+      "sha256": "bda867249489162b7ca667667e56d7de670b7ebe8fa8ec6208e47befce4cb469"
+    },
+    {
+      "path": "oracle-diagnostic/four-arm-learning-curves.png",
+      "bytes": 300365,
+      "sha256": "73be9c26f608dede81ecaab200d367cc3ab586992283940f599f841858362b78"
+    },
+    {
+      "path": "oracle-diagnostic/frozen-hash-audit.json",
+      "bytes": 3243,
+      "sha256": "849dc5e68d43b3f23c379847ef0b610d1526dedf1e38631077a654c0949889a1"
+    },
+    {
+      "path": "oracle-diagnostic/frozen-reference.csv",
+      "bytes": 776,
+      "sha256": "e44525553316113c0eaa8f642c73fa00b1243d1cc1e6e4d97376f2064f7debb7"
+    },
+    {
+      "path": "oracle-diagnostic/gradient-adam-virtual-step.png",
+      "bytes": 178088,
+      "sha256": "5080b1c8afd4fbe6ac7a3b60189b038b63efccfd2a49288d34218677c882a9ab"
+    },
+    {
+      "path": "oracle-diagnostic/grid-sensitivity.csv",
+      "bytes": 7947,
+      "sha256": "82cdf8d36d531bcd46a3c90016fa0286fbb843a626885adb8c3a10e1abe17b8e"
+    },
+    {
+      "path": "oracle-diagnostic/grid-sensitivity.png",
+      "bytes": 47286,
+      "sha256": "303629f214747aacaee0435cbb57794bb198ab0ddc555c64b6c7538eee669d7e"
+    },
+    {
+      "path": "oracle-diagnostic/historical-replay-audit.json",
+      "bytes": 3870,
+      "sha256": "eaa054f610fb063e7e9c92cfe32a9efc411fea0b5ed3b0d98dafbd9cdcdb06be"
+    },
+    {
+      "path": "oracle-diagnostic/paired-effects-by-seed.csv",
+      "bytes": 4897,
+      "sha256": "e30f97a744fcaa12c4cc3356b0020a54d92692dd267bf8ab0b7549ce6503d393"
+    },
+    {
+      "path": "oracle-diagnostic/paired-effects-summary.csv",
+      "bytes": 3559,
+      "sha256": "ce199d40320478b070a1e47632e1f96d4b02fa7c363d94e18106fc79a7423d44"
+    },
+    {
+      "path": "oracle-diagnostic/paired-effects.png",
+      "bytes": 65453,
+      "sha256": "89cc4e1416fb07b63b63faa958f3c45022eea605c2af6b0f0c293670aeeacac1"
+    },
+    {
+      "path": "oracle-diagnostic/probe-repetitions.csv",
+      "bytes": 338909,
+      "sha256": "e2e6ac085aabe94228ce8caaac2fe0e10e7bc7e2c1318fde6374717dda5a9b46"
+    },
+    {
+      "path": "oracle-diagnostic/probe-summary.csv",
+      "bytes": 12322,
+      "sha256": "fe78e14a03ec438fb21bd5fe4d6bc4fa41bdf105d94cf4b84c04b076f001c805"
+    },
+    {
+      "path": "oracle-diagnostic/report.md",
+      "bytes": 21187,
+      "sha256": "f52f3150db5598aa58fd87d21d6b18a1b5d112d6ce1eb77c92cc8aa45d84405f"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/AM-oracle-B128/budget.json",
+      "bytes": 1320,
+      "sha256": "95a092eae4ba2160e87bad1cb8fe95a1af0d115baea4902ecf80a2788801d030"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/AM-oracle-B128/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "af3873453dbc5117d189b13e6ad693ba3d0e7144d4c661de82148f68836dea42"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/AM-oracle-B128/checkpoint-150.pt",
+      "bytes": 65709,
+      "sha256": "2f771655632dd6b76389fbd171a1bf2da177024c95375fc98f656b93713dd498"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/AM-oracle-B128/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "76a317e43d29c1f8ff39edc2ea25cbfafca18216f21164a57faa6cc519d5e6d6"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/AM-oracle-B128/curve.csv",
+      "bytes": 2014,
+      "sha256": "5ec9110529fd1e5534039da0d68210e0b0a19b86e5821e89ce58e34a866b769d"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/AM-oracle-B128/final.pt",
+      "bytes": 21437,
+      "sha256": "2102bd7e1320e6e6b51f245f278c6822034da1fd97cafcfbfb95090ca1774470"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/AM-oracle-B128/updates.csv",
+      "bytes": 17786,
+      "sha256": "e63a5621975a894d2b98985c7dcfd007c57df871ae6719e689948ad8009a8da4"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/eval-AM-learned-B128-step0-K32.npz",
+      "bytes": 59927,
+      "sha256": "6c838a5cf97959cac740e656ad7b8e2568eb92e835b993038ec233403fd1145e"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/eval-AM-learned-B128-step150-K32.npz",
+      "bytes": 73756,
+      "sha256": "7b26f9e9f2db249a4642478f59192ac2fdc71197ac858f474a21ec1a07dca675"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/eval-AM-learned-B128-step300-K32.npz",
+      "bytes": 73582,
+      "sha256": "8434bde2384092207690b3078549251a37c53949dd57bfe42eba16c53e60df0e"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/eval-AM-learned-B64-step0-K32.npz",
+      "bytes": 59927,
+      "sha256": "6c838a5cf97959cac740e656ad7b8e2568eb92e835b993038ec233403fd1145e"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/eval-AM-learned-B64-step150-K32.npz",
+      "bytes": 73788,
+      "sha256": "fd53c6aa3e89460235544b1cc14bd39629566c1100fedca1405eac029b45e717"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/eval-AM-learned-B64-step300-K32.npz",
+      "bytes": 73578,
+      "sha256": "fda0dc97d2e8f76eb6206f24aa419b732256c9ad977643f48eb3f31462e335e2"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/eval-AM-oracle-B128-step0-K32.npz",
+      "bytes": 59927,
+      "sha256": "6c838a5cf97959cac740e656ad7b8e2568eb92e835b993038ec233403fd1145e"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/eval-AM-oracle-B128-step150-K32.npz",
+      "bytes": 73706,
+      "sha256": "310954fd8f66a0bc0c37cbf0fc689b0c587629587c584926435372bc04525787"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/eval-AM-oracle-B128-step300-K32.npz",
+      "bytes": 73567,
+      "sha256": "c5af3dcd87b303a46b5a6082fe372b65b199c05dfe365ee1b81a26f939cd43dc"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/eval-AM-oracle-B64-step0-K32.npz",
+      "bytes": 59927,
+      "sha256": "6c838a5cf97959cac740e656ad7b8e2568eb92e835b993038ec233403fd1145e"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/eval-AM-oracle-B64-step150-K32.npz",
+      "bytes": 73759,
+      "sha256": "3a77f63bdcf73b895cf03681ec99c3ddfd8605cf633610b8bfb11b07b9d8aca2"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/eval-AM-oracle-B64-step300-K32.npz",
+      "bytes": 73589,
+      "sha256": "2adf885c8266ac532a6b03a6cc6be140267f8f3e02aa41e0340de333ead5243f"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/eval-Frozen-Flow-K32.npz",
+      "bytes": 59927,
+      "sha256": "6c838a5cf97959cac740e656ad7b8e2568eb92e835b993038ec233403fd1145e"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/grid-AM-learned-B128-train32-eval32.npz",
+      "bytes": 44231,
+      "sha256": "85191923d66eb6be24d2e48a061f79d5228f673b0c31bca849e5606f73869152"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/grid-AM-learned-B128-train32-eval64.npz",
+      "bytes": 44210,
+      "sha256": "938a58d4228e86eba3fbe221ee93d722e8ec215258e600d87e043496769950cb"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/grid-AM-learned-B64-train32-eval32.npz",
+      "bytes": 44238,
+      "sha256": "32aac1b8e390b648258a0839360e221b1f3e3ce9d8c134f72c2f408d0d4ceb76"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/grid-AM-learned-B64-train32-eval64.npz",
+      "bytes": 44234,
+      "sha256": "7125b4a97f00324bf39978616b0160e10b967176c16241caf907c26dcade5f0e"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/grid-AM-learned-B64-train64-eval64.npz",
+      "bytes": 44256,
+      "sha256": "86efcd1974274d30cc449fb578cf4357437300b27412222d76b64850ef147327"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/grid-AM-oracle-B128-train32-eval32.npz",
+      "bytes": 44233,
+      "sha256": "ad894e12a91fad1caf09650af6f84fa12cc740230b79ee8528920ae5c33df6ba"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/grid-AM-oracle-B128-train32-eval64.npz",
+      "bytes": 44207,
+      "sha256": "35c9b01fbbdfeeccf05f99da6f4687b7afa4100efc4912eda8cbd574ef04b3d3"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/grid-AM-oracle-B64-train32-eval32.npz",
+      "bytes": 44247,
+      "sha256": "2b8c928e58b3e57ccbb5daf1b8feed14fe5ca1cf1cd1de82212ff9ca8b995efa"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/grid-AM-oracle-B64-train32-eval64.npz",
+      "bytes": 44253,
+      "sha256": "1d11db467d4aa2097ba31b8432b766a93d39d0eae20710b2e15b4105fa190f42"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/grid-AM-oracle-B64-train64-eval64.npz",
+      "bytes": 44272,
+      "sha256": "590bc7a22217529b9a534e6ae1aecdf5922156436199a7f94a48d1054b198c26"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/probe-AM-learned-0-B128.npz",
+      "bytes": 1337058,
+      "sha256": "2ba0e90ce07519f7e8638d24ef470cdfb7d5a4c2d5c46a485df9b8c6340b4273"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/probe-AM-learned-0-B64.npz",
+      "bytes": 1337357,
+      "sha256": "4d16c31c174e95af25063779f6f77a8c7141cd671c16990f491b9acb08b81c9f"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/probe-AM-learned-150-B128.npz",
+      "bytes": 1314692,
+      "sha256": "69217793e3dec2347f831de3fc4a5c6df2efc1022047cab29648ff00f6c56003"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/probe-AM-learned-150-B64.npz",
+      "bytes": 1316353,
+      "sha256": "297ec2f77cc1cf95810d719086bf07fd29fe52170c0ccdb78db8eeb645296223"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/probe-AM-learned-300-B128.npz",
+      "bytes": 1315730,
+      "sha256": "f5cbe65e5fbf1dac13387c57d8578e7665c936df75c4c67d4eeb7933aabf6511"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/probe-AM-learned-300-B64.npz",
+      "bytes": 1315966,
+      "sha256": "031e5a93cd160b1e749ac2fdf594fb60f6e7b846146a490de59ed1093b2c01de"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/probe-AM-oracle-300-B128.npz",
+      "bytes": 1314566,
+      "sha256": "546c01a628c60c4ee0f970f9f4dba820e453d0e25cb997d290efdc86121e9e52"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28001/probe-AM-oracle-300-B64.npz",
+      "bytes": 1315141,
+      "sha256": "325022b13c4b7604e7c17720d0df691631e01062e591793bf55c6f0096d04e2e"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-learned-B64-K64/budget.json",
+      "bytes": 1321,
+      "sha256": "26388db4232fa89946e046517cf7bdd4795fd5aec20896fc51e1a14f1d909a3b"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-learned-B64-K64/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "f2277395ff0153b1a6b5e9ccd657a4a5ee212748b3d97f46d7e9e03167ee2846"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-learned-B64-K64/checkpoint-150.pt",
+      "bytes": 65709,
+      "sha256": "0672839a3dd0e5f1e86fadfb2206fd6165d366bfa7cd21e5783292a9059f38b2"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-learned-B64-K64/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "d9bcdc52c06fd1c1e2898bd5104fe3ae388cf9fbc47db1447f29c23da44724c7"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-learned-B64-K64/curve.csv",
+      "bytes": 2039,
+      "sha256": "6bb3a5b7b2a441c9446e7d5a23c9b31afc5879b1120aac4decc14a48e4bab150"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-learned-B64-K64/final.pt",
+      "bytes": 21437,
+      "sha256": "530a2e8df549280933df8b82c7db848ecf507aa2ff415cfbfd6de3fc51fdd622"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-learned-B64-K64/updates.csv",
+      "bytes": 17756,
+      "sha256": "5ac9bbafd04d088d93bbea694a66631a8e1497d2cc6de9302149acd1739a8caf"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B128/budget.json",
+      "bytes": 1320,
+      "sha256": "eba23c280fcf07522208b439908efb06ae14f6aa8bacdd3d506d0fa1ee68acbf"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B128/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "4ca792bf3615441f762ce04f42f98ccc0bed61a588bbe7e5d47c47dbabffbae1"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B128/checkpoint-150.pt",
+      "bytes": 65709,
+      "sha256": "daf6ec47fc3556f752ba36658709c6664699dc1be7c5b3fb878b2aef644ed2d5"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B128/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "5795f7fb4c940c94e5ef50b29409a0100db5aa990acbab2985fd195da28c712a"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B128/curve.csv",
+      "bytes": 2011,
+      "sha256": "9e1c59d853eb58b7700337c4cf290d7f5d342e67b0c3426cfac807e4f22f96a6"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B128/final.pt",
+      "bytes": 21437,
+      "sha256": "678e2fb62e2dcef720bd2cb1f951e1b601d05f22a2b1842f30b93b6e805f44e4"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B128/updates.csv",
+      "bytes": 17753,
+      "sha256": "8ed1de1887d12e401870bd6033e3bfe65ae0ba8644c1da3a9896f4a3cbfce877"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B64-K64/budget.json",
+      "bytes": 1322,
+      "sha256": "f2e9a890388c50e3295add0d27692347592155c2b788c317dba1a012c4ff3cdc"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B64-K64/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "d2f6ae6648208e72eee741fb59c2f6e8c1ebcb742d683453612608f7e05c7bb7"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B64-K64/checkpoint-150.pt",
+      "bytes": 65709,
+      "sha256": "f6ea565cdebcd584e83a3addf79842c58d8d04649feb4be65c2f677059a984c0"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B64-K64/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "5df985e6eb2c26ece48e732965e592bcd46a8effd596391338be0959d53e52da"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B64-K64/curve.csv",
+      "bytes": 2043,
+      "sha256": "5dcba4d486d82901258418f7e34d1d37f02ffcb50cd0802671e07d457722c708"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B64-K64/final.pt",
+      "bytes": 21437,
+      "sha256": "84ad88edd14f33970005caa8dbd13397b3b6d640d8b4e8d7e84ad559aeaa0092"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/AM-oracle-B64-K64/updates.csv",
+      "bytes": 17696,
+      "sha256": "cbb33e09f981e61200837125ed22a1909cb51561444aa926c07b5c65be982b80"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/eval-AM-learned-B128-step0-K32.npz",
+      "bytes": 59570,
+      "sha256": "8187cbfd9ce80e1d939e1fba6e8c4b9882c7e74c092f39bd7dcb91780c741c21"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/eval-AM-learned-B128-step150-K32.npz",
+      "bytes": 73498,
+      "sha256": "de66f9b25f172e8b130c77ccb125a097394ac950f01f21b196fd997e46afbfcc"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/eval-AM-learned-B128-step300-K32.npz",
+      "bytes": 73274,
+      "sha256": "e096dd789018f9f1533b5b9968f7d46d8dc83a5d45aa25a11f8f054b3c5c9ed1"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/eval-AM-learned-B64-step0-K32.npz",
+      "bytes": 59570,
+      "sha256": "8187cbfd9ce80e1d939e1fba6e8c4b9882c7e74c092f39bd7dcb91780c741c21"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/eval-AM-learned-B64-step150-K32.npz",
+      "bytes": 73570,
+      "sha256": "a2a2c59c35ec9e3407ad0bd13e62e45f7298eb0994c663538670651b40954170"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/eval-AM-learned-B64-step300-K32.npz",
+      "bytes": 73379,
+      "sha256": "76ee6163778ca285b1c58d23809b65d3fae10d0a6efb9348c120ace876d52f86"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/eval-AM-oracle-B128-step0-K32.npz",
+      "bytes": 59570,
+      "sha256": "8187cbfd9ce80e1d939e1fba6e8c4b9882c7e74c092f39bd7dcb91780c741c21"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/eval-AM-oracle-B128-step150-K32.npz",
+      "bytes": 73403,
+      "sha256": "28ed61ba121604ca52bf90c6c7b49f85a1744552199a875971a87c722c470c5d"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/eval-AM-oracle-B128-step300-K32.npz",
+      "bytes": 73287,
+      "sha256": "ddcd2f2eacf0ef0470ed4b929092cfde8e16259d656aac2264bc865f18bd2811"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/eval-AM-oracle-B64-step0-K32.npz",
+      "bytes": 59570,
+      "sha256": "8187cbfd9ce80e1d939e1fba6e8c4b9882c7e74c092f39bd7dcb91780c741c21"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/eval-AM-oracle-B64-step150-K32.npz",
+      "bytes": 73508,
+      "sha256": "27085d1d6985f425193508c880319cef54eaf056da508964593af18b04f01b3e"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/eval-AM-oracle-B64-step300-K32.npz",
+      "bytes": 73277,
+      "sha256": "4700036ee300cf83f1d21ed418a5c82bb8436c0f7a9359fc6e8cae3cb93941bc"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/eval-Frozen-Flow-K32.npz",
+      "bytes": 59570,
+      "sha256": "8187cbfd9ce80e1d939e1fba6e8c4b9882c7e74c092f39bd7dcb91780c741c21"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/grid-AM-learned-B128-train32-eval32.npz",
+      "bytes": 44034,
+      "sha256": "03b4fac22e8df5264bd1b5ce950e4a74132cf898caa15e5a25eb005b682e14fa"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/grid-AM-learned-B128-train32-eval64.npz",
+      "bytes": 44007,
+      "sha256": "7fafd4d54a1de35a50d90c3d20cae16c1639b87702eaa219d525e610c8c34bce"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/grid-AM-learned-B64-train32-eval32.npz",
+      "bytes": 44103,
+      "sha256": "5c4a3dc402dfc7560adaad2118a527bd975b1367dcfbb8ab77d0c6cd19539b8d"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/grid-AM-learned-B64-train32-eval64.npz",
+      "bytes": 44073,
+      "sha256": "507b96207f2d316980613a168aaa0a7fb1a886e56b4dcc5c654e5e01988671b5"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/grid-AM-learned-B64-train64-eval64.npz",
+      "bytes": 44148,
+      "sha256": "254055815a389894658c651832f6429d7093168e163f8c24df9337f0a700d795"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/grid-AM-oracle-B128-train32-eval32.npz",
+      "bytes": 44062,
+      "sha256": "faf825e404e4a9f33e40bc76460b692ee6d7aa20e7676f0aba7a2cc00ff14070"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/grid-AM-oracle-B128-train32-eval64.npz",
+      "bytes": 44025,
+      "sha256": "93f81201ad59e2905b3bd7f888979ff95b35045dbb43ff43a16abba52ce21f68"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/grid-AM-oracle-B64-train32-eval32.npz",
+      "bytes": 44037,
+      "sha256": "2a3d4a15a9395463449cc2e2e81d86c412048157c0c7c04dcd6c1a53c16846cf"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/grid-AM-oracle-B64-train32-eval64.npz",
+      "bytes": 44025,
+      "sha256": "63654356b282cdd32b5a49e429167619360207f2e1bd7174f8463a6317148798"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/grid-AM-oracle-B64-train64-eval64.npz",
+      "bytes": 44083,
+      "sha256": "9e42bfd71b4d14b87168fc762b414793e6e1044ad6f749eb00615ca425f7f455"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/probe-AM-learned-0-B128.npz",
+      "bytes": 1335502,
+      "sha256": "f4a883e9418c7767f3a18e0c4eea3ee8a8eb024cec9a606e25b1ffa9a9bea448"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/probe-AM-learned-0-B64.npz",
+      "bytes": 1337640,
+      "sha256": "2035887dfd326c78dbb3c6d25b6fc1baaed1c2931498a7c1590fd733133d2a61"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/probe-AM-learned-150-B128.npz",
+      "bytes": 1315570,
+      "sha256": "0b8b6af589c270199e4283c7265fb867e9b7f996cfdced1f15f71ad97cd7e6d1"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/probe-AM-learned-150-B64.npz",
+      "bytes": 1317761,
+      "sha256": "d3ad92e90f7bb76f1631198b6ca300e02de5d9d03cbff033aa82bb138d041006"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/probe-AM-learned-300-B128.npz",
+      "bytes": 1316862,
+      "sha256": "eb4d57a66a8672e02bee6b64ba9b287a4230fde31e3fc88e0e9c7835122fb3de"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/probe-AM-learned-300-B64.npz",
+      "bytes": 1318196,
+      "sha256": "a6bc23730040b26003bc8142344614e40078a264e8205ed5494ae056be2da31e"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/probe-AM-oracle-300-B128.npz",
+      "bytes": 1311453,
+      "sha256": "db79b77176b6e803868b4c4ed358b0bd0d2ea183968d6e1e7f9a766e287c172f"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28002/probe-AM-oracle-300-B64.npz",
+      "bytes": 1313998,
+      "sha256": "d6421b7661f1d80c0262630cbbb17b4aa0dfaa832a84e6dc736c63ef812ae6fd"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-learned-B64-K64/budget.json",
+      "bytes": 1320,
+      "sha256": "c3ae3face8f9a2b935261c5affba72b8111ee457eaaa4cdd0888189d48c276ff"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-learned-B64-K64/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "d2bf5b95d56be7e7f8caa506411fb2fa754e9166d9cdd72bcbf009f9aa9b72a8"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-learned-B64-K64/checkpoint-150.pt",
+      "bytes": 65709,
+      "sha256": "a5b2db66b855786e069192dce9434c56402077e9ee408bd58e7607ece7d73932"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-learned-B64-K64/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "85e5fca1c5484993159502dfba24d1c34a5e1d4479f7032a1935bbf563da79e6"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-learned-B64-K64/curve.csv",
+      "bytes": 2013,
+      "sha256": "228849ea5fd1a8c7b6cb2b26c3140241dfaf4e2f09fe487a9a3c9f7a02f091f2"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-learned-B64-K64/final.pt",
+      "bytes": 21437,
+      "sha256": "ecc613ed694ddad9c656a285b2dfcb3be442c1cfa84b8e31a26d652236e91f48"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-learned-B64-K64/updates.csv",
+      "bytes": 17726,
+      "sha256": "3672baa69656089ecc5b05edbab6885b1b4f41a8e5afa5346adcf68172fbb2d1"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B128/budget.json",
+      "bytes": 1321,
+      "sha256": "9005a283159d5496cfb2a6bc901f8cc5b910e501a829280622301b18b50ad83b"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B128/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "1e09ecc35057ffbfc9378c7ade283042365f1fe3c155128c332a81f758481b35"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B128/checkpoint-150.pt",
+      "bytes": 65709,
+      "sha256": "0bd9673a82b3874c29f3be68a96d4f4b3ac97b34c46744a4ba100f31b3132cbe"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B128/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "61c7e295756e0fb5b7e167161f08aea1a6d7e9f9f990700c86658993592f6cd3"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B128/curve.csv",
+      "bytes": 1982,
+      "sha256": "4c7691db0c971a4f32de1b1bf7453323bcc82b9dedbba32479a27ce8d2df74fe"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B128/final.pt",
+      "bytes": 21437,
+      "sha256": "c2dd5d817d511fbdc91c38bc7dc4a4b15b2caabe268eff6eecbcd0103c0341e4"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B128/updates.csv",
+      "bytes": 17736,
+      "sha256": "8d847f1d430f3954568c98cd281612d010caa2e6f480eab822d5d739d858fe25"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B64-K64/budget.json",
+      "bytes": 1323,
+      "sha256": "e1ec2c1bcedc6c4a41a2aee1fc1267be162d238a934a3c8f97a55d1c222a4887"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B64-K64/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "fca1619ba6d7f97e64c2c7d49254793dfaaab4580b77cf50191d85129a967184"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B64-K64/checkpoint-150.pt",
+      "bytes": 65709,
+      "sha256": "87d2db972e387f29a5a6259357d1e8f6d011c3c96d7d3271edd29f2d25f18dde"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B64-K64/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "e6a66464407b066e9457aaf39afc50d622dd306ad0464529bfd605ceef19bc88"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B64-K64/curve.csv",
+      "bytes": 2041,
+      "sha256": "064dbc5d8f7d2033a3a4c6ffbf24546934494cc04c6167d7f36e7d92d0998ad8"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B64-K64/final.pt",
+      "bytes": 21437,
+      "sha256": "6c8b5c0d74d861e5a0bc07f7de48f7e3c18d76c3f44422a4549e0bde84da906c"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/AM-oracle-B64-K64/updates.csv",
+      "bytes": 17601,
+      "sha256": "cfddab726947166b12c8c0889f11edf2bf0cbb13f9cec185c99997bc077a8746"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/eval-AM-learned-B128-step0-K32.npz",
+      "bytes": 59757,
+      "sha256": "45c9c53346fa585cec4f3cf59717c454459c43d3764274875f12556e9879b814"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/eval-AM-learned-B128-step150-K32.npz",
+      "bytes": 73563,
+      "sha256": "aac836eb9264e9434d2aa24ad737d8ec08dc26c2ec0a41cfe2c73a2a7e584cb9"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/eval-AM-learned-B128-step300-K32.npz",
+      "bytes": 73317,
+      "sha256": "af67096d40577a6454fcce4cadbdaf726cfc21d0c80261928ebbca58df7cb178"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/eval-AM-learned-B64-step0-K32.npz",
+      "bytes": 59757,
+      "sha256": "45c9c53346fa585cec4f3cf59717c454459c43d3764274875f12556e9879b814"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/eval-AM-learned-B64-step150-K32.npz",
+      "bytes": 73613,
+      "sha256": "a721ba3e705cb92613ba7a725d7f91984b0e1b436a34e8aa44705e16dfd40327"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/eval-AM-learned-B64-step300-K32.npz",
+      "bytes": 73366,
+      "sha256": "ec60824749ba2c9afffd7988bf11619313bf9534fd7be8c2ca0572a6bdbd8aad"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/eval-AM-oracle-B128-step0-K32.npz",
+      "bytes": 59757,
+      "sha256": "45c9c53346fa585cec4f3cf59717c454459c43d3764274875f12556e9879b814"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/eval-AM-oracle-B128-step150-K32.npz",
+      "bytes": 73556,
+      "sha256": "1822ba4f361fa5a63fea625dd8002424feda9209f93d351a6e7fbcfe394c57d7"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/eval-AM-oracle-B128-step300-K32.npz",
+      "bytes": 73312,
+      "sha256": "f4aa87427f9450f7d346a222828355a8e904bb81078d7d7f693aa51ee644b15d"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/eval-AM-oracle-B64-step0-K32.npz",
+      "bytes": 59757,
+      "sha256": "45c9c53346fa585cec4f3cf59717c454459c43d3764274875f12556e9879b814"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/eval-AM-oracle-B64-step150-K32.npz",
+      "bytes": 73613,
+      "sha256": "ab04d3f8ba8a36818147e616cf682529697b9cab168eaedf548aaf5aca0e790a"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/eval-AM-oracle-B64-step300-K32.npz",
+      "bytes": 73384,
+      "sha256": "ba20c5515186c3b35eef1d14dbd309e21bd5ec0b0232082ac09b9b5f23d22454"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/eval-Frozen-Flow-K32.npz",
+      "bytes": 59757,
+      "sha256": "45c9c53346fa585cec4f3cf59717c454459c43d3764274875f12556e9879b814"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/grid-AM-learned-B128-train32-eval32.npz",
+      "bytes": 44067,
+      "sha256": "7fb22754ccc90301c6db2c0404769342df08d289a083e37d9c4c69dbcb3d1f67"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/grid-AM-learned-B128-train32-eval64.npz",
+      "bytes": 44047,
+      "sha256": "d0131eaa587c0b92c5a83533b6cc7d470ece0d0695f6b713e5453e184a7e0923"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/grid-AM-learned-B64-train32-eval32.npz",
+      "bytes": 44108,
+      "sha256": "e424ece40ba3d41774278faa5801ec454910ad18a6e08066613a0fae82a7e288"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/grid-AM-learned-B64-train32-eval64.npz",
+      "bytes": 44109,
+      "sha256": "66b4ab320befa42bbb1aaf91f39bfc494c1207e449307416087af9ae0098d307"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/grid-AM-learned-B64-train64-eval64.npz",
+      "bytes": 44147,
+      "sha256": "178d916ed8dc8edb36fb56d32bfb47f31b7274fb3f70d53fb926d92414db1fd6"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/grid-AM-oracle-B128-train32-eval32.npz",
+      "bytes": 44098,
+      "sha256": "a89e669c3f3d2275839d7aaf569c7c6afa0d67e948ccbc87d3caa43bd366c34a"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/grid-AM-oracle-B128-train32-eval64.npz",
+      "bytes": 44058,
+      "sha256": "3fe1517b2b7b6d9a7c2bd2b5f5062bccec31d25471f437500c624bdd8080dd57"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/grid-AM-oracle-B64-train32-eval32.npz",
+      "bytes": 44138,
+      "sha256": "da2624296adf35c5f303a36e5b41cfc878e5f233396f849eb7bde99f85d0f2b8"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/grid-AM-oracle-B64-train32-eval64.npz",
+      "bytes": 44094,
+      "sha256": "797c25fc41ee2b8254fa88c59049bcbd2c06cc3c05429ade088eca64ab2f4180"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/grid-AM-oracle-B64-train64-eval64.npz",
+      "bytes": 44225,
+      "sha256": "e70ffa63dacc9ecf86806a733f6079d3301ea06d0ab73b534ae7b10ed1e02c93"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/probe-AM-learned-0-B128.npz",
+      "bytes": 1338248,
+      "sha256": "fe4bb4be17eb8fefe83e037991d1aa663426f0679ce74739c495213d8fdfe0c6"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/probe-AM-learned-0-B64.npz",
+      "bytes": 1338138,
+      "sha256": "599a4027fcfd47a6027600fd682e679ebe64b6ea577a24f32d884429971c8aef"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/probe-AM-learned-150-B128.npz",
+      "bytes": 1322172,
+      "sha256": "4615eeb2dc521fb8b5ecbf687d99637b040939f52c0c181bd150f9003d8e12ba"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/probe-AM-learned-150-B64.npz",
+      "bytes": 1322818,
+      "sha256": "3412a5689bf07a059eb11be350fa1b8f647b1b18b6527c231fdf0ecfe7d609f8"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/probe-AM-learned-300-B128.npz",
+      "bytes": 1322335,
+      "sha256": "5ca9c8f9cf9c37c1f39e8f4089f74c9bf89359080190503aa0317d3cb3cf3b9e"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/probe-AM-learned-300-B64.npz",
+      "bytes": 1321785,
+      "sha256": "c82dcff94a521e3d9723a5f9ea78f9142ccdff73ddb9179395c59db13e440997"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/probe-AM-oracle-300-B128.npz",
+      "bytes": 1318910,
+      "sha256": "79f34c7db474e615a5585243d642b7cc61ee99f9d247cbbadcab22227c1cfad8"
+    },
+    {
+      "path": "oracle-diagnostic/seed-28003/probe-AM-oracle-300-B64.npz",
+      "bytes": 1319026,
+      "sha256": "2c7e88cd1d0cce3f6329280f33994a82819d168a2088f74641e28f510044e38d"
+    },
+    {
+      "path": "oracle-diagnostic/validation.json",
+      "bytes": 46262,
+      "sha256": "13b778e9c66ef47990b142e3108c5618ebac3c063bd272fe329273feaa22c92b"
+    },
+    {
+      "path": "paired-seed-summary.json",
+      "bytes": 1329,
+      "sha256": "995ce7f8501eae85ff04f66e7136737e5b70bc44faa30946151264480770b474"
+    },
+    {
+      "path": "pretraining.csv",
+      "bytes": 13964,
+      "sha256": "0d2d84350625f44903275bbf964811dd3b5370beff5505c6442f73711d306528"
+    },
+    {
+      "path": "propagation.csv",
+      "bytes": 47711,
+      "sha256": "5a3471fb9350f7f012ba0b0ac60b5e45ebebfe0751b2dff2caeee19155e8f100"
+    },
+    {
+      "path": "report.md",
+      "bytes": 1961,
+      "sha256": "dfcae4334f9a001eda40f5996ced3ecbd1bdac6babd8172f18ad4bbb9e6c02fb"
+    },
+    {
+      "path": "seed-28001/AM-learned/budget.json",
+      "bytes": 1326,
+      "sha256": "eac274ce0043f1499b5f201f2d9f42b650fd6f145d5feb1f00973d06008de857"
+    },
+    {
+      "path": "seed-28001/AM-learned/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "115af7c52f96dc09efc69a21f8dcb756ce121a46fad625f0fce9826c931344d8"
+    },
+    {
+      "path": "seed-28001/AM-learned/checkpoint-150.pt",
+      "bytes": 65645,
+      "sha256": "b491ad4565f933bb359079a074c5cb4cec148e1786355fbf8b7216d5b2c3f538"
+    },
+    {
+      "path": "seed-28001/AM-learned/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "40b1de5959c625d5e040c23c23bb2de1698461b59ac056f898158859c1b78aba"
+    },
+    {
+      "path": "seed-28001/AM-learned/curve.csv",
+      "bytes": 2013,
+      "sha256": "efdcdd55a91908c37d1d19d65c9404306a40e66212a63b659633222981dd3337"
+    },
+    {
+      "path": "seed-28001/AM-learned/diagnostic-0.npz",
+      "bytes": 479806,
+      "sha256": "29edd648f80ed0cf48b6f597136dac4153aba7809bde55599c8fe6e5891b6639"
+    },
+    {
+      "path": "seed-28001/AM-learned/diagnostic-150.npz",
+      "bytes": 496161,
+      "sha256": "89765c4025fc401eea9741eb6468aa5da71aae4a3ba92a3ec77338752c44759c"
+    },
+    {
+      "path": "seed-28001/AM-learned/diagnostic-300.npz",
+      "bytes": 495649,
+      "sha256": "2bab40a131627ac0835714743ad171698f143f375c5f6ad12986c4e28b8883f9"
+    },
+    {
+      "path": "seed-28001/AM-learned/final.pt",
+      "bytes": 21437,
+      "sha256": "0af3f4b8a242cd324a5f2b632b6eb232b3fac9764b69cd21b6f8b4d223b991ca"
+    },
+    {
+      "path": "seed-28001/AM-learned/updates.csv",
+      "bytes": 17668,
+      "sha256": "ce8f4a5bcc004d3e6f1a53e0b8247e584d61f38ab55df70e4d3900574498b10a"
+    },
+    {
+      "path": "seed-28001/AM-learned-2x/budget.json",
+      "bytes": 1317,
+      "sha256": "ab338597388bf92131e415220073f775d4d54aa15a88aa1c442ad849b4ebd0fd"
+    },
+    {
+      "path": "seed-28001/AM-learned-2x/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "0c65be9bfa1f7dbafa26817f977ce0ccc169b87f39665ddc40014331e7049a3a"
+    },
+    {
+      "path": "seed-28001/AM-learned-2x/checkpoint-150.pt",
+      "bytes": 65709,
+      "sha256": "85ec8d3c0271d3b3402a955a9b418be6c54d0f58c32e3c5264a8f1e9bb39d2d5"
+    },
+    {
+      "path": "seed-28001/AM-learned-2x/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "243298e99f95b3ac3110814b7c05a69b65dc98d1bf1e5dc0875d7782daa743b7"
+    },
+    {
+      "path": "seed-28001/AM-learned-2x/curve.csv",
+      "bytes": 1963,
+      "sha256": "b113d502754d70741774717b0af730f9791cd16f6cc77ea31d0924a5390ee491"
+    },
+    {
+      "path": "seed-28001/AM-learned-2x/final.pt",
+      "bytes": 21437,
+      "sha256": "5347374eb9f110e502d8ab3d8653491cc009adc0014083ae3834347402234201"
+    },
+    {
+      "path": "seed-28001/AM-learned-2x/updates.csv",
+      "bytes": 17766,
+      "sha256": "a28b72dd5eb6d0a07524c12befca88cae0d21cd6417d1c33d3351bd598a090d2"
+    },
+    {
+      "path": "seed-28001/AM-learned-retrain-2K/budget.json",
+      "bytes": 1313,
+      "sha256": "6c5ed2134cc3e11f49b94204febe75936e2e963bec561e81382044b3f07a04ef"
+    },
+    {
+      "path": "seed-28001/AM-learned-retrain-2K/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "774721e5782112a4564758cb877c797962505a9cf320f3845f63259f652cfac6"
+    },
+    {
+      "path": "seed-28001/AM-learned-retrain-2K/checkpoint-150.pt",
+      "bytes": 65645,
+      "sha256": "2e622098b023c3b3a742c6235ccf88dd3d6e41fea6aa39c3c7c91c00c7a14b88"
+    },
+    {
+      "path": "seed-28001/AM-learned-retrain-2K/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "c17257507fdaef574021724843fa65ee9b9a75ba36a9e601050cdbc714af6320"
+    },
+    {
+      "path": "seed-28001/AM-learned-retrain-2K/curve.csv",
+      "bytes": 1968,
+      "sha256": "04404910480e5add02d4567b6be7239791d74649da55a2ac225ffb23b405ff37"
+    },
+    {
+      "path": "seed-28001/AM-learned-retrain-2K/eval.npz",
+      "bytes": 73573,
+      "sha256": "0e0676480a0369b7b094a3ff2729b6e3d962a9886db5aa5692728f71028dcb55"
+    },
+    {
+      "path": "seed-28001/AM-learned-retrain-2K/final.pt",
+      "bytes": 21437,
+      "sha256": "9a0d390932584d209dd8913383e2d91194c64031d78ccf69d4bd91606e5a6fbd"
+    },
+    {
+      "path": "seed-28001/AM-learned-retrain-2K/updates.csv",
+      "bytes": 17689,
+      "sha256": "a7ff3be88b92a7fc6357b41fe5ccb32359417d83d8a23420d8707605bcfd7032"
+    },
+    {
+      "path": "seed-28001/AM-oracle/budget.json",
+      "bytes": 1312,
+      "sha256": "04073435db9fcdc7cecf16e03279866e20f3970fc02b0f99acda1622963b54ad"
+    },
+    {
+      "path": "seed-28001/AM-oracle/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "38a5f53677fb4b116a4c22753010e011f4a64a3cf25aa6ff0178cfd1fa93bd5f"
+    },
+    {
+      "path": "seed-28001/AM-oracle/checkpoint-150.pt",
+      "bytes": 65645,
+      "sha256": "166d041100c67c030cc50d29ced831a13579466c10d2b004425711ba5cbfe663"
+    },
+    {
+      "path": "seed-28001/AM-oracle/checkpoint-300.pt",
+      "bytes": 65645,
+      "sha256": "44a2ab88b78ecfb48239e93167662b035f0caf359d8247a9dafced66bc67365f"
+    },
+    {
+      "path": "seed-28001/AM-oracle/curve.csv",
+      "bytes": 1970,
+      "sha256": "f6d91fd50701e459a0ec6459fd6dd672130eb9fdee1cd274c6003f91ed0cd276"
+    },
+    {
+      "path": "seed-28001/AM-oracle/final.pt",
+      "bytes": 21437,
+      "sha256": "2c3c64a17ced1ca70c9dd95994fac18530d01ab37d77a119337cf215173ae489"
+    },
+    {
+      "path": "seed-28001/AM-oracle/updates.csv",
+      "bytes": 17646,
+      "sha256": "751da8a2941f7bc5414ffa5a98512f057ab646bfe088ea4a49543ed1626153ee"
+    },
+    {
+      "path": "seed-28001/AM-oracle-retrain-2K/budget.json",
+      "bytes": 1313,
+      "sha256": "0df695d4cff63d966f95e287aa29257f2560421f5b6a78bb37e91b0e7a9cffda"
+    },
+    {
+      "path": "seed-28001/AM-oracle-retrain-2K/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "da6e034d4727ee38a629e496788c4a93cce1ba3938c42e1ce8578d69bd0d6a96"
+    },
+    {
+      "path": "seed-28001/AM-oracle-retrain-2K/checkpoint-150.pt",
+      "bytes": 65645,
+      "sha256": "8ea04402ba53299f3cd09b1fcd739b1d438f54cbcac3d48d7cd3b98db44fb737"
+    },
+    {
+      "path": "seed-28001/AM-oracle-retrain-2K/checkpoint-300.pt",
+      "bytes": 65645,
+      "sha256": "0f647492800821333a028eda1d93d2b6a3d5ef48d109a2a88d8244867e37022b"
+    },
+    {
+      "path": "seed-28001/AM-oracle-retrain-2K/curve.csv",
+      "bytes": 1954,
+      "sha256": "c29e1e9ace9034975aa94205cf5d06f151852a0c595f9165bb50b20a1d90a5ef"
+    },
+    {
+      "path": "seed-28001/AM-oracle-retrain-2K/eval.npz",
+      "bytes": 73578,
+      "sha256": "686b8bacb858674d77f32460dac3dcdad38f185e5ecf3168cc25efd71e4cba53"
+    },
+    {
+      "path": "seed-28001/AM-oracle-retrain-2K/final.pt",
+      "bytes": 21437,
+      "sha256": "37d08cdc56ed9de9a7be89309cd8a3f3f3a1acad0755cf545f61e6520056df6c"
+    },
+    {
+      "path": "seed-28001/AM-oracle-retrain-2K/updates.csv",
+      "bytes": 17644,
+      "sha256": "1439f631d8e5b3e8007137e26eb4d7fe56d160522890a4c6da30fc9425a5f103"
+    },
+    {
+      "path": "seed-28001/base.pt",
+      "bytes": 21425,
+      "sha256": "ef9bd10aa9856d2775fa72085be17b5eb1136ea12b58b26d252a32e9c2f1e426"
+    },
+    {
+      "path": "seed-28001/data.npz",
+      "bytes": 53602,
+      "sha256": "190afc79ec3810a9e1e0080215fdd96ba3e739dbc1b898f62c9416ac32c34b0c"
+    },
+    {
+      "path": "seed-28001/eval-AM-learned-2x-K32.npz",
+      "bytes": 73582,
+      "sha256": "4cd57ef532e9c5febbca77a4b0441629d71e5914b14a8662da6ac4250f9b9be7"
+    },
+    {
+      "path": "seed-28001/eval-AM-learned-2x-K64.npz",
+      "bytes": 73499,
+      "sha256": "c66d37dac06d3cde7153de40c7632e91297c4db8ea8a6853db486a2959546e35"
+    },
+    {
+      "path": "seed-28001/eval-AM-learned-2x-ODE.npz",
+      "bytes": 43864,
+      "sha256": "d321cf5f3df3293dd93595bb5cfb5a1f99a2fa33406075577e60873bcdc9d27d"
+    },
+    {
+      "path": "seed-28001/eval-AM-learned-K32.npz",
+      "bytes": 73578,
+      "sha256": "30bda21be0da2827b39b1ff5f741c3963acc1645996ecde3de7062a1dbf45610"
+    },
+    {
+      "path": "seed-28001/eval-AM-learned-K64.npz",
+      "bytes": 73565,
+      "sha256": "8ad4eb13d1b2f700b242c6a88e5cfba573dd95d7b4bc97415f932014f5246dcb"
+    },
+    {
+      "path": "seed-28001/eval-AM-learned-ODE.npz",
+      "bytes": 43900,
+      "sha256": "deb089b2b82d15bb98cae05602a3314e1c40334f5cc9ea1c0ed6560817a4c3df"
+    },
+    {
+      "path": "seed-28001/eval-AM-oracle-K32.npz",
+      "bytes": 73589,
+      "sha256": "6bcf63bf68a3f3047e74f5212e7862aeb5771ccb00ae32d7a14d2541d89f1eed"
+    },
+    {
+      "path": "seed-28001/eval-AM-oracle-K64.npz",
+      "bytes": 73569,
+      "sha256": "65350c3ae2bf77d492d321efe14e53d41c43c11538601568002908f81aade7c9"
+    },
+    {
+      "path": "seed-28001/eval-AM-oracle-ODE.npz",
+      "bytes": 43877,
+      "sha256": "7bad0ac14b4478356b66e654ade910759ff17e6e414fa4c41c3c9899d586592f"
+    },
+    {
+      "path": "seed-28001/eval-Frozen-Flow-K32.npz",
+      "bytes": 59927,
+      "sha256": "6bb8ee01bfd08d5b7d1daedc13b91d00a0759e87a277c4c9a8dee5ae2033420d"
+    },
+    {
+      "path": "seed-28001/eval-Frozen-Flow-K64.npz",
+      "bytes": 59913,
+      "sha256": "c95700783059ea9c8856a8ddde6d968a831fe0e3c608b26c2f881776df034ce5"
+    },
+    {
+      "path": "seed-28001/eval-Frozen-Flow-ODE.npz",
+      "bytes": 44744,
+      "sha256": "7feaa5d0bab81c11db1ee3f38adef691bd9ed1491cbb10cc436cae64c9d914cb"
+    },
+    {
+      "path": "seed-28001/implementation-tests.json",
+      "bytes": 2002,
+      "sha256": "b18390070409e8c227935c6d774f4f699ef90b22e154f92ef55d5078e585e778"
+    },
+    {
+      "path": "seed-28001/pretraining-selection.json",
+      "bytes": 1666,
+      "sha256": "28521e914369bf4e4c971ec1bb9bad82e8c7ed62f3a3d2f5423f6555e4eb69b2"
+    },
+    {
+      "path": "seed-28001/reward-0.pt",
+      "bytes": 20769,
+      "sha256": "5be90fcc6e2c908befd460b30716e20dbff02a231fdd9b772ad2d162a6051a7b"
+    },
+    {
+      "path": "seed-28001/reward-1.pt",
+      "bytes": 20769,
+      "sha256": "505eaae9d8ae423720cb69e24b1654ac5b657890e086e3f586248098c1d6e1fd"
+    },
+    {
+      "path": "seed-28001/reward-2.pt",
+      "bytes": 20769,
+      "sha256": "1791832e3c2712025a77edaac5e2ce98df28c46f69205483d01cd5dbe3f91206"
+    },
+    {
+      "path": "seed-28001/reward-3.pt",
+      "bytes": 20769,
+      "sha256": "ec917ca5ceaa78a4fd438e1ec9bb423f3e2e8d57130fec8019e82f099caaf82a"
+    },
+    {
+      "path": "seed-28001/reward-4.pt",
+      "bytes": 20769,
+      "sha256": "538abe5e594d11d4211ce81384563968a0c4b7f5f7d8c9212da0125977d5e7c6"
+    },
+    {
+      "path": "seed-28002/AM-learned/budget.json",
+      "bytes": 1327,
+      "sha256": "3500a73d49ac9a40359324ab1f3025548904977bbb203a2417e27e2c5d7914f3"
+    },
+    {
+      "path": "seed-28002/AM-learned/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "5ef27c63a60f2ee031216c03edb8e07795c84bd3a7511e678db928bbc23d4a9b"
+    },
+    {
+      "path": "seed-28002/AM-learned/checkpoint-150.pt",
+      "bytes": 65645,
+      "sha256": "32186637554dbb3548b404aee8d3956de2e965084eaf6df6e12c93559388b439"
+    },
+    {
+      "path": "seed-28002/AM-learned/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "cc052f06523f1cf7a0358b4d04098f60393c81ad3b10bbe6b441c00082a69bc8"
+    },
+    {
+      "path": "seed-28002/AM-learned/curve.csv",
+      "bytes": 1966,
+      "sha256": "1024a7f04266c19abfedbeab723e1717902fb110f71a878cdde99ad81d9d36cd"
+    },
+    {
+      "path": "seed-28002/AM-learned/diagnostic-0.npz",
+      "bytes": 480874,
+      "sha256": "3eaf6e8fb90bfe17132d5413de582cc4efbd3acf538f047e14e6e72ace9f0df1"
+    },
+    {
+      "path": "seed-28002/AM-learned/diagnostic-150.npz",
+      "bytes": 497074,
+      "sha256": "f752bcad72a59012aab7e6af3cec2dd53913374476d4a1c9747b8c85db3c2ae4"
+    },
+    {
+      "path": "seed-28002/AM-learned/diagnostic-300.npz",
+      "bytes": 496884,
+      "sha256": "f76b830381272c219a816d30149002a6e9285d4d8b4a29c95914f6f39552117d"
+    },
+    {
+      "path": "seed-28002/AM-learned/final.pt",
+      "bytes": 21437,
+      "sha256": "cee71fdb8e4734537ceb3b867afdda623d5ef904ffbdbdca55dbd98ca049ec6c"
+    },
+    {
+      "path": "seed-28002/AM-learned/updates.csv",
+      "bytes": 17749,
+      "sha256": "bd98700f4b5c7f02dd60eee34bce502bbc851fcfea486a74f755b219ba236369"
+    },
+    {
+      "path": "seed-28002/AM-learned-2x/budget.json",
+      "bytes": 1316,
+      "sha256": "5f18d7024aa14412d71d0c34552dc7477b8bc382108e24fd05a40eb3ab0ed158"
+    },
+    {
+      "path": "seed-28002/AM-learned-2x/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "7c70ab08c6e5aa4cd9cd84e2735ad2bd798a31821a9a46d4b172c747133e5a18"
+    },
+    {
+      "path": "seed-28002/AM-learned-2x/checkpoint-150.pt",
+      "bytes": 65709,
+      "sha256": "e0533aec5a64d7e06b1129116ffdea8678413d557ce6a9219f948bc8e49487e7"
+    },
+    {
+      "path": "seed-28002/AM-learned-2x/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "0bc1bc8eb3e0cc62e6611adbd526a5e0ea6bbe303ee250adff3f5ef355ea65fd"
+    },
+    {
+      "path": "seed-28002/AM-learned-2x/curve.csv",
+      "bytes": 1971,
+      "sha256": "ba15f2bf30958e6fc658d0d7c62ebdd188849bf3b94a35f8516a9e886183ab65"
+    },
+    {
+      "path": "seed-28002/AM-learned-2x/final.pt",
+      "bytes": 21437,
+      "sha256": "c16abc2c77f35cf7703de96cdcb8373f195eeb36ea5607c3b10c379395d96b58"
+    },
+    {
+      "path": "seed-28002/AM-learned-2x/updates.csv",
+      "bytes": 17754,
+      "sha256": "020cd33bbe3c3c8b0db98019bc8778c3ae1dcb820011834494b21af0a89339e5"
+    },
+    {
+      "path": "seed-28002/AM-oracle/budget.json",
+      "bytes": 1314,
+      "sha256": "15f21f3971220a807e2119190d6e91033cae7f1392b8eafbdbcd016dc40d0e1e"
+    },
+    {
+      "path": "seed-28002/AM-oracle/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "fafd89b27c185c8abf722dff18f9a0a8d9397d625511ee37f63babdcd51f4e47"
+    },
+    {
+      "path": "seed-28002/AM-oracle/checkpoint-150.pt",
+      "bytes": 65645,
+      "sha256": "f8794c554b07d51fca647f4bd8ed7456ed8670440d5d058fb6b260c8081a8bd8"
+    },
+    {
+      "path": "seed-28002/AM-oracle/checkpoint-300.pt",
+      "bytes": 65645,
+      "sha256": "706e703950988e9475603f1548f095948421b9d1384e0f28c4455b5de914ac98"
+    },
+    {
+      "path": "seed-28002/AM-oracle/curve.csv",
+      "bytes": 2012,
+      "sha256": "fcb53b06286a4ba2e37b51ef315d363d4c84269216818f122e38e3ec105ea380"
+    },
+    {
+      "path": "seed-28002/AM-oracle/final.pt",
+      "bytes": 21437,
+      "sha256": "3adf9ac5c1451da2c1aa08477675d1858d8f07489f52464fde294889b085143b"
+    },
+    {
+      "path": "seed-28002/AM-oracle/updates.csv",
+      "bytes": 17737,
+      "sha256": "fe0c29686f77b8cc5d2e3c831b649e61982066390aaba6b7810a476168fc6843"
+    },
+    {
+      "path": "seed-28002/base.pt",
+      "bytes": 21425,
+      "sha256": "8c0c820f0ae2dcc3a97c59a104612120e4320c9fbc0f39901ba8cdbb285995f9"
+    },
+    {
+      "path": "seed-28002/data.npz",
+      "bytes": 53599,
+      "sha256": "4f3799f06d6a26dafb06f42ad533f37d0170be6569700271d7c5c2bbcd491597"
+    },
+    {
+      "path": "seed-28002/eval-AM-learned-2x-K32.npz",
+      "bytes": 73274,
+      "sha256": "5325415f6aa9e6021abcbf649a26682e254c43ca2b97cac356f7a00416cd007c"
+    },
+    {
+      "path": "seed-28002/eval-AM-learned-2x-K64.npz",
+      "bytes": 73206,
+      "sha256": "90c5c1ba776500d92cd1521b21a5b4731e43188cdabdbf5f75cb78d3b412e630"
+    },
+    {
+      "path": "seed-28002/eval-AM-learned-2x-ODE.npz",
+      "bytes": 43800,
+      "sha256": "9f8b867b2d9857eb75e7d9c89c51af9cb7f7c1c644a10e8deae3114ba4b83174"
+    },
+    {
+      "path": "seed-28002/eval-AM-learned-K32.npz",
+      "bytes": 73379,
+      "sha256": "143c7a597eb28eac511ce612a23481be0ef9214879d0c1624d5603d090504eba"
+    },
+    {
+      "path": "seed-28002/eval-AM-learned-K64.npz",
+      "bytes": 73303,
+      "sha256": "04a7ec05f83dba7f61406808708d8d7ac669470515f39f60a78ef397c50462d3"
+    },
+    {
+      "path": "seed-28002/eval-AM-learned-ODE.npz",
+      "bytes": 43864,
+      "sha256": "bc329568c08def7310172ebfd1c82b973cbd6f4eb0c1611b27b0aceb1b79b046"
+    },
+    {
+      "path": "seed-28002/eval-AM-oracle-K32.npz",
+      "bytes": 73277,
+      "sha256": "c74de3fa8398256211ddec6a1af4f9162217697f4e27c2cac5fbe5e9481a94ed"
+    },
+    {
+      "path": "seed-28002/eval-AM-oracle-K64.npz",
+      "bytes": 73225,
+      "sha256": "e545e01a8a22716593cbc5a412985849eee51a5b9cf585ab1c088fe0143500da"
+    },
+    {
+      "path": "seed-28002/eval-AM-oracle-ODE.npz",
+      "bytes": 43808,
+      "sha256": "0b9a2707956779dbe67694a4c5dba3281bfa89b2aa48cdabf9f5857852b302eb"
+    },
+    {
+      "path": "seed-28002/eval-Frozen-Flow-K32.npz",
+      "bytes": 59570,
+      "sha256": "6e306a168e018cdbfc5b266570742e96995026407ad46b1ddb74e29ab245b2a6"
+    },
+    {
+      "path": "seed-28002/eval-Frozen-Flow-K64.npz",
+      "bytes": 59508,
+      "sha256": "1017a12670ddd5d6e215a4ba0724faa1aaf4792558296907d01203fc3ef02c39"
+    },
+    {
+      "path": "seed-28002/eval-Frozen-Flow-ODE.npz",
+      "bytes": 44455,
+      "sha256": "9bb7fec6f089ea6f118441e9019f228eaad67170f14499ecb6c5180661fccf37"
+    },
+    {
+      "path": "seed-28002/implementation-tests.json",
+      "bytes": 2001,
+      "sha256": "f8c116ac4f95765ca60de0946bab9d7674c7487d342b6e40763baab88a13798f"
+    },
+    {
+      "path": "seed-28002/pretraining-selection.json",
+      "bytes": 1667,
+      "sha256": "0b990b4bf821db248b32717bca3206eb42ad878feaa62af0ec796e225e52d845"
+    },
+    {
+      "path": "seed-28002/reward-0.pt",
+      "bytes": 20769,
+      "sha256": "2cf3a49633f540ea9ee58fa30d7f26b25c5e709e7ff38778295f1c01161a97fb"
+    },
+    {
+      "path": "seed-28002/reward-1.pt",
+      "bytes": 20769,
+      "sha256": "18bb128aad76dbeff84ea6e2a8af174b6974aad6f95a8682ed63ea74cca63a93"
+    },
+    {
+      "path": "seed-28002/reward-2.pt",
+      "bytes": 20769,
+      "sha256": "de2b4a438af77c1df2049fe0c96aff4d3afd307cee3f24e721df77eac584123b"
+    },
+    {
+      "path": "seed-28002/reward-3.pt",
+      "bytes": 20769,
+      "sha256": "224ce85841c46043fb40fbbfca5417b359db69ca4288578016584fdbc62a7b75"
+    },
+    {
+      "path": "seed-28002/reward-4.pt",
+      "bytes": 20769,
+      "sha256": "533434af92a145d4e76acb48017a73b496bdc54d4c093955940dc0c838974b2f"
+    },
+    {
+      "path": "seed-28003/AM-learned/budget.json",
+      "bytes": 1326,
+      "sha256": "d2941bf5e7c0d535767387bb980aeff8be7de5b7ad8086ca15d6461eab638528"
+    },
+    {
+      "path": "seed-28003/AM-learned/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "bb44a890b086a52c4fd2f23bd1e33bf59a15be4a024a58941d62dce42e2170c6"
+    },
+    {
+      "path": "seed-28003/AM-learned/checkpoint-150.pt",
+      "bytes": 65645,
+      "sha256": "e97e90fb85a2851ff79c6d24b7c47062008d0449c6bf1782e240f4a035e877c8"
+    },
+    {
+      "path": "seed-28003/AM-learned/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "3432801b229326895808a26ad584ed67fbce916e5af908b86998422632c75e1e"
+    },
+    {
+      "path": "seed-28003/AM-learned/curve.csv",
+      "bytes": 1954,
+      "sha256": "60bbe7b54e6e83e16e18c1e70ece3d5c7b36a38066e16804312ed48d3a994311"
+    },
+    {
+      "path": "seed-28003/AM-learned/diagnostic-0.npz",
+      "bytes": 480022,
+      "sha256": "450609c784cb807419b178aa8d3bc5cde9544ce83b60bec0d72ebe5b27b02cb7"
+    },
+    {
+      "path": "seed-28003/AM-learned/diagnostic-150.npz",
+      "bytes": 496872,
+      "sha256": "2bf981473c0156c098c1b37800f8910532fd4ed4e5c4bbe33c24df3af1303632"
+    },
+    {
+      "path": "seed-28003/AM-learned/diagnostic-300.npz",
+      "bytes": 496327,
+      "sha256": "a167cfd1503b5c5a9ea9031a0246744318390988a38839c7ead131d14f271386"
+    },
+    {
+      "path": "seed-28003/AM-learned/final.pt",
+      "bytes": 21437,
+      "sha256": "696c4701ef7e14d6007e546398169c7c8471dc35636ce382ecbbc24a854f10b9"
+    },
+    {
+      "path": "seed-28003/AM-learned/updates.csv",
+      "bytes": 17702,
+      "sha256": "8a617f570e227aa5cc1ec4ba96f8204be463af13efca2f27b3b002629637b330"
+    },
+    {
+      "path": "seed-28003/AM-learned-2x/budget.json",
+      "bytes": 1316,
+      "sha256": "4fdc034d7bd7e208a2a5a43d3d0fad91a04dac1a1b356b06d91388728db3dad3"
+    },
+    {
+      "path": "seed-28003/AM-learned-2x/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "324e13047b1011b1f2655402fbcba2ebb3ab41540d8d3756f0e0a23aa602ae47"
+    },
+    {
+      "path": "seed-28003/AM-learned-2x/checkpoint-150.pt",
+      "bytes": 65709,
+      "sha256": "66bace1eaaeed33338d285a8bfa1e176d4bf5fec1659ed5341113507d70db0ac"
+    },
+    {
+      "path": "seed-28003/AM-learned-2x/checkpoint-300.pt",
+      "bytes": 65709,
+      "sha256": "d3afc782cbd2b7c5119b6a7d1730a31d0dd0eaaff4cf171b0e665ab8efcc1346"
+    },
+    {
+      "path": "seed-28003/AM-learned-2x/curve.csv",
+      "bytes": 2003,
+      "sha256": "2b84c4a4161195778c57b13dea8a823bd82fd74999fcc4e0644acdc1cdea0793"
+    },
+    {
+      "path": "seed-28003/AM-learned-2x/final.pt",
+      "bytes": 21437,
+      "sha256": "d07149ee7845941608a50703049f45702662a92c2eabe8d77927b3d9cb1f3657"
+    },
+    {
+      "path": "seed-28003/AM-learned-2x/updates.csv",
+      "bytes": 17782,
+      "sha256": "628b6fde656062d9099ba4a38b41545ad46300ca8fe15110c99a639dacb0e851"
+    },
+    {
+      "path": "seed-28003/AM-oracle/budget.json",
+      "bytes": 1314,
+      "sha256": "e76f258816a61a81a1a59c4c9f116859d4bc7c141de35363ddd2d5f0c9548a35"
+    },
+    {
+      "path": "seed-28003/AM-oracle/checkpoint-0.pt",
+      "bytes": 23697,
+      "sha256": "a4a4754fab2c210b6cbd275ca978d07a23733ee2c6dfa3b970868e356ac9a72a"
+    },
+    {
+      "path": "seed-28003/AM-oracle/checkpoint-150.pt",
+      "bytes": 65645,
+      "sha256": "9bfa29e597fa6625fb331fa65b43c8a260d47a6b96bc5cbb2de3d84a7e268398"
+    },
+    {
+      "path": "seed-28003/AM-oracle/checkpoint-300.pt",
+      "bytes": 65645,
+      "sha256": "6e4989ec8c16f6595eeaf26bc8aeb7bc56f41dca4ca03b90d450667a961fce7d"
+    },
+    {
+      "path": "seed-28003/AM-oracle/curve.csv",
+      "bytes": 1977,
+      "sha256": "7b4f59fa3835bfbbde2961db08a347163afdee29d5e81c2063b6db5d23c315ba"
+    },
+    {
+      "path": "seed-28003/AM-oracle/final.pt",
+      "bytes": 21437,
+      "sha256": "132e15b3c5ce73c39765a8aa8dc253b291fb53d4fba303f24e32619f7d5c51d0"
+    },
+    {
+      "path": "seed-28003/AM-oracle/updates.csv",
+      "bytes": 17606,
+      "sha256": "8d7c99a46d7a71ee00e61f831d38edf8e46471bc003bfa5846a3054e3b1f7288"
+    },
+    {
+      "path": "seed-28003/base.pt",
+      "bytes": 21425,
+      "sha256": "89ef2c40378653994b9833924a6a540487b5ed39f50032fc057733ec60ba3169"
+    },
+    {
+      "path": "seed-28003/data.npz",
+      "bytes": 53575,
+      "sha256": "bd40146bfaa4b6fb40f88e73f0689aee7aaa25c180bf1b5473ad8a57525a28ff"
+    },
+    {
+      "path": "seed-28003/eval-AM-learned-2x-K32.npz",
+      "bytes": 73317,
+      "sha256": "0a0dddf4fa3233c0104daec0a358ae2ff25d586df609caeab12b2a24b271b2bd"
+    },
+    {
+      "path": "seed-28003/eval-AM-learned-2x-K64.npz",
+      "bytes": 73234,
+      "sha256": "ece7a8894e3d9dfed051e04a8ce04d618ba3a882e98e2e5f92e5637a0789e2b7"
+    },
+    {
+      "path": "seed-28003/eval-AM-learned-2x-ODE.npz",
+      "bytes": 43823,
+      "sha256": "37ae9f58de9dd17b71b585ddb5c5c3ed7c0f4ffe7d8744860e3e86f89697499a"
+    },
+    {
+      "path": "seed-28003/eval-AM-learned-K32.npz",
+      "bytes": 73366,
+      "sha256": "b27d807078d56d2a366eb7b6d12dbc062723a069ba822067a9d9b9796645546d"
+    },
+    {
+      "path": "seed-28003/eval-AM-learned-K64.npz",
+      "bytes": 73336,
+      "sha256": "78ce40215763ec1137d58e79dc17ab6cf1da80d7b4ffb78ff61823b42c29f465"
+    },
+    {
+      "path": "seed-28003/eval-AM-learned-ODE.npz",
+      "bytes": 43929,
+      "sha256": "5fd7ec7b36463ee5f8ace6430fbd23451b35f9575217a1b3abff536fa3e78bf0"
+    },
+    {
+      "path": "seed-28003/eval-AM-oracle-K32.npz",
+      "bytes": 73384,
+      "sha256": "e77614dfdef8eabc15cf802c99aa2c0f1b903b0d6427d6ae088b63bff2495cc8"
+    },
+    {
+      "path": "seed-28003/eval-AM-oracle-K64.npz",
+      "bytes": 73302,
+      "sha256": "76cd376eabaabe622cccb72f2d0713df85b3158d28cbfe36e8973c8d8f90224f"
+    },
+    {
+      "path": "seed-28003/eval-AM-oracle-ODE.npz",
+      "bytes": 43870,
+      "sha256": "71fb9604461cd62e4d86a90b59ec39c384c24d26cd19945e9afa1f468ebc3360"
+    },
+    {
+      "path": "seed-28003/eval-Frozen-Flow-K32.npz",
+      "bytes": 59757,
+      "sha256": "f6ce954dad361916beb8064e454d5c39eb574a779e54bac443186509f161d215"
+    },
+    {
+      "path": "seed-28003/eval-Frozen-Flow-K64.npz",
+      "bytes": 59711,
+      "sha256": "7e76460bedcd5ed1a6c00950bbbe01a8a51750283d3f5a411ac7ef526754549b"
+    },
+    {
+      "path": "seed-28003/eval-Frozen-Flow-ODE.npz",
+      "bytes": 44516,
+      "sha256": "297050ac368b26a5d75cf148bc60b90010ff8f83d4a35747c06098bf237fac1a"
+    },
+    {
+      "path": "seed-28003/implementation-tests.json",
+      "bytes": 2001,
+      "sha256": "3ee6893a69b76021a27699d12fdd4022450abf97f9858aa25c00633d81992689"
+    },
+    {
+      "path": "seed-28003/pretraining-selection.json",
+      "bytes": 1666,
+      "sha256": "3af90621d91e42d40cb59e7e0323873aa2398b8e32abc1af16da78fd1627437e"
+    },
+    {
+      "path": "seed-28003/reward-0.pt",
+      "bytes": 20769,
+      "sha256": "1ce14a751d2bb8947af0f450810be49e09020874e0e738f9e0390249f373f574"
+    },
+    {
+      "path": "seed-28003/reward-1.pt",
+      "bytes": 20769,
+      "sha256": "c70c3cf70a086d636adf50af78326658a178a9442178d936e96697c641f8baf9"
+    },
+    {
+      "path": "seed-28003/reward-2.pt",
+      "bytes": 20769,
+      "sha256": "338fcabd433965b89cfd64c6247cf25870fc5f598dafc2ba6a92d8508a5a8e55"
+    },
+    {
+      "path": "seed-28003/reward-3.pt",
+      "bytes": 20769,
+      "sha256": "9c14472075aa54f116f88b9c74ff80fa4549e4f3878030d3cc2e222284b80ef4"
+    },
+    {
+      "path": "seed-28003/reward-4.pt",
+      "bytes": 20769,
+      "sha256": "a0d809d195011b9176b2270b3beee3d014a6919ba585bc14691a8438e80db997"
+    }
+  ]
+}

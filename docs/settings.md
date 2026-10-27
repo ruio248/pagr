@@ -127,3 +127,21 @@ Success：整条轨迹无碰撞、终点位置误差 <0.4、速度误差 <0.5。
 初次实现使用 `root_seed+offset`，首次完整运行之后审计发现跨 seed 子流重合。所有旧结果保留，但最终统计改用修复后命名空间的重跑；没有按方法胜负调整场景或优化预算。完整开发/重启记录见 [`flow_am_development.json`](../provenance/flow_am_development.json)。不能把这次实现开发过程称为完全事前注册的确认性实验。
 
 三个正式 seed 只提供初步配对诊断。2x多花训练样本；机制诊断/虚拟步带来额外评估计算，不计入正式 actor 更新预算。单个 actor 的 `*_mc_se` 与跨 seed SD/配对t区间分开。表格中的 ODE cost/energy 空值、终端时刻不存在的 matching label 空值是“不适用”，不是被掩盖的训练 NaN。
+
+### Oracle 收益空间追加诊断
+
+追加实验的机器可读固定参数在 configs/oracle_am_diagnostic.json，继承上表的行为数据、真实奖励、预训练 Flow、奖励 ensemble、beta、端点和 Adam。它使用同一组三个已查看开发 seed，不是新确认实验。
+
+| 项目 | 追加诊断 |
+|---|---|
+| K32 主对照 | learned/oracle × B64/B128，全部300次 Adam 更新；Frozen 同噪声参照 |
+| 主 checkpoint | 0、150、300；最终4096条共同且独立于训练的 SDE 评估路径 |
+| 同轨迹预算 | B64/300 与 B128/150，均19200条；更新次数不相同 |
+| 重复梯度 checkpoint | learned-B64 的0/150/300，以及 oracle-B64 的300 |
+| 重复数 / batch | 每 seed、checkpoint、B64/B128 各32次独立训练噪声；B64是B128的样本前缀 |
+| 配对虚拟一步 | 同 actor/Adam history，learned/oracle 梯度分别更新；每对1024条新共同评价路径 |
+| RNG role | 1000000起，checkpoint各隔100000；repetition各隔4；训练增量和评价增量各占连续两个 role |
+| K64敏感性 | learned/oracle B64，全部三 seed 重训；不构成 K64 的完整2×2 |
+| 额外成本 | 训练轨迹、生成时间步、Adam步、真值梯度点数、checkpoint运行时间和独立probe耗时分别保存 |
+
+正式新增产物在 runs/02-flow-am-formal-8u0sh2xk/oracle-diagnostic/report.md。每组高维梯度与逐路径虚拟一步差值均以压缩数组保存，用于复算方差交叉项和配对 Monte Carlo 标准误。旧运行与失败 smoke 输出保持原样，不参与最终统计。

@@ -1,0 +1,27 @@
+{
+  "purpose": "exploratory Oracle AM gain-space diagnosis on the existing three development seeds",
+  "flow_config": "configs/flow_am.json",
+  "historical_reference_run": "runs/02-flow-am-formal-drdkjy4g",
+  "seeds": [28001, 28002, 28003],
+  "main_train_K": 32,
+  "sensitivity_train_K": 64,
+  "epsilon": 0.05,
+  "beta": 1.5,
+  "actor_updates": 300,
+  "gradient_sources": ["learned", "oracle"],
+  "batch_sizes": [64, 128],
+  "comparison_checkpoints": [0, 150, 300],
+  "probe_checkpoints": [
+    ["AM-learned", 0],
+    ["AM-learned", 150],
+    ["AM-learned", 300],
+    ["AM-oracle", 300]
+  ],
+  "probe_repeats": 32,
+  "probe_batches": [64, 128],
+  "virtual_pair_eval_paths": 1024,
+  "final_eval_paths": 4096,
+  "train_noise_role_offset": 1000000,
+  "paired_effect_intervals": "descriptive two-sided Student-t intervals across three examined training seeds",
+  "status": "fixed before full formal execution; no win-based retuning"
+}

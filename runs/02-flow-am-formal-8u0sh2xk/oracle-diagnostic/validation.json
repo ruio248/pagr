@@ -1,0 +1,1951 @@
+{
+  "status": "passed",
+  "run": "runs/02-flow-am-formal-8u0sh2xk",
+  "checks": [
+    {
+      "name": "full formal config and source hashes",
+      "passed": true
+    },
+    {
+      "name": "full scope completed",
+      "passed": true
+    },
+    {
+      "name": "no failures and final event complete",
+      "passed": true
+    },
+    {
+      "name": "historical baseline replay across all three seeds and methods",
+      "passed": true
+    },
+    {
+      "name": "base and reward models frozen for every seed",
+      "passed": true
+    },
+    {
+      "name": "all four arms at all fixed checkpoints",
+      "passed": true
+    },
+    {
+      "name": "frozen reference present",
+      "passed": true
+    },
+    {
+      "name": "complete gradient probe size and unique random streams",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned-B64 explicit route and budget",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned-B64 exact actor and Adam initialization",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned-B64 final paired arrays and finite-chain objective",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle-B64 explicit route and budget",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle-B64 exact actor and Adam initialization",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle-B64 final paired arrays and finite-chain objective",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned-B128 explicit route and budget",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned-B128 exact actor and Adam initialization",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned-B128 final paired arrays and finite-chain objective",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle-B128 explicit route and budget",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle-B128 exact actor and Adam initialization",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle-B128 final paired arrays and finite-chain objective",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition0 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition1 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition2 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition3 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition4 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition5 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition6 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition7 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition8 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition9 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition10 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition11 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition12 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition13 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition14 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition15 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition16 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition17 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition18 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition19 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition20 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition21 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition22 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition23 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition24 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition25 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition26 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition27 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition28 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition29 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition30 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint0 repetition31 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned/0 B64 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned/0 B64 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned/0 B128 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned/0 B128 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition0 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition1 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition2 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition3 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition4 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition5 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition6 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition7 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition8 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition9 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition10 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition11 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition12 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition13 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition14 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition15 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition16 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition17 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition18 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition19 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition20 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition21 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition22 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition23 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition24 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition25 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition26 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition27 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition28 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition29 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition30 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint1 repetition31 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned/150 B64 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned/150 B64 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned/150 B128 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned/150 B128 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition0 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition1 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition2 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition3 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition4 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition5 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition6 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition7 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition8 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition9 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition10 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition11 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition12 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition13 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition14 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition15 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition16 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition17 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition18 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition19 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition20 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition21 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition22 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition23 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition24 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition25 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition26 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition27 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition28 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition29 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition30 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint2 repetition31 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned/300 B64 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned/300 B64 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned/300 B128 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-learned/300 B128 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition0 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition1 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition2 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition3 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition4 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition5 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition6 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition7 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition8 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition9 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition10 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition11 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition12 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition13 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition14 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition15 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition16 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition17 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition18 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition19 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition20 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition21 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition22 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition23 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition24 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition25 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition26 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition27 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition28 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition29 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition30 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 checkpoint3 repetition31 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle/300 B64 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle/300 B64 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle/300 B128 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28001 AM-oracle/300 B128 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned-B64 explicit route and budget",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned-B64 exact actor and Adam initialization",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned-B64 final paired arrays and finite-chain objective",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-oracle-B64 explicit route and budget",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-oracle-B64 exact actor and Adam initialization",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-oracle-B64 final paired arrays and finite-chain objective",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned-B128 explicit route and budget",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned-B128 exact actor and Adam initialization",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned-B128 final paired arrays and finite-chain objective",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-oracle-B128 explicit route and budget",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-oracle-B128 exact actor and Adam initialization",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-oracle-B128 final paired arrays and finite-chain objective",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition0 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition1 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition2 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition3 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition4 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition5 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition6 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition7 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition8 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition9 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition10 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition11 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition12 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition13 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition14 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition15 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition16 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition17 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition18 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition19 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition20 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition21 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition22 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition23 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition24 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition25 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition26 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition27 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition28 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition29 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition30 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint0 repetition31 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned/0 B64 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned/0 B64 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned/0 B128 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned/0 B128 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition0 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition1 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition2 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition3 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition4 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition5 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition6 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition7 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition8 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition9 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition10 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition11 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition12 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition13 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition14 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition15 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition16 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition17 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition18 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition19 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition20 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition21 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition22 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition23 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition24 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition25 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition26 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition27 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition28 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition29 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition30 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint1 repetition31 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned/150 B64 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned/150 B64 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned/150 B128 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned/150 B128 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition0 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition1 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition2 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition3 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition4 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition5 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition6 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition7 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition8 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition9 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition10 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition11 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition12 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition13 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition14 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition15 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition16 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition17 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition18 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition19 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition20 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition21 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition22 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition23 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition24 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition25 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition26 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition27 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition28 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition29 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition30 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint2 repetition31 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned/300 B64 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned/300 B64 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned/300 B128 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-learned/300 B128 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition0 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition1 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition2 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition3 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition4 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition5 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition6 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition7 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition8 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition9 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition10 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition11 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition12 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition13 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition14 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition15 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition16 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition17 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition18 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition19 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition20 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition21 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition22 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition23 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition24 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition25 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition26 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition27 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition28 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition29 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition30 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 checkpoint3 repetition31 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-oracle/300 B64 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-oracle/300 B64 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-oracle/300 B128 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28002 AM-oracle/300 B128 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned-B64 explicit route and budget",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned-B64 exact actor and Adam initialization",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned-B64 final paired arrays and finite-chain objective",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-oracle-B64 explicit route and budget",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-oracle-B64 exact actor and Adam initialization",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-oracle-B64 final paired arrays and finite-chain objective",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned-B128 explicit route and budget",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned-B128 exact actor and Adam initialization",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned-B128 final paired arrays and finite-chain objective",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-oracle-B128 explicit route and budget",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-oracle-B128 exact actor and Adam initialization",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-oracle-B128 final paired arrays and finite-chain objective",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition0 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition1 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition2 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition3 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition4 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition5 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition6 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition7 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition8 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition9 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition10 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition11 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition12 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition13 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition14 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition15 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition16 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition17 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition18 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition19 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition20 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition21 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition22 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition23 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition24 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition25 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition26 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition27 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition28 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition29 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition30 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint0 repetition31 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned/0 B64 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned/0 B64 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned/0 B128 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned/0 B128 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition0 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition1 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition2 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition3 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition4 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition5 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition6 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition7 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition8 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition9 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition10 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition11 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition12 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition13 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition14 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition15 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition16 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition17 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition18 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition19 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition20 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition21 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition22 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition23 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition24 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition25 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition26 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition27 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition28 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition29 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition30 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint1 repetition31 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned/150 B64 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned/150 B64 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned/150 B128 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned/150 B128 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition0 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition1 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition2 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition3 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition4 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition5 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition6 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition7 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition8 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition9 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition10 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition11 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition12 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition13 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition14 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition15 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition16 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition17 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition18 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition19 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition20 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition21 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition22 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition23 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition24 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition25 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition26 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition27 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition28 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition29 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition30 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint2 repetition31 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned/300 B64 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned/300 B64 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned/300 B128 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-learned/300 B128 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition0 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition1 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition2 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition3 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition4 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition5 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition6 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition7 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition8 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition9 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition10 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition11 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition12 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition13 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition14 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition15 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition16 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition17 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition18 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition19 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition20 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition21 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition22 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition23 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition24 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition25 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition26 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition27 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition28 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition29 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition30 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 checkpoint3 repetition31 B64 prefix",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-oracle/300 B64 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-oracle/300 B64 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-oracle/300 B128 covariance with cross term",
+      "passed": true
+    },
+    {
+      "name": "28003 AM-oracle/300 B128 paired virtual-step MC SE",
+      "passed": true
+    },
+    {
+      "name": "cost equal_updates signed paired effects",
+      "passed": true
+    },
+    {
+      "name": "cost equal_rollouts signed paired effects",
+      "passed": true
+    },
+    {
+      "name": "reward equal_updates signed paired effects",
+      "passed": true
+    },
+    {
+      "name": "reward equal_rollouts signed paired effects",
+      "passed": true
+    },
+    {
+      "name": "energy equal_updates signed paired effects",
+      "passed": true
+    },
+    {
+      "name": "energy equal_rollouts signed paired effects",
+      "passed": true
+    },
+    {
+      "name": "K32/K64 full three-seed B64 grid",
+      "passed": true
+    },
+    {
+      "name": "all four figures and report saved",
+      "passed": true
+    }
+  ],
+  "summary": {
+    "checks": 484,
+    "main_rows": 36,
+    "probe_pairs": 768,
+    "gradient_groups": 24,
+    "grid_rows": 30,
+    "source_sha256": "1afdd983f345795495022fd21da9cd4fbcd82dd69b55618858042b49cf781236",
+    "formal_spec_sha256": "ab23d35f1c00b1ad1f63c4d3d1b7102658df3cfff1ee8daab0af4eb454f5f5db"
+  }
+}

@@ -86,3 +86,19 @@ Paths、terminal labels、base Jacobians、adjoints 全部 detach；仅当前 ac
 官方代码使用 `sigma_h²=2(1-t+h)/(t+h)`、漂移 `2v-X/(t+h)`，最后一步为 base ODE；其 backward 时间参数也与 forward 不完全相同。本平台采用明确的 next-index 离散伴随，**不是官方代码逐行复现**，不把论文 same-time 或官方其他索引约定预判为 bug。B 的 HTML Eq.5 所示加号与 Eq.7 不一致；本实现使用 Eq.7，并由线性桥 score `(t v-X)/(1-t)` 独立核对漂移符号。
 
 固定 epsilon 的截断起点、学习到而非精确的 FM、有限步数与离散 lean 近似均阻止我们宣称严格 memoryless 或精确 exponential tilt。K/2K 检查只考察该固定-epsilon 数值平台；不能把它解释为 epsilon→0 收敛。ODE 额外从 0 到 1 积分 fine velocity，和 SDE 的 base warmup 并不相同，报告其分布差异而不默认相等。
+
+### Oracle AM 收益空间诊断
+
+Notebook 2 追加章节把终点梯度来源（learned/真实奖励 oracle）和 rollout batch（64/128）显式拆成 2×2；优化器、端点、伴随配对、matching 权重、训练次数及真实目标均不变。训练分支不再靠方法名字符串推断梯度来源。Oracle 只替换终点梯度标签，仍不是完整真实策略梯度。Frozen Flow 是同一最终噪声上的参照。
+
+同更新比较取四臂的 update 300；同轨迹预算比较取 B64/update 300 和 B128/update 150，均为 19200 条，但后者只有一半 Adam 步。每臂保留 update 0/150/300 checkpoint 和共同的4096条 SDE 最终评价路径。真实目标仍是完整有限链 KL 减去 β 倍真实奖励，奖励、energy、J 均按路径保存。
+
+对每个已有训练 seed，令 L/O 分别表示 learned/oracle。J 越小越好时，定义 A_B=J_LB−J_OB、S_L=J_L64−J_L128、S_O=J_O64−J_O128、I=A64−A128=S_L−S_O。奖励使用相反的“越大越好”方向：A_B=R_OB−R_LB、S_L=R_L128−R_L64、S_O=R_O128−R_O64，仍有 I=S_L−S_O。区间仅是三个已查看开发 seed 的描述性配对 t 区间。
+
+在 learned actor 的 0/150/300 和 oracle actor 的 300 checkpoint，固定同一个 actor 与 Adam history，每 seed、每 batch 做32次新训练噪声重复；单次内两种标签使用完全相同的 rollout 状态，B64 是 B128 的前缀。记冻结路径 matching 梯度 qL、qO 与 d=qL−qO。保存高维原始梯度用于复核，只计算协方差迹：
+
+$$\operatorname{trCov}(q_L)=\operatorname{trCov}(q_O)+\operatorname{trCov}(d)+2\operatorname{trCov}(q_O,d).$$
+
+mean(d) 是32次重复的均值估计，不是真正已知的总体 bias；qO 也不是 ∇θJ。对每一对 q 使用独立复制、完全相同的 Adam 一阶/二阶矩和计数器，按正式训练的 norm clip 与 Adam 更新，然后用新的1024条共同评价噪声直接比较 oracle 虚拟一步减 learned 虚拟一步的 J、reward。Monte Carlo SE 从每条路径的配对差计算；批间 SD、MC SE、训练 seed 差异分开报告。正式 actor、optimizer 和全局训练 RNG 不被虚拟步改写。终点投影 qL=cqO+r⊥ 在 qO 接近零时标记未定义，不删掉重复。
+
+K32 actor 分别在 K32/K64 有限链上评价；K64 的 learned/oracle B64 在全部三个 seed 重新训练并在共同 K64 噪声上评价。这只是网格敏感性，不构成 K64 的完整梯度来源×batch 交互实验。所有新结果写入独立 run，原正式 run 和此前负结果不覆盖。

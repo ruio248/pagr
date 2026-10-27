@@ -1,0 +1,83 @@
+[
+  {
+    "seed": 28001,
+    "method": "AM-learned",
+    "status": "retrained and exact-replay-verified",
+    "previous_run": "runs/02-flow-am-formal-drdkjy4g",
+    "config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+    "base_hash": "463f5857eac7f82a36142d5e721d0cbec6eda27a6571ec281443bf1a2da4a8e7",
+    "final_actor_hash": "82bafd351ed6882db7748b1042aea75cef445832779b51b2c28606e4656e5ba4"
+  },
+  {
+    "seed": 28001,
+    "method": "AM-oracle",
+    "status": "retrained and exact-replay-verified",
+    "previous_run": "runs/02-flow-am-formal-drdkjy4g",
+    "config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+    "base_hash": "463f5857eac7f82a36142d5e721d0cbec6eda27a6571ec281443bf1a2da4a8e7",
+    "final_actor_hash": "d92cca5919c386d2d9ff5fd17689492c5c8aa5db54d2d646d1d22f6605668738"
+  },
+  {
+    "seed": 28001,
+    "method": "AM-learned-2x",
+    "status": "retrained and exact-replay-verified",
+    "previous_run": "runs/02-flow-am-formal-drdkjy4g",
+    "config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+    "base_hash": "463f5857eac7f82a36142d5e721d0cbec6eda27a6571ec281443bf1a2da4a8e7",
+    "final_actor_hash": "14b7f191014e12cb15a0a86aeae8440dd5c9014d0f77b446044c9b5d875f3715"
+  },
+  {
+    "seed": 28002,
+    "method": "AM-learned",
+    "status": "retrained and exact-replay-verified",
+    "previous_run": "runs/02-flow-am-formal-drdkjy4g",
+    "config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+    "base_hash": "fc8cf422a52aba1ed9dad1cd957784d1d5f19aac04a4bac85572e673901a69cc",
+    "final_actor_hash": "8624b75f193d7c291fa7fee5021ef7a41161ad569d1084e29cdc16689649b351"
+  },
+  {
+    "seed": 28002,
+    "method": "AM-oracle",
+    "status": "retrained and exact-replay-verified",
+    "previous_run": "runs/02-flow-am-formal-drdkjy4g",
+    "config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+    "base_hash": "fc8cf422a52aba1ed9dad1cd957784d1d5f19aac04a4bac85572e673901a69cc",
+    "final_actor_hash": "3f5bc50ab6b23ecc75f0cfeca05992ad9f400eb1c12bfe1805507df5abdda20f"
+  },
+  {
+    "seed": 28002,
+    "method": "AM-learned-2x",
+    "status": "retrained and exact-replay-verified",
+    "previous_run": "runs/02-flow-am-formal-drdkjy4g",
+    "config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+    "base_hash": "fc8cf422a52aba1ed9dad1cd957784d1d5f19aac04a4bac85572e673901a69cc",
+    "final_actor_hash": "afc08827d5dd6570957e04ee1278763fc34f91fbd5533ad2bb689d08dfcb3919"
+  },
+  {
+    "seed": 28003,
+    "method": "AM-learned",
+    "status": "retrained and exact-replay-verified",
+    "previous_run": "runs/02-flow-am-formal-drdkjy4g",
+    "config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+    "base_hash": "8c92acdcd395575df7dbfbbb407fa3e7589a236ed05f83b3d11306588a17168e",
+    "final_actor_hash": "9d5e97a3754076273fbe52c60e26dc9ad0afeb4881ae0e86005c7d008483e1b1"
+  },
+  {
+    "seed": 28003,
+    "method": "AM-oracle",
+    "status": "retrained and exact-replay-verified",
+    "previous_run": "runs/02-flow-am-formal-drdkjy4g",
+    "config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+    "base_hash": "8c92acdcd395575df7dbfbbb407fa3e7589a236ed05f83b3d11306588a17168e",
+    "final_actor_hash": "e683e9384e58ab5784b100658d08ea83ffb6429fdcd1d12bef0015c369d1db4d"
+  },
+  {
+    "seed": 28003,
+    "method": "AM-learned-2x",
+    "status": "retrained and exact-replay-verified",
+    "previous_run": "runs/02-flow-am-formal-drdkjy4g",
+    "config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+    "base_hash": "8c92acdcd395575df7dbfbbb407fa3e7589a236ed05f83b3d11306588a17168e",
+    "final_actor_hash": "32f6b4873563b6f457494a0355e7dfd61138f97237ab54bcb58645e1d061ae6f"
+  }
+]

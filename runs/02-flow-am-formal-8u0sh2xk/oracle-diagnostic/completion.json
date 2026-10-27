@@ -1,0 +1,22 @@
+{
+  "status": "complete",
+  "profile": "formal",
+  "seeds": [
+    28001,
+    28002,
+    28003
+  ],
+  "figures": [
+    "four-arm-learning-curves.png",
+    "paired-effects.png",
+    "gradient-adam-virtual-step.png",
+    "grid-sensitivity.png"
+  ],
+  "repeats": 32,
+  "virtual_paths": 1024,
+  "new_actor_runs": 7,
+  "source_sha256": "1afdd983f345795495022fd21da9cd4fbcd82dd69b55618858042b49cf781236",
+  "baseline_retrained_and_replayed": 9,
+  "total_probe_groups": 24,
+  "total_probe_pairs": 768
+}

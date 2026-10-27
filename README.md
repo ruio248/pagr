@@ -33,6 +33,8 @@ Oracle 比 learned 的真实奖励提高 **0.012208（3/3 seed）**，但真实 
 
 已完成9次主微调、2次预定K64重训、57项运行时核验，以及**38组保存 checkpoint 的逐样本精确评估重放、101项产物验证**。见 [新 notebook](notebooks/02_flow_am_terminal_gradient.ipynb)、[完整正式运行产物（含 checkpoint）](runs/02-flow-am-formal-drdkjy4g)、[结果细节](docs/results.md#预训练-flow-am平台)、[验证记录](provenance/flow_am_validation.json)、[开发修正历史](provenance/flow_am_development.json)。这是初步机制诊断，不是新算法获胜或普适 motivation 证明。
 
+现已追加 Oracle AM 收益空间诊断：同一组三个开发 seed 的 learned/oracle × B64/B128 完整2×2、同轨迹预算比较、768对共同 checkpoint 的重复梯度与虚拟 Adam 步、三 seed K64 重训。Oracle 提高奖励但控制能量增加，真实 J 未稳定改善；不能把这写成确认性成功。见 [新诊断报告](runs/02-flow-am-formal-8u0sh2xk/oracle-diagnostic/report.md)、[配置](configs/oracle_am_diagnostic.json)、[492项审计](runs/02-flow-am-formal-8u0sh2xk/oracle-diagnostic/validation-v2.json)和[结果解释](docs/results.md#oracle-am-收益空间诊断追加开发实验)。没有自动推送。
+
 ## 历史导航 / Arm 结果（不属于新 Flow 平台）
 
 固定 3 个开发 seed（18001–18003），每种方法 1000 次 actor 更新；表中是真实评估代价，越低越好。每个最终 actor 用 4096 条评估轨迹，统计单位仍是 **3 个训练 seed**，不是 12288 次独立训练。

@@ -783,13 +783,25 @@ def record_event(out, event, **fields):
         handle.write(json.dumps(value, ensure_ascii=False, allow_nan=False)+'\n')
 
 
-def train_actor(base, models, c, protocol, seed, method, directory, out, diagnostic=False):
+def train_actor(base, models, c, protocol, seed, method, directory, out, diagnostic=False,
+                gradient_source=None, batch_size=None):
+    # The display name is never used to decide which terminal-gradient API runs.
+    legacy = {'AM-learned': ('learned', c.actor_batch),
+              'AM-oracle': ('oracle', c.actor_batch),
+              'AM-learned-2x': ('learned', 2*c.actor_batch)}
+    if gradient_source is None or batch_size is None:
+        if method not in legacy or gradient_source is not None or batch_size is not None:
+            raise ValueError('Specify both gradient_source and batch_size')
+        gradient_source, batch_size = legacy[method]
+    if gradient_source not in ('learned', 'oracle') or batch_size not in (c.actor_batch, 2*c.actor_batch):
+        raise ValueError((gradient_source, batch_size))
     actor = actor_copy(base)
     optimizer = adam_for(actor, c)
     assert torch.equal(flat_parameters(actor), flat_parameters(base))
     hashes = [model_hash(m) for m in [base, *models]]
     curve, update_rows, diag, propagation, conditional = [], [], [], [], []
     start = time.monotonic()
+    diagnostic_seconds = 0.
     for step in range(c.actor_updates+1):
         if step % c.curve_every == 0 or step == c.actor_updates:
             z, xi = noise(protocol, c.curve_paths, seed_key(seed, 300000), steps=c.steps)
@@ -799,16 +811,20 @@ def train_actor(base, models, c, protocol, seed, method, directory, out, diagnos
             pd.DataFrame(curve).to_csv(directory/'curve.csv', index=False)
             record_event(out, 'progress', seed=seed, method=method, train_K=c.steps, update=step)
         if diagnostic and step in c.diagnostic_steps:
+            diagnostic_start = time.monotonic()
             d, p, cond = diagnostics(actor, optimizer, base, models, c, seed, step, directory)
+            diagnostic_seconds += time.monotonic()-diagnostic_start
             diag.append(d); propagation.extend(p); conditional.extend(cond)
         if step in c.diagnostic_steps or step == c.actor_updates:
             torch.save(dict(actor=actor.state_dict(), optimizer=optimizer.state_dict(), update=step,
-                            method=method, seed=seed, config=asdict(c), base_hash=hashes[0]), directory/f'checkpoint-{step}.pt')
+                            method=method, seed=seed, config=asdict(c), base_hash=hashes[0],
+                            elapsed_seconds=time.monotonic()-start,
+                            extra_diagnostic_seconds=diagnostic_seconds), directory/f'checkpoint-{step}.pt')
         if step == c.actor_updates:
             break
-        n = c.actor_batch*(2 if method == 'AM-learned-2x' else 1)
+        n = batch_size
         z, xi = noise(protocol, n, seed_key(seed, 100000+2*step), steps=c.steps)
-        if method == 'AM-oracle':
+        if gradient_source == 'oracle':
             row = actor_update(actor, optimizer, base, models, c, z, xi, oracle=True)
         else:
             with forbid_truth():
@@ -819,9 +835,13 @@ def train_actor(base, models, c, protocol, seed, method, directory, out, diagnos
     pd.DataFrame(update_rows).to_csv(directory/'updates.csv', index=False)
     torch.save(actor.state_dict(), directory/'final.pt')
     save_json(directory/'budget.json', dict(seed=seed, method=method, train_K=c.steps,
-              updates=c.actor_updates, training_paths=c.actor_updates*n,
-              actor_true_reward_queries=0, actor_true_gradient_points=c.actor_updates*n if method == 'AM-oracle' else 0,
-              wall_seconds=time.monotonic()-start, frozen_hashes_before=hashes,
+              gradient_source=gradient_source, batch_size=batch_size,
+              updates=c.actor_updates, training_paths=c.actor_updates*batch_size,
+              generated_time_steps=c.actor_updates*batch_size*c.steps,
+              actor_true_reward_queries=0,
+              actor_true_gradient_points=c.actor_updates*batch_size if gradient_source == 'oracle' else 0,
+              wall_seconds=time.monotonic()-start, extra_diagnostic_seconds=diagnostic_seconds,
+              frozen_hashes_before=hashes,
               frozen_hashes_after=[model_hash(m) for m in [base, *models]], final_checkpoint_rule='fixed final update'))
     return actor, curve, diag, propagation, conditional
 
@@ -1155,3 +1175,732 @@ save_json(OUT/'completion.json', dict(status='complete', config_sha256=CONFIG_SH
               (ROOT/'notebooks/02_flow_am_terminal_gradient.py').read_bytes()).hexdigest()))
 display(Markdown(REPORT))
 print('All outputs:', OUT.relative_to(ROOT))
+
+# %% [markdown]
+# ## 5. 为什么 Oracle AM 收益有限：预定的收益空间诊断
+#
+# 这是既有三个开发 seed 的追加诊断，不是独立确认实验。固定同一真实目标、
+# 预训练模型、Lean adjoint、matching 权重、Adam 与 K=32 主协议。
+# 四臂为 learned/oracle × B64/B128；B128 的前64条训练噪声与 B64 对齐，
+# 但不同 actor 的状态轨迹在训练分化后并不相同。
+# 比较固定300次更新，也比较同为19200条训练轨迹的 B64/300 与 B128/150；
+# 后者更新次数不同。重复梯度诊断只在共同 checkpoint 上使用相同状态路径，
+# 因而不能把其 oracle Matching 梯度称为真实目标的参数梯度。
+
+# %%
+@dataclass(frozen=True)
+class OracleDiagnosticConfig:
+    repeats: int = 32
+    virtual_paths: int = 1024
+    train_noise_offset: int = 1000000
+    checkpoint_methods: tuple = (('AM-learned', 0), ('AM-learned', 150),
+                                 ('AM-learned', 300), ('AM-oracle', 300))
+    batches: tuple = (64, 128)
+    previous_run: str = 'runs/02-flow-am-formal-drdkjy4g'
+
+
+def oracle_diagnostic_configuration(c):
+    d = OracleDiagnosticConfig()
+    if c.profile == 'smoke':
+        d = replace(d, repeats=2, virtual_paths=64,
+                    checkpoint_methods=(('AM-learned', 0), ('AM-learned', c.actor_updates),
+                                        ('AM-oracle', c.actor_updates)))
+    if tuple(d.batches) != (c.actor_batch, 2*c.actor_batch):
+        raise AssertionError('batch protocol changed')
+    return d
+
+
+def load_velocity(path, c, frozen=False):
+    model = Velocity(c.width)
+    model.load_state_dict(torch.load(path, map_location='cpu', weights_only=True))
+    return freeze(model) if frozen else model
+
+
+def load_reward_models(directory, c):
+    models = []
+    for j in range(c.members):
+        model = RewardModel(c.width)
+        model.load_state_dict(torch.load(directory/f'reward-{j}.pt', map_location='cpu', weights_only=True))
+        models.append(freeze(model))
+    return models
+
+
+def load_actor_checkpoint(path, c, base=None):
+    item = torch.load(path, map_location='cpu', weights_only=False)
+    actor = actor_copy(base) if base is not None else Velocity(c.width)
+    actor.load_state_dict(item['actor'])
+    optimizer = adam_for(actor, c)
+    optimizer.load_state_dict(item['optimizer'])
+    return actor, optimizer, item
+
+
+def exact_tree_equal(a, b):
+    if isinstance(a, torch.Tensor):
+        return isinstance(b, torch.Tensor) and torch.equal(a, b)
+    if isinstance(a, dict):
+        return isinstance(b, dict) and a.keys() == b.keys() and all(exact_tree_equal(a[k], b[k]) for k in a)
+    if isinstance(a, (list, tuple)):
+        return type(a) is type(b) and len(a) == len(b) and all(exact_tree_equal(x, y) for x, y in zip(a, b))
+    return a == b
+
+
+def paired_difference(oracle_values, learned_values):
+    # The SE belongs to the per-path *difference*, not a sum of two independent SEs.
+    difference = (oracle_values-learned_values).detach().double()
+    return mean_se(difference)
+
+
+def trace_covariance(x, y=None):
+    x = x.double()
+    y = x if y is None else y.double()
+    if x.shape != y.shape or len(x) < 2:
+        raise ValueError('Need aligned repeated gradients')
+    xc, yc = x-x.mean(0), y-y.mean(0)
+    return float((xc*yc).sum()/(len(x)-1))
+
+
+def gradient_pair(actor, base, models, c, z, xi):
+    paths, _ = rollout(actor, base, c, z, xi)
+    f = base_jacobians(base, paths, c)
+    endpoint = paths[:, -1]
+    p_learned = lean_adjoint(f, terminal_label(models, endpoint, c, oracle=False))
+    p_oracle = lean_adjoint(f, terminal_label(models, endpoint, c, oracle=True))
+    q_learned = flat_gradient(matching_loss(actor, base, paths, p_learned, c), actor)
+    q_oracle = flat_gradient(matching_loss(actor, base, paths, p_oracle, c), actor)
+    return q_learned, q_oracle
+
+
+def virtual_adam_pair(actor, optimizer, base, c, q_learned, q_oracle, z_eval, xi_eval):
+    params_before = flat_parameters(actor)
+    optimizer_before = copy.deepcopy(optimizer.state_dict())
+    rng_before = torch.get_rng_state().clone()
+    clones, clipped, steps, evaluations = [], [], [], []
+    for q in (q_learned, q_oracle):
+        candidate = copy.deepcopy(actor)
+        candidate_optimizer = adam_for(candidate, c)
+        candidate_optimizer.load_state_dict(copy.deepcopy(optimizer_before))
+        before = flat_parameters(candidate)
+        clipped.append(apply_gradient(candidate, candidate_optimizer, q, c))
+        steps.append(flat_parameters(candidate)-before)
+        evaluations.append(evaluate(candidate, base, c, z_eval, xi_eval))
+        clones.append(candidate)
+    if not torch.equal(params_before, flat_parameters(actor)):
+        raise AssertionError('Virtual step changed formal actor')
+    if not exact_tree_equal(optimizer_before, optimizer.state_dict()):
+        raise AssertionError('Virtual step changed formal Adam history')
+    if not torch.equal(rng_before, torch.get_rng_state()):
+        raise AssertionError('Virtual step changed global training RNG')
+    _, learned_arrays = evaluations[0]
+    _, oracle_arrays = evaluations[1]
+    dj, dj_se = paired_difference(oracle_arrays['cost'], learned_arrays['cost'])
+    dr, dr_se = paired_difference(oracle_arrays['reward'], learned_arrays['reward'])
+    return dict(raw_cosine=cosine(q_learned, q_oracle),
+                raw_norm_learned=float(q_learned.norm()), raw_norm_oracle=float(q_oracle.norm()),
+                clipped_cosine=cosine(*clipped),
+                clipped_norm_learned=float(clipped[0].norm()), clipped_norm_oracle=float(clipped[1].norm()),
+                step_cosine=cosine(*steps),
+                step_norm_learned=float(steps[0].norm()), step_norm_oracle=float(steps[1].norm()),
+                step_norm_ratio=float(steps[0].norm()/steps[1].norm()) if steps[1].norm() > 1e-12 else None,
+                step_relative_difference=float((steps[0]-steps[1]).norm()/steps[1].norm())
+                if steps[1].norm() > 1e-12 else None,
+                D_J=dj, D_J_mc_se=dj_se, D_R=dr, D_R_mc_se=dr_se), (
+                    (oracle_arrays['cost']-learned_arrays['cost']).numpy(),
+                    (oracle_arrays['reward']-learned_arrays['reward']).numpy())
+
+
+def repeated_gradient_probe(actor, optimizer, base, models, c, seed, checkpoint_index,
+                            checkpoint_name, checkpoint_step, d, directory):
+    rows, summaries = [], []
+    for batch in d.batches:
+        probe_start = time.monotonic()
+        ql_all, qo_all, dj_paths, dr_paths = [], [], [], []
+        for repetition in range(d.repeats):
+            # The same role is used at B64 and B128 to ensure a literal prefix.
+            role = d.train_noise_offset+checkpoint_index*100000+4*repetition
+            z, xi = noise(c, batch, seed_key(seed, role))
+            ql, qo = gradient_pair(actor, base, models, c, z, xi)
+            z_eval, xi_eval = noise(c, d.virtual_paths, seed_key(seed, role+2))
+            virtual, paired_paths = virtual_adam_pair(
+                actor, optimizer, base, c, ql, qo, z_eval, xi_eval)
+            difference = ql-qo
+            oracle_norm = float(qo.norm())
+            if oracle_norm > 1e-12:
+                coefficient = float(ql.double()@qo.double()/(qo.double()@qo.double()))
+                perpendicular = ql-coefficient*qo
+                perp_ratio = float(perpendicular.norm()/qo.norm())
+            else:
+                coefficient, perp_ratio = None, None
+            row = dict(seed=seed, checkpoint_actor=checkpoint_name, checkpoint_step=checkpoint_step,
+                       batch_size=batch, repetition=repetition, train_noise_seed=seed_key(seed, role),
+                       eval_noise_seed=seed_key(seed, role+2), d_norm=float(difference.norm()),
+                       q_norm_ratio=float(ql.norm()/qo.norm()) if oracle_norm > 1e-12 else None,
+                       projection_c=coefficient, perpendicular_ratio=perp_ratio,
+                       projection_undefined=coefficient is None, projection_negative=coefficient is not None and coefficient < 0,
+                       **virtual)
+            rows.append(row)
+            ql_all.append(ql.numpy()); qo_all.append(qo.numpy())
+            dj_paths.append(paired_paths[0]); dr_paths.append(paired_paths[1])
+        ql_matrix, qo_matrix = torch.from_numpy(np.stack(ql_all)), torch.from_numpy(np.stack(qo_all))
+        d_matrix = ql_matrix-qo_matrix
+        var_l, var_o = trace_covariance(ql_matrix), trace_covariance(qo_matrix)
+        var_d, cross = trace_covariance(d_matrix), trace_covariance(qo_matrix, d_matrix)
+        residual = var_l-(var_o+var_d+2*cross)
+        if abs(residual) > 1e-8*max(1., abs(var_l)):
+            raise AssertionError('Missing qO,d cross covariance')
+        subset = pd.DataFrame(rows[-d.repeats:])
+        summaries.append(dict(seed=seed, checkpoint_actor=checkpoint_name, checkpoint_step=checkpoint_step,
+                              batch_size=batch, repeats=d.repeats,
+                              probe_wall_seconds=time.monotonic()-probe_start,
+                              mean_d_norm=float(d_matrix.double().mean(0).norm()),
+                              d_norm_repeat_mean=float(subset.d_norm.mean()),
+                              d_norm_repeat_sd=float(subset.d_norm.std(ddof=1)),
+                              trace_cov_qL=var_l, trace_cov_qO=var_o, trace_cov_d=var_d,
+                              trace_cross_cov_qO_d=cross, variance_identity_residual=residual,
+                              raw_cosine_mean=float(subset.raw_cosine.mean()),
+                              q_norm_ratio_mean=float(subset.q_norm_ratio.mean()),
+                              projection_c_mean=float(subset.projection_c.mean()),
+                              perpendicular_ratio_mean=float(subset.perpendicular_ratio.mean()),
+                              clipped_cosine_mean=float(subset.clipped_cosine.mean()),
+                              step_cosine_mean=float(subset.step_cosine.mean()),
+                              step_norm_ratio_mean=float(subset.step_norm_ratio.mean()),
+                              step_relative_difference_mean=float(subset.step_relative_difference.mean()),
+                              D_J_mean=float(subset.D_J.mean()), D_J_repeat_sd=float(subset.D_J.std(ddof=1)),
+                              D_J_eval_mc_se_rms=float(np.sqrt(np.mean(subset.D_J_mc_se.to_numpy()**2))),
+                              D_R_mean=float(subset.D_R.mean()), D_R_repeat_sd=float(subset.D_R.std(ddof=1)),
+                              D_R_eval_mc_se_rms=float(np.sqrt(np.mean(subset.D_R_mc_se.to_numpy()**2))),
+                              projection_undefined_count=int(subset.projection_undefined.sum()),
+                              projection_negative_count=int(subset.projection_negative.sum())))
+        np.savez_compressed(directory/f'probe-{checkpoint_name}-{checkpoint_step}-B{batch}.npz',
+                            q_learned=np.stack(ql_all), q_oracle=np.stack(qo_all),
+                            D_J_path=np.stack(dj_paths), D_R_path=np.stack(dr_paths))
+    return rows, summaries
+
+
+def seed_effects(checkpoint_frame, metric, schedule, final_update=300):
+    if schedule == 'equal_updates':
+        chosen = checkpoint_frame[checkpoint_frame['update'].eq(final_update)]
+    elif schedule == 'equal_rollouts':
+        chosen = checkpoint_frame[((checkpoint_frame.batch_size.eq(64) & checkpoint_frame['update'].eq(final_update)) |
+                                   (checkpoint_frame.batch_size.eq(128) & checkpoint_frame['update'].eq(final_update//2)))]
+    else:
+        raise ValueError(schedule)
+    pivot = chosen.pivot(index='seed', columns='method', values=metric)
+    labels = ('AM-learned-B64', 'AM-oracle-B64', 'AM-learned-B128', 'AM-oracle-B128')
+    if set(pivot.columns) != set(labels):
+        raise AssertionError('Incomplete 2x2')
+    l64, o64, l128, o128 = (pivot[name] for name in labels)
+    if metric == 'reward':
+        effects = dict(A64=o64-l64, A128=o128-l128, S_learned=l128-l64, S_oracle=o128-o64)
+        effects['I'] = effects['A64']-effects['A128']
+        identity = effects['S_learned']-effects['S_oracle']
+    else:
+        effects = dict(A64=l64-o64, A128=l128-o128, S_learned=l64-l128, S_oracle=o64-o128)
+        effects['I'] = effects['A64']-effects['A128']
+        identity = effects['S_learned']-effects['S_oracle']
+    if not np.allclose(effects['I'], identity, atol=1e-9, rtol=1e-9):
+        raise AssertionError('2x2 interaction sign error')
+    detail, summary = [], []
+    for effect, values in effects.items():
+        for seed, value in values.items():
+            detail.append(dict(schedule=schedule, metric=metric, seed=int(seed),
+                               effect=effect, value=float(value)))
+        mean, sd = float(values.mean()), float(values.std(ddof=1))
+        half = float(student_t.ppf(.975, len(values)-1)*sd/math.sqrt(len(values)))
+        summary.append(dict(schedule=schedule, metric=metric, effect=effect, seeds=len(values),
+                            mean=mean, seed_sd=sd, descriptive_ci95_low=mean-half,
+                            descriptive_ci95_high=mean+half, positive_seeds=int((values > 0).sum())))
+    return detail, summary
+
+
+def replay_prior_baselines(c, out, d):
+    if c.profile != 'formal':
+        return [dict(status='smoke; historical comparison intentionally skipped')]
+    previous = ROOT/d.previous_run
+    if not previous.exists():
+        raise FileNotFoundError(previous)
+    if json.loads((previous/'config.json').read_text()) != json.loads(json.dumps(asdict(c))):
+        raise AssertionError('Historical config differs')
+    audit = []
+    for seed in c.seeds:
+        now, old = out/f'seed-{seed}', previous/f'seed-{seed}'
+        new_data, old_data = np.load(now/'data.npz'), np.load(old/'data.npz')
+        if set(new_data.files) != set(old_data.files) or not all(
+                np.array_equal(new_data[k], old_data[k]) for k in new_data.files):
+            raise AssertionError('Historical data do not replay')
+        for name in ['base.pt', *[f'reward-{j}.pt' for j in range(c.members)]]:
+            current, reference = torch.load(now/name, weights_only=True), torch.load(old/name, weights_only=True)
+            if not exact_tree_equal(current, reference):
+                raise AssertionError(f'Historical pretrain mismatch: {seed} {name}')
+        for method in ('AM-learned', 'AM-oracle', 'AM-learned-2x'):
+            for step in c.diagnostic_steps:
+                filename = f'{method}/checkpoint-{step}.pt'
+                current = torch.load(now/filename, weights_only=False)
+                reference = torch.load(old/filename, weights_only=False)
+                if not exact_tree_equal(current['actor'], reference['actor']) or not exact_tree_equal(
+                        current['optimizer'], reference['optimizer']):
+                    raise AssertionError(f'Historical training mismatch: {seed} {filename}')
+            for grid_steps in (c.steps, 2*c.steps):
+                filename = f'eval-{method}-K{grid_steps}.npz'
+                current, reference = np.load(now/filename), np.load(old/filename)
+                if not all(np.array_equal(current[k], reference[k]) for k in ('terminal', 'reward', 'cost', 'energy')):
+                    raise AssertionError(f'Historical evaluation mismatch: {seed} {filename}')
+            audit.append(dict(seed=seed, method=method, status='retrained and exact-replay-verified',
+                              previous_run=d.previous_run, config_sha256=CONFIG_SHA,
+                              base_hash=json.loads((now/'pretraining-selection.json').read_text())['base_hash'],
+                              final_actor_hash=hashlib.sha256(
+                                  b''.join(v.numpy().tobytes() for v in
+                                           torch.load(now/method/'checkpoint-300.pt', weights_only=False)['actor'].values())).hexdigest()))
+    save_json(out/'oracle-diagnostic'/'historical-replay-audit.json', audit)
+    return audit
+
+
+def oracle_method_location(seed_directory, diagnostic_seed_directory, method):
+    names = dict(AM_learned_B64='AM-learned', AM_oracle_B64='AM-oracle',
+                 AM_learned_B128='AM-learned-2x')
+    key = method.replace('-', '_')
+    return seed_directory/names[key] if key in names else diagnostic_seed_directory/'AM-oracle-B128'
+
+
+def run_oracle_diagnostic(c, out, d):
+    diagnostic_root = out/'oracle-diagnostic'
+    diagnostic_root.mkdir()
+    formal_spec_path = ROOT/'configs/oracle_am_diagnostic.json'
+    formal_spec = json.loads(formal_spec_path.read_text())
+    if c.profile == 'formal':
+        expected = dict(seeds=list(c.seeds), main_train_K=c.steps, sensitivity_train_K=2*c.steps,
+                        epsilon=c.epsilon, beta=c.beta, actor_updates=c.actor_updates,
+                        batch_sizes=list(d.batches), probe_repeats=d.repeats,
+                        virtual_pair_eval_paths=d.virtual_paths, final_eval_paths=c.final_paths,
+                        train_noise_role_offset=d.train_noise_offset)
+        if any(formal_spec[key] != value for key, value in expected.items()):
+            raise AssertionError('Formal oracle diagnostic config differs from fixed spec')
+    save_json(diagnostic_root/'config.json', dict(flow=asdict(c), diagnostic=asdict(d),
+              flow_config_sha256=CONFIG_SHA,
+              formal_spec_sha256=hashlib.sha256(formal_spec_path.read_bytes()).hexdigest(),
+              source_sha256=hashlib.sha256(
+                  (ROOT/'notebooks/02_flow_am_terminal_gradient.py').read_bytes()).hexdigest(),
+              previous_run=d.previous_run, status='existing development seeds; not confirmation'))
+    replay = replay_prior_baselines(c, out, d)
+    checkpoint_rows, budget_rows, probe_rows, probe_summaries, grid_rows, frozen_rows = [], [], [], [], [], []
+    frozen_hash_rows = []
+    record_event(out, 'oracle_diagnostic_start', repeats=d.repeats, virtual_paths=d.virtual_paths)
+    for seed in c.seeds:
+        source = out/f'seed-{seed}'
+        target = diagnostic_root/f'seed-{seed}'
+        target.mkdir()
+        base = load_velocity(source/'base.pt', c, frozen=True)
+        models = load_reward_models(source, c)
+        frozen_before = [model_hash(m) for m in [base, *models]]
+        pretrain = json.loads((source/'pretraining-selection.json').read_text())
+        if frozen_before != [pretrain['base_hash'], *pretrain['reward_hashes']]:
+            raise AssertionError('Frozen pretraining hashes differ')
+        initial_hash = model_hash(actor_copy(base))
+        if initial_hash != model_hash(base):
+            raise AssertionError('Actor initialization is not the base')
+        initial_optimizer_state = adam_for(actor_copy(base), c).state_dict()
+        new_oracle_dir = target/'AM-oracle-B128'
+        new_oracle_dir.mkdir()
+        train_actor(base, models, c, c, seed, 'AM-oracle-B128', new_oracle_dir, out,
+                    gradient_source='oracle', batch_size=128)
+        record_event(out, 'oracle_diagnostic_actor_completed', seed=seed, method='AM-oracle-B128', train_K=32)
+        print(f'{seed}: AM-oracle-B128 completed', flush=True)
+        if seed != c.seeds[0] or not c.fine_retrain_first_seed:
+            fine = replace(c, steps=2*c.steps)
+            for source_name in ('learned', 'oracle'):
+                name = 'AM-'+source_name+'-B64-K64'
+                location = target/name
+                location.mkdir()
+                train_actor(base, models, fine, c, seed, name, location, out,
+                            gradient_source=source_name, batch_size=64)
+                record_event(out, 'oracle_diagnostic_actor_completed', seed=seed, method=name, train_K=64)
+        z_frozen, xi_frozen = noise(c, c.final_paths, seed_key(seed, 700000))
+        frozen_metric, frozen_arrays = evaluate(base, base, c, z_frozen, xi_frozen)
+        frozen_rows.append(dict(seed=seed, method='Frozen Flow', train_K=0, eval_K=c.steps,
+                                **frozen_metric))
+        np.savez_compressed(target/'eval-Frozen-Flow-K32.npz',
+                            terminal=frozen_arrays['paths'][:, -1].numpy(),
+                            reward=frozen_arrays['reward'].numpy(),
+                            energy=frozen_arrays['energy'].numpy(),
+                            cost=frozen_arrays['cost'].numpy())
+        for method in ('AM-learned-B64', 'AM-oracle-B64', 'AM-learned-B128', 'AM-oracle-B128'):
+            location = oracle_method_location(source, target, method)
+            for step in (0, c.actor_updates//2, c.actor_updates):
+                actor, _, checkpoint = load_actor_checkpoint(location/f'checkpoint-{step}.pt', c, base)
+                if step == 0 and model_hash(actor) != initial_hash:
+                    raise AssertionError(f'Nonidentical initial actor: {seed} {method}')
+                if step == 0 and not exact_tree_equal(checkpoint['optimizer'], initial_optimizer_state):
+                    raise AssertionError(f'Nonidentical initial Adam state: {seed} {method}')
+                z, xi = noise(c, c.final_paths, seed_key(seed, 700000))
+                row, arrays = evaluate(actor, base, c, z, xi)
+                row.update(seed=seed, method=method, gradient_source='oracle' if '-oracle-' in method else 'learned',
+                           batch_size=128 if method.endswith('B128') else 64, update=step, train_K=c.steps,
+                           eval_K=c.steps, sampler='SDE')
+                row['terminal_shift_from_frozen'], row['terminal_shift_from_frozen_mc_se'] = mean_se(
+                    (arrays['paths'][:, -1]-frozen_arrays['paths'][:, -1]).norm(dim=1))
+                checkpoint_rows.append(row)
+                np.savez_compressed(target/f'eval-{method}-step{step}-K32.npz',
+                                    terminal=arrays['paths'][:, -1].numpy(),
+                                    reward=arrays['reward'].numpy(), energy=arrays['energy'].numpy(),
+                                    cost=arrays['cost'].numpy())
+                budget_rows.append(dict(seed=seed, method=method, train_K=c.steps,
+                                        update=step, batch_size=row['batch_size'],
+                                        training_paths=step*row['batch_size'],
+                                        generated_time_steps=step*row['batch_size']*c.steps,
+                                        actor_updates=step,
+                                        actor_true_gradient_points=step*row['batch_size']
+                                        if row['gradient_source'] == 'oracle' else 0,
+                                        checkpoint_elapsed_seconds=checkpoint['elapsed_seconds'],
+                                        extra_diagnostic_seconds=checkpoint['extra_diagnostic_seconds'],
+                                        elapsed_minus_extra_diagnostic_seconds=
+                                        checkpoint['elapsed_seconds']-checkpoint['extra_diagnostic_seconds']))
+                if step == c.actor_updates:
+                    for eval_steps in (c.steps, 2*c.steps):
+                        z_grid, xi_grid = noise(c, c.final_paths, seed_key(seed, 700000), steps=eval_steps)
+                        grid_metric, grid_arrays = evaluate(actor, base, replace(c, steps=eval_steps), z_grid, xi_grid)
+                        grid_rows.append(dict(seed=seed, method=method, train_K=c.steps,
+                                              eval_K=eval_steps, **grid_metric))
+                        np.savez_compressed(target/f'grid-{method}-train32-eval{eval_steps}.npz',
+                                            reward=grid_arrays['reward'].numpy(),
+                                            energy=grid_arrays['energy'].numpy(),
+                                            cost=grid_arrays['cost'].numpy())
+        # Both K64 arms have the same evaluation noise; first seed was trained
+        # in the baseline suite, the other two are genuinely new here.
+        fine = replace(c, steps=2*c.steps)
+        for source_name in ('learned', 'oracle'):
+            location = ((source/f'AM-{source_name}-retrain-2K')
+                        if seed == c.seeds[0] and c.fine_retrain_first_seed
+                        else (target/f'AM-{source_name}-B64-K64'))
+            actor, _, checkpoint = load_actor_checkpoint(location/f'checkpoint-{c.actor_updates}.pt', fine, base)
+            z, xi = noise(c, c.final_paths, seed_key(seed, 700000), steps=fine.steps)
+            metric, arrays = evaluate(actor, base, fine, z, xi)
+            grid_rows.append(dict(seed=seed, method=f'AM-{source_name}-B64', train_K=fine.steps,
+                                  eval_K=fine.steps, **metric))
+            np.savez_compressed(target/f'grid-AM-{source_name}-B64-train64-eval64.npz',
+                                reward=arrays['reward'].numpy(), energy=arrays['energy'].numpy(),
+                                cost=arrays['cost'].numpy())
+            budget_rows.append(dict(seed=seed, method=f'AM-{source_name}-B64-K64',
+                                    train_K=fine.steps, update=c.actor_updates, batch_size=64,
+                                    training_paths=c.actor_updates*64,
+                                    generated_time_steps=c.actor_updates*64*fine.steps,
+                                    actor_updates=c.actor_updates,
+                                    actor_true_gradient_points=c.actor_updates*64 if source_name == 'oracle' else 0,
+                                    checkpoint_elapsed_seconds=checkpoint['elapsed_seconds'],
+                                    extra_diagnostic_seconds=checkpoint['extra_diagnostic_seconds'],
+                                    elapsed_minus_extra_diagnostic_seconds=
+                                    checkpoint['elapsed_seconds']-checkpoint['extra_diagnostic_seconds']))
+        for checkpoint_index, (name, step) in enumerate(d.checkpoint_methods):
+            actor, optimizer, _ = load_actor_checkpoint(source/name/f'checkpoint-{step}.pt', c, base)
+            rows, summaries = repeated_gradient_probe(actor, optimizer, base, models, c, seed,
+                                                       checkpoint_index, name, step, d, target)
+            probe_rows.extend(rows); probe_summaries.extend(summaries)
+            pd.DataFrame(probe_rows).to_csv(diagnostic_root/'probe-repetitions.csv', index=False)
+            pd.DataFrame(probe_summaries).to_csv(diagnostic_root/'probe-summary.csv', index=False)
+            record_event(out, 'oracle_probe_completed', seed=seed, checkpoint=name, step=step)
+        frozen_after = [model_hash(m) for m in [base, *models]]
+        if frozen_before != frozen_after:
+            raise AssertionError('Diagnostic changed frozen models')
+        frozen_hash_rows.append(dict(seed=seed, initial_actor_hash=initial_hash,
+                                     frozen_hashes_before=frozen_before, frozen_hashes_after=frozen_after))
+        for filename, data in [('checkpoint-evaluations.csv', checkpoint_rows),
+                               ('budgets.csv', budget_rows), ('grid-sensitivity.csv', grid_rows)]:
+            pd.DataFrame(data).to_csv(diagnostic_root/filename, index=False)
+        pd.DataFrame(frozen_rows).to_csv(diagnostic_root/'frozen-reference.csv', index=False)
+        save_json(diagnostic_root/'frozen-hash-audit.json', frozen_hash_rows)
+        record_event(out, 'oracle_diagnostic_seed_completed', seed=seed)
+        print(f'{seed}: Oracle gain-space probes completed', flush=True)
+    checkpoints = pd.DataFrame(checkpoint_rows)
+    effects, effect_summaries = [], []
+    for metric in ('cost', 'reward', 'energy'):
+        for schedule in ('equal_updates', 'equal_rollouts'):
+            detail, summary = seed_effects(checkpoints, metric, schedule, c.actor_updates)
+            effects.extend(detail); effect_summaries.extend(summary)
+    pd.DataFrame(effects).to_csv(diagnostic_root/'paired-effects-by-seed.csv', index=False)
+    pd.DataFrame(effect_summaries).to_csv(diagnostic_root/'paired-effects-summary.csv', index=False)
+    record_event(out, 'oracle_diagnostic_complete', seeds=len(c.seeds), repeats=d.repeats)
+    return dict(checkpoints=checkpoints, budgets=pd.DataFrame(budget_rows),
+                probes=pd.DataFrame(probe_rows), probe_summaries=pd.DataFrame(probe_summaries),
+                grid=pd.DataFrame(grid_rows), frozen=pd.DataFrame(frozen_rows), effects=pd.DataFrame(effects),
+                effect_summaries=pd.DataFrame(effect_summaries), replay=replay,
+                frozen_hashes=frozen_hash_rows, directory=diagnostic_root)
+
+
+def complete_oracle_curves(c, out, diagnostic_root):
+    former = pd.read_csv(out/'learning-curves.csv')
+    labels = {'AM-learned': 'AM-learned-B64', 'AM-oracle': 'AM-oracle-B64',
+              'AM-learned-2x': 'AM-learned-B128', 'Frozen Flow': 'Frozen Flow'}
+    former = former[former.method.isin(labels) &
+                    (former.train_K.eq(c.steps) | former.method.eq('Frozen Flow'))].copy()
+    former['method'] = former.method.map(labels)
+    pieces = [former]
+    for seed in c.seeds:
+        new = pd.read_csv(diagnostic_root/f'seed-{seed}'/'AM-oracle-B128'/'curve.csv')
+        new['method'] = 'AM-oracle-B128'
+        pieces.append(new)
+    combined = pd.concat(pieces, ignore_index=True)
+    combined.to_csv(diagnostic_root/'complete-learning-curves.csv', index=False)
+    return combined
+
+
+def make_oracle_diagnostic_figures(result, c, out):
+    directory = result['directory']
+    curves = complete_oracle_curves(c, out, directory)
+    names = ('AM-learned-B64', 'AM-oracle-B64', 'AM-learned-B128', 'AM-oracle-B128')
+    colors = ('tab:blue', 'tab:orange', 'tab:green', 'tab:red')
+    fig, axes = plt.subplots(1, 3, figsize=(17, 4.5))
+    for ax, metric, ylabel in zip(axes, ('reward', 'energy', 'cost'),
+                                  ('True reward (higher better)', 'Path KL / energy', 'True J (lower better)')):
+        for name, color in zip(names, colors):
+            subset = curves[curves.method.eq(name)]
+            grouped = subset.groupby('update')[metric].agg(['mean', 'std'])
+            x = grouped.index.to_numpy()
+            y = grouped['mean'].to_numpy()
+            sd = grouped['std'].fillna(0).to_numpy()
+            ax.plot(x, y, label=name, color=color)
+            ax.fill_between(x, y-sd, y+sd, color=color, alpha=.12)
+        baseline = curves[curves.method.eq('Frozen Flow')].groupby('update')[metric].mean()
+        ax.plot(baseline.index, baseline.values, color='0.35', ls='--', label='Frozen Flow')
+        ax.set_xlabel('Actor updates')
+        ax.set_ylabel(ylabel)
+        ax.grid(alpha=.25)
+    axes[0].legend(fontsize=8)
+    fig.suptitle('K32: complete four-arm learning curves; band = training-seed SD')
+    fig.tight_layout()
+    fig.savefig(directory/'four-arm-learning-curves.png', dpi=160, bbox_inches='tight')
+    display(fig); plt.close(fig)
+    fig, axes = plt.subplots(1, 3, figsize=(16, 4.4))
+    effects = result['effect_summaries']
+    for ax, metric, title in zip(axes, ('cost', 'reward', 'energy'), ('True J', 'True reward', 'Path KL')):
+        selected = effects[effects.metric.eq(metric) & effects.schedule.eq('equal_updates')]
+        ordered = [selected[selected.effect.eq(name)].iloc[0] for name in
+                   ('A64', 'A128', 'S_learned', 'S_oracle', 'I')]
+        ax.bar(range(len(ordered)), [row['mean'] for row in ordered], color=colors[:2]+('0.4', '0.6', '0.8'))
+        ax.set_xticks(range(len(ordered)), ('A64', 'A128', 'S-L', 'S-O', 'I'))
+        ax.axhline(0, color='black', lw=.8)
+        ax.set_title(title+' paired effects')
+        ax.grid(axis='y', alpha=.2)
+    fig.suptitle('300 updates; descriptive means across existing 3 development seeds')
+    fig.tight_layout()
+    fig.savefig(directory/'paired-effects.png', dpi=160, bbox_inches='tight')
+    display(fig); plt.close(fig)
+    summaries = result['probe_summaries'].copy()
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    for batch, color in zip((64, 128), ('tab:blue', 'tab:orange')):
+        subset = summaries[summaries.batch_size.eq(batch)]
+        grouped = subset.groupby(['checkpoint_actor', 'checkpoint_step'])[
+            ['raw_cosine_mean', 'clipped_cosine_mean', 'step_cosine_mean',
+             'D_J_mean', 'D_R_mean']].mean()
+        x = np.arange(len(grouped))+(0 if batch == 64 else .12)
+        for metric, marker, style in [('raw_cosine_mean', 'o', '-'),
+                                      ('clipped_cosine_mean', 's', '--'),
+                                      ('step_cosine_mean', '^', ':')]:
+            axes[0].plot(x, grouped[metric], marker=marker, linestyle=style,
+                         color=color, label=f'B{batch} {metric}')
+        axes[1].plot(x, grouped.D_J_mean, 'o-', color=color, label=f'B{batch}: D_J')
+        axes[1].plot(x, grouped.D_R_mean, 's--', color=color, label=f'B{batch}: D_R')
+        labels = [f'{name}/{step}' for name, step in grouped.index]
+        for ax in axes:
+            ax.set_xticks(np.arange(len(labels))+.06, labels, rotation=20, ha='right')
+            ax.grid(alpha=.2)
+    axes[0].set_title('Raw → clipped → Adam step cosine')
+    axes[1].set_title('Paired virtual-step effect (oracle minus learned)')
+    axes[0].legend(fontsize=7)
+    axes[1].legend(fontsize=8)
+    fig.tight_layout()
+    fig.savefig(directory/'gradient-adam-virtual-step.png', dpi=160, bbox_inches='tight')
+    display(fig); plt.close(fig)
+    grid = result['grid']
+    fig, ax = plt.subplots(figsize=(8, 4.5))
+    positions = [(c.steps, c.steps), (c.steps, 2*c.steps), (2*c.steps, 2*c.steps)]
+    for j, (train_k, eval_k) in enumerate(positions):
+        selected = grid[(grid.train_K.eq(train_k)) & (grid.eval_K.eq(eval_k)) &
+                        (grid.method.isin(('AM-learned-B64', 'AM-oracle-B64')))]
+        pivot = selected.pivot(index='seed', columns='method', values='cost')
+        values = pivot['AM-learned-B64']-pivot['AM-oracle-B64']
+        ax.scatter(np.full(len(values), j)+np.linspace(-.06, .06, len(values)), values,
+                   color='tab:purple', label='Each seed' if j == 0 else None)
+        ax.plot(j, values.mean(), 'kD', label='Seed mean' if j == 0 else None)
+    ax.axhline(0, color='black', lw=.8)
+    ax.set_xticks(range(3), [f'train{tr}/eval{ev}' for tr, ev in positions])
+    ax.set_ylabel('J learned − J oracle (positive favors oracle)')
+    ax.set_title('K32/K64 grid sensitivity: B64 only')
+    ax.legend()
+    ax.grid(axis='y', alpha=.2)
+    fig.tight_layout()
+    fig.savefig(directory/'grid-sensitivity.png', dpi=160, bbox_inches='tight')
+    display(fig); plt.close(fig)
+    return ['four-arm-learning-curves.png', 'paired-effects.png',
+            'gradient-adam-virtual-step.png', 'grid-sensitivity.png']
+
+
+def markdown_table(frame, columns=None, max_rows=None):
+    selected = frame if columns is None else frame[columns]
+    if max_rows is not None:
+        selected = selected.head(max_rows)
+    selected = selected.copy()
+    for column in selected.select_dtypes(include='number').columns:
+        selected[column] = selected[column].map(lambda x: f'{x:.6g}' if pd.notna(x) else 'NA')
+    header = '| ' + ' | '.join(selected.columns) + ' |'
+    rule = '| ' + ' | '.join('---' for _ in selected.columns) + ' |'
+    body = ['| ' + ' | '.join(str(x) for x in row) + ' |' for row in selected.itertuples(index=False, name=None)]
+    return '\n'.join([header, rule, *body])
+
+
+def make_oracle_diagnostic_report(result, c, d, figures):
+    end = result['checkpoints'][result['checkpoints']['update'].eq(c.actor_updates)]
+    effects = result['effect_summaries']
+    main = effects[(effects.schedule.eq('equal_updates')) & effects.metric.eq('cost')].set_index('effect')
+    reward = effects[(effects.schedule.eq('equal_updates')) & effects.metric.eq('reward')].set_index('effect')
+    energy = effects[(effects.schedule.eq('equal_updates')) & effects.metric.eq('energy')].set_index('effect')
+    a64, a128 = main.loc['A64'], main.loc['A128']
+    r64, r128 = reward.loc['A64'], reward.loc['A128']
+    e64, e128 = energy.loc['A64'], energy.loc['A128']
+    if a64.descriptive_ci95_low > 0 and a128.descriptive_ci95_low > 0:
+        opening = ('Both batches show descriptive seed-level J improvement for Oracle, '
+                   'supporting recoverable gradient-label loss in this task; three examined seeds '
+                   'do not establish a general algorithmic advantage.')
+    elif r64['mean'] > 0 and r128['mean'] > 0 and e64['mean'] < 0 and e128['mean'] < 0:
+        opening = ('The clearest observed pattern is an Oracle reward gain accompanied by '
+                   'additional path KL/energy. Its net J effect must be judged separately; '
+                   'the present three examined seeds do not isolate label error from '
+                   'sampling and optimization limitations.')
+    else:
+        opening = ('The current examined task does not exhibit a clear, stable recoverable '
+                   'J gain from Oracle labels across both batches. This is not evidence '
+                   'that terminal-gradient errors never matter.')
+    grid = result['grid']
+    grid_effects = []
+    for train_k, eval_k in ((c.steps, c.steps), (c.steps, 2*c.steps), (2*c.steps, 2*c.steps)):
+        selected = grid[grid.train_K.eq(train_k) & grid.eval_K.eq(eval_k) &
+                        grid.method.isin(('AM-learned-B64', 'AM-oracle-B64'))]
+        pivot = selected.pivot(index='seed', columns='method', values='cost')
+        for seed, value in (pivot['AM-learned-B64']-pivot['AM-oracle-B64']).items():
+            grid_effects.append(dict(seed=seed, train_K=train_k, eval_K=eval_k, J_oracle_gain=value))
+    grid_effects = pd.DataFrame(grid_effects)
+    signs = grid_effects.pivot(index='seed', columns=['train_K', 'eval_K'], values='J_oracle_gain')
+    stable_grid = all((row > 0).all() or (row < 0).all() for _, row in signs.iterrows())
+    if not stable_grid:
+        grid_note = 'Oracle–learned J signs differ across grid settings for at least one seed; no grid-stable conclusion.'
+    else:
+        grid_note = ('Signs agree within each seed across the measured grid settings, '
+                     'but K64 is only a B64 sensitivity study, not a full grid×batch interaction.')
+    probe = result['probe_summaries']
+    raw_cos, step_cos = float(probe.raw_cosine_mean.mean()), float(probe.step_cosine_mean.mean())
+    if step_cos > raw_cos:
+        adam_note = ('At these shared-history virtual updates, Adam-step directions are on average '
+                     'more aligned than raw gradients; this does not imply independent long-run '
+                     'learned/oracle histories converge.')
+    else:
+        adam_note = ('At these shared-history virtual updates, Adam does not on average increase '
+                     'directional alignment over the raw gradients.')
+    lines = [
+        '# Oracle AM gain-space diagnosis — executed Notebook 2 extension',
+        '',
+        f'Existing development seeds {list(c.seeds)}; K32, {c.actor_updates} Adam updates, beta={c.beta}. '
+        f'Each checkpoint/batch uses {d.repeats} independent training-noise probes and '
+        f'{d.virtual_paths} fresh common-noise paths per virtual pair. '
+        'These probes are not independent training seeds or confirmatory trials.',
+        '',
+        '## Direct answer', '',
+        opening, '',
+        f'Equal-update paired J oracle gain: A64={a64["mean"]:.6g} '
+        f'(descriptive 95% t interval [{a64.descriptive_ci95_low:.6g}, {a64.descriptive_ci95_high:.6g}]); '
+        f'A128={a128["mean"]:.6g} '
+        f'([{a128.descriptive_ci95_low:.6g}, {a128.descriptive_ci95_high:.6g}]). '
+        'Positive means lower true J for Oracle. Intervals summarize training-seed variation, '
+        'not 4096 evaluation paths or 32 probes as independent seeds.', '',
+        f'Oracle reward effects: B64={r64["mean"]:.6g}, B128={r128["mean"]:.6g}; '
+        f'energy effects (Oracle minus learned): B64={-e64["mean"]:.6g}, '
+        f'B128={-e128["mean"]:.6g}. True J = full finite-chain path KL − beta × true reward.',
+        '',
+        '## Four arms at fixed update 300', '',
+        markdown_table(end, ['seed', 'method', 'reward', 'reward_mc_se', 'energy',
+                             'energy_mc_se', 'cost', 'cost_mc_se',
+                             'terminal_shift_from_frozen']), '',
+        'Frozen Flow reference on the identical SDE evaluation noise:', '',
+        markdown_table(result['frozen'], ['seed', 'reward', 'energy', 'cost']), '',
+        '## Budget (checkpoint elapsed includes fixed curve evaluations; extra diagnostics separately counted)',
+        '',
+        markdown_table(result['budgets'], ['seed', 'method', 'train_K', 'update', 'training_paths',
+                                           'generated_time_steps', 'actor_updates',
+                                           'actor_true_gradient_points', 'checkpoint_elapsed_seconds',
+                                           'extra_diagnostic_seconds']), '',
+        'B64/300 and B128/150 both use 19200 training paths, but they have different '
+        'optimizer-step counts and not equal wall-clock or total compute. '
+        'B128/300 uses twice the trajectories of B64/300; batch effects are not a pure variance estimate.',
+        '',
+        '## Equal-rollout-budget results (B64/300 versus B128/150)', '',
+        markdown_table(result['checkpoints'][
+            ((result['checkpoints'].batch_size.eq(64) & result['checkpoints']['update'].eq(c.actor_updates)) |
+             (result['checkpoints'].batch_size.eq(128) & result['checkpoints']['update'].eq(c.actor_updates//2)))],
+            ['seed', 'method', 'update', 'reward', 'energy', 'cost']), '',
+        '## Paired 2×2 effects', '',
+        'For J: A_B = J_learned,B − J_oracle,B, S_source = J_source,64 − J_source,128, '
+        'I=A64−A128=S_learned−S_oracle. For reward, higher-better reverses the '
+        'first two signs and I=S_learned−S_oracle. The energy table uses lower-better convention.',
+        '',
+        markdown_table(result['effect_summaries'], ['schedule', 'metric', 'effect', 'mean',
+                                                    'seed_sd', 'descriptive_ci95_low',
+                                                    'descriptive_ci95_high', 'positive_seeds']), '',
+        'Per-seed effects are in paired-effects-by-seed.csv; all paired final evaluation arrays '
+        'and checkpoint 0/150/300 results are retained.', '',
+        '## Repeated common-checkpoint gradient, Adam and paired virtual-step evidence', '',
+        markdown_table(probe, ['seed', 'checkpoint_actor', 'checkpoint_step', 'batch_size',
+                               'mean_d_norm', 'd_norm_repeat_sd', 'trace_cov_qL',
+                               'trace_cov_qO', 'trace_cov_d', 'trace_cross_cov_qO_d',
+                               'variance_identity_residual', 'raw_cosine_mean',
+                               'q_norm_ratio_mean', 'projection_c_mean',
+                               'perpendicular_ratio_mean', 'clipped_cosine_mean',
+                               'step_cosine_mean', 'step_norm_ratio_mean',
+                               'step_relative_difference_mean',
+                               'D_J_mean', 'D_J_repeat_sd', 'D_J_eval_mc_se_rms',
+                               'D_R_mean', 'D_R_repeat_sd', 'D_R_eval_mc_se_rms',
+                               'projection_undefined_count', 'projection_negative_count']), '',
+        'The mean of d=qL−qO is a finite-repetition estimate, not known population bias. '
+        'The exact covariance identity includes 2 tr Cov(qO,d); no independence '
+        'assumption is made. Probe-repetitions.csv gives every raw/clipped/step norm, '
+        'cosine, projection coefficient/perpendicular ratio, and paired D_J/D_R. '
+        'Their Monte Carlo SE is computed from per-path differences, whereas '
+        'repeat SD describes variation across fresh training batches at a fixed actor. '
+        'Near-zero qO projections are marked undefined and all repeats remain counted.',
+        '',
+        adam_note, '',
+        '## Grid sensitivity', '',
+        markdown_table(grid_effects), '', grid_note, '',
+        'K32 actors are evaluated under both K32 and K64 finite chains; K64 actors '
+        'were retrained at K64 for all three seeds with B64. Training grid and '
+        'evaluation grid are distinct variables. K64 does not provide a complete 2×2.',
+        '',
+        '## Provenance and limits', '',
+        'The three original arms and first-seed K64 arms were retrained into a new unique '
+        'run; original historical outputs were not overwritten or pooled as extra seeds. '
+        'The historical baseline replay audit compares data, frozen checkpoint tensors, '
+        'actor and Adam states at 0/150/300, and saved paired evaluation arrays. '
+        'Oracle-B128 and K64 seeds 2–3 are new training. All repeated-gradient and '
+        'virtual-step measurements are new diagnostics. Initial actor and frozen-model '
+        'hashes are audited for every seed.', '',
+        'This is a fixed objective with a learned terminal-label gradient, not an uncertain '
+        'true terminal cost. No new uncertainty algorithm was added. '
+        'A small or interval-overlapping effect does not demonstrate equivalence. '
+        'The 32 probes on shared states isolate local update mechanisms, but cannot '
+        'identify the causal contribution of independent long-run optimizer histories. '
+        'Three previously inspected training seeds are an exploratory diagnosis.', '',
+        'Figures: '+', '.join(figures)+'. Full numerical outputs are in this run directory.'
+    ]
+    return '\n'.join(lines)+'\n'
+
+
+ORACLE_CFG = oracle_diagnostic_configuration(CFG)
+ORACLE_RESULT = run_oracle_diagnostic(CFG, OUT, ORACLE_CFG)
+ORACLE_FIGURES = make_oracle_diagnostic_figures(ORACLE_RESULT, CFG, OUT)
+ORACLE_REPORT = make_oracle_diagnostic_report(ORACLE_RESULT, CFG, ORACLE_CFG, ORACLE_FIGURES)
+(ORACLE_RESULT['directory']/'report.md').write_text(ORACLE_REPORT)
+save_json(ORACLE_RESULT['directory']/'completion.json', dict(
+    status='complete', profile=CFG.profile, seeds=list(CFG.seeds), figures=ORACLE_FIGURES,
+    repeats=ORACLE_CFG.repeats, virtual_paths=ORACLE_CFG.virtual_paths,
+    new_actor_runs=len(CFG.seeds)+2*(len(CFG.seeds)-1),
+    source_sha256=hashlib.sha256((ROOT/'notebooks/02_flow_am_terminal_gradient.py').read_bytes()).hexdigest(),
+    baseline_retrained_and_replayed=len(ORACLE_RESULT['replay']),
+    total_probe_groups=len(ORACLE_RESULT['probe_summaries']),
+    total_probe_pairs=len(ORACLE_RESULT['probes'])))
+display(Markdown(ORACLE_REPORT))
+print('Oracle diagnosis:', ORACLE_RESULT['directory'].relative_to(ROOT))

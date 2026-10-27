@@ -1,0 +1,344 @@
+[
+  {
+    "seed": 28001,
+    "name": "exact full pretrained initialization",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "rollout detached and initial control zero",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "no reward guide implies zero AM gradient",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "exact deterministic replay with fixed noise",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "base VJP equals explicit Jacobian transpose",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "batched base Jacobian includes minus I/t",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "terminal label is scalar ensemble autograd",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "discrete terminal error product identity",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "labels and Jacobians detached",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "actor Jacobian projection identity",
+    "passed": true,
+    "value": 1.3131030755175743e-05
+  },
+  {
+    "seed": 28001,
+    "name": "weighted velocity-target loss equivalence",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "frozen-label directional finite difference",
+    "passed": true,
+    "value": 1.3225154305018805e-10
+  },
+  {
+    "seed": 28001,
+    "name": "no rollout/adjoint backprop graph",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "learned update succeeds with both truth APIs blocked",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "base and reward parameters unchanged",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "base and reward grads never populated",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "Gaussian-transition KL equals control energy",
+    "passed": true,
+    "value": 2.3283064365386963e-07
+  },
+  {
+    "seed": 28001,
+    "name": "2x noise streams have identical prefix",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28001,
+    "name": "K and 2K increments correctly coupled",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "exact full pretrained initialization",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "rollout detached and initial control zero",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "no reward guide implies zero AM gradient",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "exact deterministic replay with fixed noise",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "base VJP equals explicit Jacobian transpose",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "batched base Jacobian includes minus I/t",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "terminal label is scalar ensemble autograd",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "discrete terminal error product identity",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "labels and Jacobians detached",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "actor Jacobian projection identity",
+    "passed": true,
+    "value": 6.039388608769514e-06
+  },
+  {
+    "seed": 28002,
+    "name": "weighted velocity-target loss equivalence",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "frozen-label directional finite difference",
+    "passed": true,
+    "value": 1.2605447241575973e-10
+  },
+  {
+    "seed": 28002,
+    "name": "no rollout/adjoint backprop graph",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "learned update succeeds with both truth APIs blocked",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "base and reward parameters unchanged",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "base and reward grads never populated",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "Gaussian-transition KL equals control energy",
+    "passed": true,
+    "value": 2.2724270820617676e-07
+  },
+  {
+    "seed": 28002,
+    "name": "2x noise streams have identical prefix",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28002,
+    "name": "K and 2K increments correctly coupled",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "exact full pretrained initialization",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "rollout detached and initial control zero",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "no reward guide implies zero AM gradient",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "exact deterministic replay with fixed noise",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "base VJP equals explicit Jacobian transpose",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "batched base Jacobian includes minus I/t",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "terminal label is scalar ensemble autograd",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "discrete terminal error product identity",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "labels and Jacobians detached",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "actor Jacobian projection identity",
+    "passed": true,
+    "value": 4.0547779462940525e-06
+  },
+  {
+    "seed": 28003,
+    "name": "weighted velocity-target loss equivalence",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "frozen-label directional finite difference",
+    "passed": true,
+    "value": 1.2264064763733984e-11
+  },
+  {
+    "seed": 28003,
+    "name": "no rollout/adjoint backprop graph",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "learned update succeeds with both truth APIs blocked",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "base and reward parameters unchanged",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "base and reward grads never populated",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "Gaussian-transition KL equals control energy",
+    "passed": true,
+    "value": 3.501772880554199e-07
+  },
+  {
+    "seed": 28003,
+    "name": "2x noise streams have identical prefix",
+    "passed": true,
+    "value": null
+  },
+  {
+    "seed": 28003,
+    "name": "K and 2K increments correctly coupled",
+    "passed": true,
+    "value": null
+  }
+]

@@ -59,7 +59,9 @@ def main():
     check('all notebook code cells executed without errors', all(cell.execution_count is not None for cell in code)
           and not any(o.output_type == 'error' for cell in code for o in cell.outputs), code_cells=len(code))
     events = [json.loads(line) for line in (directory/'events.jsonl').read_text().splitlines()]
-    check('formal suite completed without failures', events[-1]['event'] == 'suite_completed' and
+    check('formal suite completed without failures',
+          any(e['event'] == 'suite_completed' for e in events) and
+          events[-1]['event'] in ('suite_completed', 'oracle_diagnostic_complete') and
           not any(e['event'] == 'failure' for e in events))
     audits = json.loads((directory/'implementation-tests.json').read_text())
     check('all runtime implementation checks passed', all(a['passed'] for a in audits), count=len(audits))

@@ -1,0 +1,50 @@
+{
+  "base": {
+    "selected_step": 2500,
+    "validation_loss": 4.311101913452148
+  },
+  "rewards": [
+    {
+      "member": 0,
+      "selected_step": 1800,
+      "validation_loss": 0.04408659785985947
+    },
+    {
+      "member": 1,
+      "selected_step": 1400,
+      "validation_loss": 0.038327254354953766
+    },
+    {
+      "member": 2,
+      "selected_step": 1500,
+      "validation_loss": 0.042569003999233246
+    },
+    {
+      "member": 3,
+      "selected_step": 1600,
+      "validation_loss": 0.03729638457298279
+    },
+    {
+      "member": 4,
+      "selected_step": 1800,
+      "validation_loss": 0.040714435279369354
+    }
+  ],
+  "base_hash": "fc8cf422a52aba1ed9dad1cd957784d1d5f19aac04a4bac85572e673901a69cc",
+  "reward_hashes": [
+    "319bce66bf9eecf92c59c9821b04000842eee09d979a4d38a4a4552bbf131b5a",
+    "08f5d5f06da275cbeb0da2e52b808576dfd2d6664c8f0a853d1d7a88a12d0338",
+    "b72165760ec1842f5902099c47aa49d0d371a1c5da4e16f3bfb0f027ea728410",
+    "a1d2115da1ca6058463009aa87b58161493a98cf580d5b4b7c4d1c973b089f74",
+    "d8e11eca87603f88390a3acf5af857817e9ee561dc1b2fe5a837f3db52bcef9e"
+  ],
+  "data_hashes": {
+    "behavior": "e429dafa36ae3352ac2f9e39101d9704235bcf6f4c0dcc58b4b55bcbefcf5d2d",
+    "heldout": "32fe53660d8046e809a538005794b5e431898d74cdc7531c0e8048490c7555b3",
+    "reward_x": "ab15462426fa483cacb4b21c4e6946a77eb2d1849cca8bd8a678ae2ea4df2214",
+    "valid_x": "38c8857a20cb3ab73d0956b813c0053397b36624f78b28e6a2f4f8c11be42b2d",
+    "reward_y": "74731c22f892301f84e2d018e93b8e262539b51e7683ac528c12afc398fc65b1",
+    "valid_y": "81967780a5a7c5d22e81e9740c1e6a7a35ff7feb60b099f3cd7e075c94fbd405"
+  },
+  "true_scalar_observations": 768
+}

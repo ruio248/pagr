@@ -1,0 +1,124 @@
+{
+  "flow": {
+    "profile": "formal",
+    "seeds": [
+      28001,
+      28002,
+      28003
+    ],
+    "seed_scheme": "root_seed * 10000000 + role_offset",
+    "means": [
+      [
+        -1.5,
+        -1.5
+      ],
+      [
+        -1.5,
+        1.5
+      ],
+      [
+        1.5,
+        -1.5
+      ],
+      [
+        1.5,
+        1.5
+      ]
+    ],
+    "weights": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "behavior_std": 0.4,
+    "reward_heights": [
+      0.2,
+      0.8,
+      1.4,
+      2.0
+    ],
+    "reward_width": 0.85,
+    "reward_quadratic": 0.025,
+    "observation_std": 0.2,
+    "behavior_train": 4096,
+    "behavior_valid": 2048,
+    "reward_train": 512,
+    "reward_valid": 256,
+    "members": 5,
+    "width": 64,
+    "fm_updates": 2500,
+    "fm_batch": 256,
+    "fm_lr": 0.001,
+    "fm_validate_every": 100,
+    "reward_updates": 1800,
+    "reward_batch": 128,
+    "reward_lr": 0.001,
+    "reward_validate_every": 100,
+    "beta": 1.5,
+    "epsilon": 0.05,
+    "warmup_steps": 8,
+    "steps": 32,
+    "ode_steps": 128,
+    "actor_updates": 300,
+    "actor_batch": 64,
+    "actor_lr": 0.0003,
+    "adam_betas": [
+      0.9,
+      0.999
+    ],
+    "adam_eps": 1e-08,
+    "clip": 5.0,
+    "curve_every": 50,
+    "diagnostic_steps": [
+      0,
+      150,
+      300
+    ],
+    "curve_paths": 768,
+    "final_paths": 4096,
+    "diagnostic_paths": 256,
+    "virtual_paths": 2048,
+    "conditional_futures": 256,
+    "conditional_states": 3,
+    "conditional_fractions": [
+      0.25,
+      0.5,
+      0.75
+    ],
+    "fine_retrain_first_seed": true
+  },
+  "diagnostic": {
+    "repeats": 32,
+    "virtual_paths": 1024,
+    "train_noise_offset": 1000000,
+    "checkpoint_methods": [
+      [
+        "AM-learned",
+        0
+      ],
+      [
+        "AM-learned",
+        150
+      ],
+      [
+        "AM-learned",
+        300
+      ],
+      [
+        "AM-oracle",
+        300
+      ]
+    ],
+    "batches": [
+      64,
+      128
+    ],
+    "previous_run": "runs/02-flow-am-formal-drdkjy4g"
+  },
+  "flow_config_sha256": "34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b",
+  "formal_spec_sha256": "ab23d35f1c00b1ad1f63c4d3d1b7102658df3cfff1ee8daab0af4eb454f5f5db",
+  "source_sha256": "1afdd983f345795495022fd21da9cd4fbcd82dd69b55618858042b49cf781236",
+  "previous_run": "runs/02-flow-am-formal-drdkjy4g",
+  "status": "existing development seeds; not confirmation"
+}

@@ -47,7 +47,7 @@ Guard 的 held-out 诊断中，17 个修改 block 有 11 个帮助、6 个有害
 
 ## 预训练 Flow AM 平台
 
-最终本地运行：`runs/02-flow-am-formal-drdkjy4g`。配置 SHA-256：`34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b`。全部结果由实际执行的 [新 Notebook 2](../notebooks/02_flow_am_terminal_gradient.ipynb) 生成。参数/样本预算见 [设置](settings.md#预训练-flow-am固定协议)，端点和 KL 定义见 [方法](methods.md#预训练-flow-am平台)，数据/checkpoint/每条评估结果的 SHA-256 和独立重放见 [新审计](../provenance/flow_am_validation.json)。
+上一轮平台正式运行：`runs/02-flow-am-formal-drdkjy4g`。配置 SHA-256：`34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b`。该历史运行由当时实际执行的 Notebook 2 生成；当前 Notebook 2 已追加下文诊断。参数/样本预算见 [设置](settings.md#预训练-flow-am固定协议)，端点和 KL 定义见 [方法](methods.md#预训练-flow-am平台)，数据/checkpoint/每条评估结果的 SHA-256 和独立重放见 [新审计](../provenance/flow_am_validation.json)。
 
 本轮完成3个真实 FM 模型、15个 scalar reward 模型、9次主 actor 微调和2次首 seed 的K64重训。四个行为模式均被 base ODE 覆盖，最近中心模式占比约23%–28%；base held-out FM loss从6.58/6.78/6.79降至4.16/4.31/4.27。FM loss包含随机桥的不可约条件方差，不能以其不为零判定没学到 Flow；同时 base 不是精确分布模型。
 
@@ -89,8 +89,34 @@ step300，固定早中间时刻 `t=0.2875` 的条件续采样：逐路径标签�
 
 ### 实现/开发审计与限制
 
-- 新notebook六个代码单元格实际执行，无错误输出；57/57运行时核验通过。
+- 当时版本的notebook六个代码单元格实际执行，无错误输出；57/57运行时核验通过。
 - 本地15项unittest通过；新产物validator101/101通过，38组保存checkpoint重新评估的逐样本reward/cost/energy或ODE动作完全一致。
 - 首轮完整实验之后发现跨seed加法子流碰撞，保留 `runs/02-flow-am-formal-1_blv1k9` 和其完整执行notebook，明确不作为最终独立seed统计。修正为互斥namespace后，在同一组seed编号、固定场景/预算下重跑；没有为了胜出改奖励、优化器或方法。详见 [开发日志](../provenance/flow_am_development.json)。
 - 所有旧assets、参考结果、报告、审计和Notebook1不变；旧Notebook2复制归档且字节一致。
 - 没有新候选，没有新HJBI贡献，也没有传播感知抑制算法已被验证的结论。三seed、一个四模式二维bandit与固定训练预算，只是初步研究平台。
+
+## Oracle AM 收益空间诊断（追加开发实验）
+
+最新完整运行：runs/02-flow-am-formal-8u0sh2xk，报告见该目录的 oracle-diagnostic/report.md，固定配置见 configs/oracle_am_diagnostic.json，逐项审计见 oracle-diagnostic/validation-v2.json。这是同一组三个已查看的开发 seed 28001–28003，不是独立确认实验。旧三臂和首 seed K64 在新目录重训，数据、模型、0/150/300 actor/Adam 状态与逐路径评估对旧运行精确重放；Oracle-B128 三 seed 与 K64 后两 seed 为新增训练。没有新增 uncertainty 算法、重选超参或修改真实目标。
+
+K32、B64/B128 × learned/oracle、固定300次更新的均值（括号内为训练 seed SD）：
+
+| 方法 | 真实奖励 ↑ | KL/energy ↓ | 真实 J ↓ |
+|---|---:|---:|---:|
+| Frozen Flow | 0.783288 | 0 | −1.174933 |
+| learned B64 | 1.174199 (0.018269) | 0.295187 (0.030292) | −1.466112 (0.055979) |
+| oracle B64 | 1.186407 (0.019661) | 0.314051 (0.032642) | −1.465560 (0.058587) |
+| learned B128 | 1.199065 (0.018959) | 0.324283 (0.030429) | −1.474315 (0.056979) |
+| oracle B128 | 1.218299 (0.034497) | 0.357274 (0.029051) | −1.470175 (0.055714) |
+
+以正值表示 Oracle 改善 J 的配对增益，A64=−0.000552（1/3 seed为正；描述性95%配对t区间 [−0.012707, 0.011603]），A128=−0.004140（0/3为正；[−0.008650, 0.000371]）。两个 batch 的 Oracle 均提高平均奖励（+0.012208、+0.019234），但也提高 KL/energy（+0.018864、+0.032991），因此未观察到稳定的真实 J 可恢复收益。这不是“Oracle 与 learned 完全等效”的证明。终点相对 Frozen 的平均位移也随 Oracle 增大，逐 seed 见完整报告。
+
+固定300次更新时 learned 从B64到B128的 J 改善均值 S_learned=+0.008203，3/3 seed；Oracle 的 S_oracle=+0.004615，2/3 seed。交互 I=A64−A128=+0.003588，描述性区间 [−0.008039, 0.015215]，不支持稳定的 batch×标签交互结论。B128/300消耗38400条训练轨迹，B64/300只消耗19200条，故这并非纯采样方差效应。在同为19200条的 B64/300 对 B128/150 中，learned 的 S=−0.029415；后者 Adam 步数只有一半，因此同轨迹数也不是同优化预算。
+
+共同 checkpoint 上，4个预定状态 × 2个batch × 3 seed × 32次独立噪声，共768对 learned/oracle 匹配梯度及虚拟 Adam 更新，每对用1024条新的共同评价路径。以 learned step300 为例，B64 的三seed平均 trCov(qL)/trCov(qO)/trCov(d)/trCov(qO,d) 约为 7.134/10.357/1.093/−2.158；B128 对应 3.958/5.983/0.647/−1.336。交叉项为负且不可忽略，不能把两方差直接相加。B128 下这些有限批次的方差迹较低，但平均标签差范数并未消失（B64约0.978，B128约0.970）；32次均值不是真正已知的 bias。
+
+同一 learned step300 的原始梯度 cosine 平均从 B64 0.924 到 B128 0.937；共享 Adam history 的实际一步 cosine 约 0.989/0.990，相对参数步差仍约 0.143/0.136。这支持“在测量的共享历史上，Adam 改变了标签差异对当前一步的作用”，不意味着它消除了误差或独立训练历史相同。Step0 的实际一步 cosine 只有约0.85，说明阶段依赖。裁剪对梯度方向只做缩放，768对中 learned 有47次、oracle有114次超过 norm 5；原始与裁剪后 cosine 相同并非没发生裁剪。虚拟一步的 D_J 与 D_R、逐路径差标准误、批间 SD 已分别保存；在 learned step300，D_J 的平均值为 B64约−0.000220、B128约−0.000288，但这些局部步不足以推出300步的长期排序。
+
+K32 actor 在 K32/K64 上重评，K64的 learned/oracle B64 也已在全部三个 seed 重训；至少两个 seed 的 Oracle–learned J 符号随训练网格改变，因此尚未得到网格稳定的结论。K64没有完整2×2，不能推断 batch×网格交互。
+
+当前数据最支持的是“Oracle 奖励增益与更大控制代价相抵消”，同时显示有限 batch 波动和 Adam 历史会改变局部梯度的作用；三者对最终 J 的独立因果份额仍无法区分。保存的四臂曲线、所有 checkpoint、逐路径数组、probe 原始参数梯度、配对效应与训练预算均在新运行目录。7个代码单元格已执行无错误；原平台重放验证101项、57项运行时核验和新增收益空间验证492项通过，19项单元测试通过。这些是实现/数值完整性证据，不是研究假设的证明。

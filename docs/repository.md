@@ -26,6 +26,8 @@ Issues 开启；Wiki、Projects、Discussions 关闭。允许 squash merge，关
 
 CI 是软件 smoke test，不验证 novelty、因果结论或跨平台数值完全相同。历史研究审计 `passed=false` 和 6 项 solver warnings 被明确测试保留。
 
+2026-10-27 首次发布时，GitHub hosted job 在执行任何 step 前未能启动；因此远端 CI 尚未验证，不能将 workflow 已配置等同于已通过。原始 [run 40471107459](https://github.com/ruio248/pagr/actions/runs/40471107459) 保留。待 runner 可用后，可在 Actions 中手动运行 `Reproduction smoke tests`；不必为了这一平台问题重做科学实验或修改基线数值。
+
 发布时 GitHub secret scanning 和 push protection 开启；Dependabot 自动安全更新关闭（不自动改依赖或发版本升级 PR）。Actions 仓库级 allowlist 保持平台默认 `all`，SHA pinning 未在仓库级强制，但当前 workflow 的两项 action 均已手动固定 SHA；后续修改 workflow 时仍需遵循这一要求。
 
 机器可读的初始设置回读见 `provenance/github_settings.json`；它是发布时快照而非永远不变的保证。设置变动后请更新此页和快照。

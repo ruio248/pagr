@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-27",
+  "environment": {
+    "python": "3.13.11",
+    "os": "Darwin",
+    "arch": "arm64",
+    "inherits_system_site_packages": false
+  },
+  "installed_distribution_versions": {
+    "Jinja2": "3.1.6",
+    "MarkupSafe": "3.0.4",
+    "filelock": "4.2.4",
+    "fsspec": "2026.9.0",
+    "mpmath": "1.3.0",
+    "networkx": "3.7",
+    "numpy": "2.3.5",
+    "pagr-research": "0.1.0a1",
+    "pip": "25.3",
+    "scipy": "1.16.3",
+    "setuptools": "84.2.1",
+    "sympy": "1.14.0",
+    "torch": "2.9.1",
+    "typing_extensions": "4.16.0"
+  },
+  "installation": "Non-editable project wheel and dependencies installed by pip into a newly created venv.",
+  "pip_check": "passed",
+  "implementation_tests": {
+    "passed": 5,
+    "failed": 0
+  },
+  "integrity": {
+    "verified_files": 218,
+    "status": "ok",
+    "note": "Integrity is not algorithm efficacy. Historical solver warnings remain in the reference audit."
+  },
+  "full_baseline_replay": {
+    "task": "arm",
+    "seed": 18001,
+    "method": "am_adam",
+    "final": {
+      "cost": 10.392496109008789,
+      "cost_mc_se": 0.07162398844957352,
+      "terminal": 6.925909042358398,
+      "energy": 3.4665865898132324,
+      "running": 0.0,
+      "success": 0.11669921875,
+      "collision": 0.0,
+      "distance": 0.5078998804092407,
+      "orientation_error": 0.5333571434020996
+    },
+    "reference_final": {
+      "cost": 10.392496109008789,
+      "cost_mc_se": 0.07162398844957352,
+      "terminal": 6.925909042358398,
+      "energy": 3.4665865898132324,
+      "running": 0.0,
+      "success": 0.11669921875,
+      "collision": 0.0,
+      "distance": 0.5078998804092407,
+      "orientation_error": 0.5333571434020996
+    },
+    "max_final_metric_error": 0.0,
+    "cost_error": 0.0,
+    "exact": true,
+    "within_1e-4": true,
+    "interpretation": "Reference replay, not a fresh-seed experiment. Cross-platform floating-point differences may occur."
+  },
+  "notebook_executed_in_this_clean_environment": false,
+  "hosted_ci": "Not verified: hosted runner did not start; this is a separate local macOS smoke test, not Ubuntu CI."
+}

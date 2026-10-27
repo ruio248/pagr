@@ -22,6 +22,8 @@ python -m pip install -e '.[notebook]'
 
 `pyproject.toml` 固定直接数值依赖；完整参考环境见 `configs/environment.json`。不保证任意 Python 3.11–3.13/操作系统都有 bitwise 相同结果。项目声明的 Python 范围不等于所有组合均已实测。CI 使用 Ubuntu / Python 3.13.11；本地参考重放环境见 `provenance/publication_validation.json`（验证完成后生成）。
 
+另在全新、不继承 system-site-packages 的 macOS arm64 虚拟环境中安装非 editable wheel：`pip check`、5 项测试、218 文件校验和完整一条 baseline replay 均通过。其全部已安装包版本和结果在 [`provenance/clean_install_validation.json`](../provenance/clean_install_validation.json)。这不替代尚未成功启动的 Ubuntu hosted CI；notebook 的执行检查使用前述参考环境。
+
 ## 第一层：无需训练，查看与验证
 
 ```bash

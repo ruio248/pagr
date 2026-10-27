@@ -4,6 +4,8 @@
 
 **状态：探索性研究，不是已经验证有效的新算法。** PAGR 是暂定的、与具体框架无关的研究方向名称；当前使用 lean Adjoint Matching（AM）作为可复现试验平台。仓库保留负结果、开发阶段的选择过程和数值审计警告。
 
+发布验证（2026-10-27）：本地 42/42 次固定输入重放的最终指标与 actor 参数精确一致，notebook 已实际执行。GitHub hosted CI 的首个作业未能启动，**尚无云端测试通过结论**；参见 [运行记录](https://github.com/ruio248/pagr/actions/runs/40471107459) 与 [本地验证数据](provenance/publication_validation.json)。
+
 > Under a fixed true control objective, terminal-value estimation and terminal-gradient reliability are different questions. This repository studies how terminal-gradient errors propagate through adjoints into actor learning signals. It does **not** establish a generally superior robust-control algorithm or a new HJBI equation.
 
 ## 研究问题

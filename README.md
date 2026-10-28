@@ -118,7 +118,7 @@ python -m pagr replay --task arm --seed 18001 --method am_adam --output runs/arm
 
 **历史** Run All 验证：Notebook 1 的 387 项数值核验通过；归档导航 notebook 重新生成的 12 组数据数组、30 个 critic 和 15 个最终 actor 与冻结参考逐元素一致，最终/细网格指标也一致；历史 10 项实现测试通过。原始记录 [notebook_validation.json](provenance/notebook_validation.json) 原样保留。这是同协议重建，不是新的独立 seeds。自然导航诊断没有得到“值误差可忽略”的前提，因此不把它写成解析存在性结果在自然任务上的完整因果证明。
 
-历史三任务 Flow notebook 的协议、端点近似和正式结果分别见 [方法](docs/methods.md#新主-notebook-2终端梯度维度--生成结构耦合)、[设置](docs/settings.md#新主-notebook-2维度--耦合固定协议)、[结果](docs/results.md#新主-notebook-2维度--耦合探索实验)。这些历史 audits 不被新结果覆盖。
+历史三任务 Flow notebook 的协议、端点近似和正式结果分别见 [方法](docs/methods.md#历史单步-notebook-2终端梯度维度--生成结构耦合)、[设置](docs/settings.md#历史单步-notebook-2维度--耦合固定协议)、[结果](docs/results.md#历史单步-notebook-2维度--耦合探索实验)。这些历史 audits 不被新结果覆盖。
 
 ## 公开范围与许可
 

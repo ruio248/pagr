@@ -163,7 +163,7 @@ Success：整条轨迹无碰撞、终点位置误差 <0.4、速度误差 <0.5。
 
 正式新增产物在 runs/02-flow-am-formal-8u0sh2xk/oracle-diagnostic/report.md。每组高维梯度与逐路径虚拟一步差值均以压缩数组保存，用于复算方差交叉项和配对 Monte Carlo 标准误。旧运行与失败 smoke 输出保持原样，不参与最终统计。
 
-## 新主 Notebook 2：维度 × 耦合固定协议
+## 历史单步 Notebook 2：维度 × 耦合固定协议
 
 本节为新的独立实验，不继承上一节的四模式二维数据或 seed。完整机器可读协议见 [`flow_am_dimension_coupling.json`](../configs/flow_am_dimension_coupling.json)。在正式运行前固定三个任务与 seed 38001–38003；独立 smoke seed 为 99001。
 

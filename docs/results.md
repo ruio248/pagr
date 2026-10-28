@@ -67,7 +67,7 @@ Guard 的 held-out 诊断中，17 个修改 block 有 11 个帮助、6 个有害
 
 ## 预训练 Flow AM 平台
 
-上一轮平台正式运行：`runs/02-flow-am-formal-drdkjy4g`。配置 SHA-256：`34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b`。该历史运行由当时实际执行的 Notebook 2 生成；当前 Notebook 2 已追加下文诊断。参数/样本预算见 [设置](settings.md#预训练-flow-am固定协议)，端点和 KL 定义见 [方法](methods.md#预训练-flow-am平台)，数据/checkpoint/每条评估结果的 SHA-256 和独立重放见 [新审计](../provenance/flow_am_validation.json)。
+上一轮平台正式运行：`runs/02-flow-am-formal-drdkjy4g`。配置 SHA-256：`34c154ef5e49f980bcd0cc03d8286b783006b4ea3ad4902b23dda3592b1dd49b`。该历史运行由当时实际执行的 Notebook 2 生成；其后又追加了下文历史诊断。参数/样本预算见 [设置](settings.md#预训练-flow-am固定协议)，端点和 KL 定义见 [方法](methods.md#预训练-flow-am平台)，数据/checkpoint/每条评估结果的 SHA-256 和独立重放见 [审计](../provenance/flow_am_validation.json)。
 
 本轮完成3个真实 FM 模型、15个 scalar reward 模型、9次主 actor 微调和2次首 seed 的K64重训。四个行为模式均被 base ODE 覆盖，最近中心模式占比约23%–28%；base held-out FM loss从6.58/6.78/6.79降至4.16/4.31/4.27。FM loss包含随机桥的不可约条件方差，不能以其不为零判定没学到 Flow；同时 base 不是精确分布模型。
 
@@ -140,9 +140,9 @@ K32、B64/B128 × learned/oracle、固定300次更新的均值（括号内为训
 K32 actor 在 K32/K64 上重评，K64的 learned/oracle B64 也已在全部三个 seed 重训；至少两个 seed 的 Oracle–learned J 符号随训练网格改变，因此尚未得到网格稳定的结论。K64没有完整2×2，不能推断 batch×网格交互。
 
 当前数据最支持的是“Oracle 奖励增益与更大控制代价相抵消”，同时显示有限 batch 波动和 Adam 历史会改变局部梯度的作用；三者对最终 J 的独立因果份额仍无法区分。保存的四臂曲线、所有 checkpoint、逐路径数组、probe 原始参数梯度、配对效应与训练预算均在新运行目录。7个代码单元格已执行无错误；原平台重放验证101项、57项运行时核验和新增收益空间验证492项通过，19项单元测试通过。这些是实现/数值完整性证据，不是研究假设的证明。
-# 新主 Notebook 2：维度 × 耦合探索实验
+# 历史单步 Notebook 2：维度 × 耦合探索实验
 
-本轮在三个新任务上分别预训练 Base Flow、拟合五成员有限标量奖励模型，再在同一 Base 上各跑 Learned/Oracle AM；seed 38001–38003，固定300次actor更新、最终4096条共同评价噪声。完整每 seed 的真实 `J=PathKL−1.5 E[R]`、奖励、PathKL、数据、checkpoint和机制 CSV 在[正式运行报告](../runs/02-flow-am-dim-formal-8q5obfng/report.md)。[新主 notebook](../notebooks/02_flow_am_dimension_coupling.ipynb)已实际执行；[201项产物检查与27组逐路径精确重放](../runs/02-flow-am-dim-formal-8q5obfng/validation.json)通过。本轮不开发新的误差抑制算法。
+历史这轮在三个新任务上分别预训练 Base Flow、拟合五成员有限标量奖励模型，再在同一 Base 上各跑 Learned/Oracle AM；seed 38001–38003，固定300次actor更新、最终4096条共同评价噪声。完整每 seed 的真实 `J=PathKL−1.5 E[R]`、奖励、PathKL、数据、checkpoint和机制 CSV 在[正式运行报告](../runs/02-flow-am-dim-formal-8q5obfng/report.md)。[旧 notebook](../notebooks/02_flow_am_dimension_coupling.ipynb)已实际执行；[201项产物检查与27组逐路径精确重放](../runs/02-flow-am-dim-formal-8q5obfng/validation.json)通过。当时未开发新的误差抑制算法。
 
 | 任务 | Frozen J/d | Learned J/d | Oracle J/d | `G=(J_L−J_O)/d` | 终端梯度相对RMS误差 | `q_L−q_O` 相对差 | 共享Adam一步相对差 |
 |---|---:|---:|---:|---:|---:|---:|---:|

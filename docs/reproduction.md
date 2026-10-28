@@ -101,15 +101,15 @@ MPLBACKEND=Agg python notebooks/01_motivation_analytic.py
 PAGR_DIM_SOURCE_RUN=runs/02-flow-am-dim-formal-8q5obfng MPLBACKEND=Agg python notebooks/02_flow_am_dimension_coupling.py
 ```
 
-若只编辑新 Flow `.py`，使用 `python scripts/build_research_notebooks.py --name 02_flow_am_dimension_coupling --replace`（**会清除新 notebook 的执行输出**），再执行。不要无意重建 Notebook 1 或归档文件。轻量测试见 `tests/test_flow_am_dimension_coupling.py` 和 `tests/test_fixed_update_analysis.py`；后者核对N/K/B、配对差和KL恒等式、512/4096两种评价来源、只读复用与原始文件hash。
+若只编辑历史三任务 Flow `.py`，使用 `python scripts/build_research_notebooks.py --name 02_flow_am_dimension_coupling --replace`（**会清除该历史 notebook 的执行输出**），再执行。不要无意重建 Notebook 1 或其他归档文件。历史轻量测试见 `tests/test_flow_am_dimension_coupling.py` 和 `tests/test_fixed_update_analysis.py`；后者核对N/K/B、配对差和KL恒等式、512/4096两种评价来源、只读复用与原始文件hash。
 
-新主 Notebook 2 已先用独立 smoke seed 99001 跑通，再以固定的 38001–38003 seed 运行。只做轻量检查时可执行：
+历史三任务 Notebook 2 当时先用独立 smoke seed 99001 跑通，再以固定的 38001–38003 seed 运行。仅重做该历史轻量检查时可执行：
 
 ```bash
 PAGR_DIM_PROFILE=smoke python scripts/execute_notebook.py --notebook notebooks/02_flow_am_dimension_coupling.ipynb --output runs/notebooks/02_flow_am_dim.smoke.ipynb
 ```
 
-正式训练配置默认 `PAGR_DIM_PROFILE=formal`。已完成的原run保存每 seed 的行为/标量数据、校准噪声、9个Base、45个critic、18个actor的checkpoint、per-path最终评价、诊断CSV、环境和source/config hash。使用更新后的审计脚本核对原run全部27组 Frozen/Learned/Oracle 最终 checkpoint 回放；其原始执行源码由[初版已执行notebook归档](../notebooks/archive/dimension_coupling_initial/README.md)提供，不会错误地拿修改后的主notebook冒充旧源码（将输出改成新路径，勿覆盖历史审计）：
+该历史正式训练配置默认 `PAGR_DIM_PROFILE=formal`。已完成的原run保存每 seed 的行为/标量数据、校准噪声、9个Base、45个critic、18个actor的checkpoint、per-path最终评价、诊断CSV、环境和source/config hash。使用更新后的审计脚本核对原run全部27组 Frozen/Learned/Oracle 最终 checkpoint 回放；其原始执行源码由[初版已执行notebook归档](../notebooks/archive/dimension_coupling_initial/README.md)提供，不会错误地拿后改版本冒充旧源码（将输出改成新路径，勿覆盖历史审计）：
 
 ```bash
 python scripts/validate_flow_am_dimension_coupling.py --run runs/02-flow-am-dim-formal-8q5obfng --output runs/02-flow-am-update-analysis-formal-EXAMPLE/source-replay-validation.json

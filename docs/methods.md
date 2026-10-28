@@ -117,7 +117,7 @@ mean(d) 是32次重复的均值估计，不是真正已知的总体 bias；qO �
 
 K32 actor 分别在 K32/K64 有限链上评价；K64 的 learned/oracle B64 在全部三个 seed 重新训练并在共同 K64 噪声上评价。这只是网格敏感性，不构成 K64 的完整梯度来源×batch 交互实验。所有新结果写入独立 run，原正式 run 和此前负结果不覆盖。
 
-## 新主 Notebook 2：终端梯度维度 × 生成结构耦合
+## 历史单步 Notebook 2：终端梯度维度 × 生成结构耦合
 
 主入口是 [已执行 notebook](../notebooks/02_flow_am_dimension_coupling.ipynb) 与[完整源码](../notebooks/02_flow_am_dimension_coupling.py)。上一节的二维四模式 Flow 实验保留在[历史归档](../notebooks/archive/flow_am_four_mode/README.md)，其结果不是本轮 `independent_d2` 数据。
 

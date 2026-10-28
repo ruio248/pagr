@@ -1,0 +1,12 @@
+{
+  "source_run": "runs/02-qam-td-formal-31c55defef",
+  "seeds": [49001, 49002, 49003],
+  "actor_updates": [0, 150, 300],
+  "environment_times": [0, 4, 7],
+  "states_per_time": 1,
+  "mc_samples_per_split": 8192,
+  "mc_chunk": 256,
+  "paired_eval_episodes": 2048,
+  "profile": "fixed-snapshot diagnostic, no retraining or checkpoint selection",
+  "note": "Current-policy MC reference is a finite-sample estimate, never an exact Oracle. Two independent splits assess reference noise."
+}

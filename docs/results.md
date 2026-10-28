@@ -20,6 +20,14 @@
 
 实验 B 复用 A 的 Critic 预训练初始化，之后每次 TD 后继动作由当前 Actor 的同一 SDE sampler 给出，并交替执行一次 Critic/一次 AM Actor 更新。最终闭环成功率均值0.67253；它验证联合 TD→Q动作梯度→Lean AM→Actor 的调用链及本设置中的性能提升，**但没有精确当前策略 Oracle，不能把 A 的 `Q^{pi_ref}` 当作 B 的梯度误差真值**，也不能与 A 的 Oracle 差混表。两分支均不是完整官方工程复现。额外解析 Oracle 标签计算的64样本 CPU microbenchmark（单批约0.126–0.129 ms，Learned critic 自动微分约0.342–0.347 ms）[单独记录](../runs/02-qam-td-formal-31c55defef/terminal-label-compute-cost.json)；不含训练/rollout，不代表两方法 wall-clock 效率。没有提出或测试新的抑制算法。
 
+### 联合 TD＋AM 的当前策略 Monte Carlo 梯度诊断（Notebook 2b）
+
+[Notebook 2b](../notebooks/02b_joint_mc_reference_diagnostic.ipynb)只读取 B 的三个 seed、`N=0/150/300` 保存的 Actor/Critic/Adam 状态；每个快照固定 `k=0/4/7` 各一个独立评价状态，不重新训练。对生成动作端点固定首动作，之后用**该快照当前 Actor**闭环模拟；利用已知高斯环境转移的 score 恒等式估计 `∇_a Q^{π_actor}`。每个点两份独立8192条轨迹，最后一步环境噪声在 `k<7` 时解析积分以降低方差。它是有限样本的参考估计，不是精确 Oracle，也不在正常 TD＋AM 训练中使用。[完整27点和9个快照结果](../runs/02-qam-joint-mc-diagnostic-d026b21f0a/report.md)、[图](../runs/02-qam-joint-mc-diagnostic-d026b21f0a/joint-mc-diagnostic.png)与[审计](../runs/02-qam-joint-mc-diagnostic-d026b21f0a/validation.json)。
+
+在选定27点上，critic–MC 动作梯度差的 L2 范数均值约0.348，两份独立MC梯度差均值约0.104；27/27点前者较大。相同路径的终点标签差经 Lean adjoint 传到 matching（九快照标签差 RMS 均值约0.233），虚拟 Adam 步差范数均值约0.0285，而MC两半估计造成的对应步差均值约0.0141。这提供了**当前策略下误差可传播到更新**的诊断证据，但MC差异不是正式同时置信界，也不能保证每一点的真实梯度偏差已被精确测出。
+
+这一轮并**不支持**“Q值已比较准确、主要是梯度错”的更强命题：27点的Q值平均绝对偏差约0.238，而MC Q均值约0.406。三状态微批量的一步虚拟更新，在2048条共享噪声闭环评价中，MC参考梯度分支相对learned分支有8/9个正的点估计，但只有2/9个未经多重比较校正的逐快照95%区间排除零；按三个训练seed先对三个N取平均，平均成功率差约+0.00233、探索性seed层95% t区间约`[-0.00203, +0.00669]`。这不是完整联合再训练，也没有确认最终性能提升或新算法胜出。
+
 以下旧章节为历史导航/Arm与单步 Flow 结果，数据来源包括 `src/pagr/assets/reference/summary.json`、`mechanism.json`、`guard_diagnosis.json`、`delivery_audit.json`。所有表格保留全部方法，不筛掉失败 seed；它们与上述多步 TD-Q 实验分开解释。
 
 ## 能说什么，不能说什么

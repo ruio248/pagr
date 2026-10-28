@@ -17,6 +17,10 @@
 
 开发 smoke 使用缩小步数和样本来检查调用链；正式配置未根据 Oracle/Learned 结果改动。Oracle 解析梯度计算成本另列，不声称两臂 wall-clock 相同。旧三任务单步奖励回归协议保留在本文件后续章节，不能与本设置混表。
 
+## Notebook 2b：联合 TD＋AM 保存快照的当前策略梯度诊断
+
+逐字段配置见 [`qam_joint_mc_diagnostic.json`](../configs/qam_joint_mc_diagnostic.json)。只读取上述正式 run，不新增 TD/AM 参数更新、不写回源 checkpoint。三个 seed 各取 `N=0/150/300` 的联合 Actor/Critic/Adam 快照；每快照从独立 eval 转移中固定选 `k=0/4/7` 各一个状态，Actor 用固定生成噪声产生当前动作端点。每个端点的 MC 参考分两独立组，各8192条轨迹，首动作固定，后续动作由当前 Actor 生成；已知高斯环境转移用于 score 梯度，最终环境噪声在非最后环境步时解析积分。9个快照的三状态诊断微批量各做 learned/MC 两个相同 Adam history 的**虚拟一步**，再以2048条公共噪声闭环 episode 配对测评。它不是训练中实际 batch64，也不是新的算法或公平交互预算比较；MC 两组差用于衡量参考估计自身的噪声。
+
 前半部分描述仓库中可直接重放的历史 42-run follow-up：2 个任务 × 3 个 seed × 7 个方法。历史协议保留在 `src/pagr/assets/reference/history/`，不能混用其 full-adjoint 或非 Adam 设置来解释本表。新的 Flow AM 固定协议见文末，不能与旧动力学实验混为一组结果。
 
 机器可读任务配置为 [`configs/tasks.json`](../configs/tasks.json)，方法配置为 [`configs/methods.json`](../configs/methods.json)。历史 task config 中存在继承的 `updates`、`batch` 等字段；**最新 actor 训练使用方法 `Options` 的 1000 / 64，而不是这些历史默认值**。CLI 不读取 `configs/tasks.json` 作为可调覆盖文件；它是冻结 `assets/original/protocol.json` 的可读镜像。

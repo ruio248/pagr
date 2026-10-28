@@ -11,6 +11,7 @@ runs/
 !runs/
 runs/*
 !runs/02-qam-td-formal-31c55defef/
+!runs/02-qam-joint-mc-diagnostic-d026b21f0a/
 tmp/
 .env
 .env.*

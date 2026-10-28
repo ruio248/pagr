@@ -70,10 +70,11 @@ python -m pagr replay --task arm --seed 18001 --method silu --inputs runs/genera
 
 ## Notebook
 
-### 两份逐行展开的研究 notebook
+### 两份主研究 notebook 与联合训练诊断扩展
 
 1. [`01_motivation_analytic.ipynb`](../notebooks/01_motivation_analytic.ipynb)：解析的“值准、梯度不准”例子；一次实际 AM–SGD 更新的精确期望损害；三维线性 Gaussian 下的逐轨迹/条件均值误差；有限样本 AM 回归、状态反馈、同 KL 控制性能；梯度修复与值偏移对照；精确全局优化的反例。A 是 SGD，B 是冻结轨迹回归，不冒充多轮 Adam 实验。
 2. [`02_qam_td_terminal_error.ipynb`](../notebooks/02_qam_td_terminal_error.ipynb)：当前主 Notebook 2，在同一个16维八步稀疏任务上从真实环境转移做 TD，拟合条件 `Q(k,y,a)`，训练条件 Flow，并分别执行固定参考后续策略的 Learned/Oracle AM 提取（A）及当前 Actor 后继动作的最小联合 TD+AM（B）。[`配置`](../configs/qam_td_terminal_error.json)预先冻结3个正式 seed。报告和新目录中的 checkpoint、数据、数值核验分开保存；源码直接在[同名 `.py`](../notebooks/02_qam_td_terminal_error.py)展开。
+3. [`02b_joint_mc_reference_diagnostic.ipynb`](../notebooks/02b_joint_mc_reference_diagnostic.ipynb)：从 Notebook 2 的 B 分支保存的联合 Actor/Critic/Adam checkpoint 做只读的当前策略 Monte Carlo 梯度诊断；不是训练新算法，也不复用固定参考策略解析 Q 冒充当前策略真值。完整参数在[诊断配置](../configs/qam_joint_mc_diagnostic.json)，结果在[独立报告](../runs/02-qam-joint-mc-diagnostic-d026b21f0a/report.md)。
 
 旧的 [`02_flow_am_dimension_coupling.ipynb`](../notebooks/02_flow_am_dimension_coupling.ipynb) 原样保留并[归档说明](../notebooks/archive/reward_regression_previous_main/README.md)：它是三任务的单步带噪奖励回归，不是多步 TD-Q。原来的只读重分析输出及历史核验仍保留，下述旧命令仅用于重放该历史实验。
 
@@ -86,6 +87,15 @@ PAGR_QAM_PROFILE=formal python scripts/execute_notebook.py --notebook notebooks/
 ```
 
 `PAGR_QAM_PROFILE=smoke` 是默认短链路检查，参数更小，不可当作正式结果。正式设置为3个新 seed，N=0/50/…/300，critic 预训练10000更新、5成员、固定最终 checkpoint，Base 2500更新，A/B各300 Actor 更新；A和B的目标/解释不同。完整数值 Oracle 验证在每次 run 开始前执行。若要重新构建空白 notebook，`python scripts/build_research_notebooks.py --name 02_qam_td_terminal_error --replace` 会清除该 notebook 现有执行输出，请先保存或使用不同位置。
+
+Notebook 2b 使用已随仓库保存的正式 run，不重做训练；完整诊断仍需约44万条固定动作后的模拟轨迹及配对闭环评价，每次创建新的 `runs/02-qam-joint-mc-diagnostic-*` 目录：
+
+```bash
+python scripts/execute_notebook.py --notebook notebooks/02b_joint_mc_reference_diagnostic.ipynb --output runs/notebooks/02b_joint_mc.executed.ipynb
+python scripts/validate_joint_mc_diagnostic.py runs/02-qam-joint-mc-diagnostic-d026b21f0a
+```
+
+审计命令的目录要替换成此次实际打印的新目录；第二行显示的是已提交参考结果。若重新从 `.py` 构建此 notebook，执行输出会被清除；先保留当前已执行版本。两份 MC 分组用于估计参考梯度的噪声，不把它称为精确 Oracle。
 
 ```bash
 python scripts/execute_notebook.py --notebook notebooks/01_motivation_analytic.ipynb --output runs/notebooks/01_motivation.executed.ipynb

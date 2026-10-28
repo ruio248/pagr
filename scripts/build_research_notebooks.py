@@ -12,8 +12,9 @@ import nbformat
 ROOT = Path(__file__).resolve().parents[1]
 NAMES = ('01_motivation_analytic', '02_navigation_am_and_candidates',
          '02_flow_am_terminal_gradient', '02_flow_am_dimension_coupling',
-         '02_qam_td_terminal_error')
-CURRENT = ('01_motivation_analytic', '02_qam_td_terminal_error')
+         '02_qam_td_terminal_error', '02b_joint_mc_reference_diagnostic')
+CURRENT = ('01_motivation_analytic', '02_qam_td_terminal_error',
+           '02b_joint_mc_reference_diagnostic')
 
 
 def cells_from_script(path):

@@ -13,6 +13,34 @@
       "error_outputs": 0,
       "source_sha256": "8ab25fcca6c2993783aed2c5626d068f1bf490043a119b2ea4efafd525528861",
       "notebook_sha256": "865c551b84642c1dbc0c46a6a3199b1c0f7532f4b04dc2b50a01a66b5a410269"
+    },
+    {
+      "name": "02_flow_am_terminal_gradient",
+      "code_cells": 7,
+      "error_outputs": 0,
+      "source_sha256": "1afdd983f345795495022fd21da9cd4fbcd82dd69b55618858042b49cf781236",
+      "notebook_sha256": "bee8e10c95c545f6a0c6ad2f65d292b5c0f0e34370ceee82a3745fac3429866e"
+    },
+    {
+      "name": "02_flow_am_dimension_coupling",
+      "code_cells": 6,
+      "error_outputs": 0,
+      "source_sha256": "8f2d57e4cdc604ae8b145e819f86ef82a346edb468498f231b226f9b4094fb03",
+      "notebook_sha256": "4e4a9a2bd65b7ff21f720df495ce46c79d5058ae0e9e452880d0becf4a4dd508"
+    },
+    {
+      "name": "02_qam_td_terminal_error",
+      "code_cells": 6,
+      "error_outputs": 0,
+      "source_sha256": "9cc41036e422f58d0dfb66393114be8f9e229c76443b3fe4d4a8f35e9a350589",
+      "notebook_sha256": "824c735fe0b51bfd813a8d22f1bf53e5758193ffdaa3adee900db77ba1933684"
+    },
+    {
+      "name": "02b_joint_mc_reference_diagnostic",
+      "code_cells": 3,
+      "error_outputs": 0,
+      "source_sha256": "d3080c2c93c53e96387e8134733e7bb0b7a84821061e577240b648fc8e5a6358",
+      "notebook_sha256": "2961e587b1aea6e63f01f6b719913a60a56c579b2a1d0f1bc4480cad5f2b3f87"
     }
   ],
   "environment": {

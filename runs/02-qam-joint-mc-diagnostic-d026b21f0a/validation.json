@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "source_run": "runs/02-qam-td-formal-31c55defef",
+  "seeds": [
+    49001,
+    49002,
+    49003
+  ],
+  "snapshots": 9,
+  "points": 27,
+  "mc_rollouts_per_point": 16384,
+  "paired_eval_episodes_per_snapshot": 2048
+}

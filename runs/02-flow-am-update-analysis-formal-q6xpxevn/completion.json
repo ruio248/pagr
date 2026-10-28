@@ -1,0 +1,31 @@
+{
+  "status": "complete",
+  "profile": "formal",
+  "kind": "read_only_fixed_update_reanalysis",
+  "source_run": "runs/02-flow-am-dim-formal-8q5obfng",
+  "tasks": [
+    "independent_d2",
+    "independent_d16",
+    "coupled_d16"
+  ],
+  "seeds": [
+    38001,
+    38002,
+    38003
+  ],
+  "new_base_runs": 0,
+  "new_reward_models": 0,
+  "new_actor_runs": 0,
+  "new_actor_optimizer_steps": 0,
+  "new_checkpoint_evaluations": 0,
+  "figures": [
+    "fixed-updates-true-reward.png",
+    "fixed-updates-true-J.png",
+    "fixed-updates-path-KL.png",
+    "paired-fixed-update-differences.png"
+  ],
+  "elapsed_seconds": 0.873267041053623,
+  "formal_spec_sha256": "c37e730eeee22d59c2d6f83d8a3205522f63d2c3f350f894b453eac0a90479a0",
+  "fixed_update_spec_sha256": "b78b47991fe0f93079be425630de42619572b89e3365f1b0e4750765685961f5",
+  "source_sha256": "8f2d57e4cdc604ae8b145e819f86ef82a346edb468498f231b226f9b4094fb03"
+}

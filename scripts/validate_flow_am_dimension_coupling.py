@@ -17,7 +17,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def definitions(path):
-    tree = ast.parse(path.read_text())
+    if path.suffix == '.ipynb':
+        notebook = nbformat.read(path, as_version=4)
+        tree = ast.Module(body=[node for cell in notebook.cells if cell.cell_type == 'code'
+                                for node in ast.parse(cell.source).body], type_ignores=[])
+    else:
+        tree = ast.parse(path.read_text())
     tree.body = [node for node in tree.body if isinstance(
         node, (ast.Import, ast.ImportFrom, ast.FunctionDef, ast.ClassDef))]
     namespace = {'__name__': 'dimension_audit_definitions', 'ROOT': ROOT,
@@ -38,10 +43,15 @@ def main():
     torch.set_num_threads(1)
     torch.use_deterministic_algorithms(True)
     source = ROOT/'notebooks/02_flow_am_dimension_coupling.py'
-    n = definitions(source)
     completion = json.loads((directory/'completion.json').read_text())
     environment = json.loads((directory/'environment.json').read_text())
     config = json.loads((directory/'config.json').read_text())
+    current_hash = hashlib.sha256(source.read_bytes()).hexdigest()
+    original_manifest = json.loads((ROOT/'notebooks/archive/dimension_coupling_initial/manifest.json').read_text())
+    archived_notebook = ROOT/original_manifest['executed_notebook']
+    use_archive = completion['source_sha256'] != current_hash
+    definition_source = archived_notebook if use_archive else source
+    n = definitions(definition_source)
     c = n['configuration']('formal')
     checks, replays = [], []
 
@@ -51,23 +61,30 @@ def main():
             raise AssertionError(name)
 
     check('formal config exactly frozen', config == n['config_dict'](c))
-    source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
+    source_hash = completion['source_sha256'] if use_archive else current_hash
     config_hash = hashlib.sha256((ROOT/'configs/flow_am_dimension_coupling.json').read_bytes()).hexdigest()
-    check('source hash start/completion/current',
+    check('source hash start/completion/selected source',
           source_hash == completion['source_sha256'] == environment['source_sha256'])
     check('config hash start/completion/current',
           config_hash == completion['formal_spec_sha256'] == environment['formal_spec_sha256'])
-    notebook = nbformat.read(source.with_suffix('.ipynb'), as_version=4)
+    notebook = nbformat.read(archived_notebook if use_archive else source.with_suffix('.ipynb'),
+                             as_version=4)
     nbformat.validate(notebook)
     module_spec = importlib.util.spec_from_file_location('builder',
                          ROOT/'scripts/build_research_notebooks.py')
     builder = importlib.util.module_from_spec(module_spec)
     module_spec.loader.exec_module(builder)
-    expected = builder.cells_from_script(source)
-    check('notebook cells and source hash',
-          [(cell.cell_type, cell.source) for cell in notebook.cells] ==
-          [(cell.cell_type, cell.source) for cell in expected] and
-          notebook.metadata.pagr.source_sha256 == source_hash)
+    if use_archive:
+        check('archived original notebook and source provenance',
+              hashlib.sha256(archived_notebook.read_bytes()).hexdigest() ==
+              original_manifest['executed_notebook_sha256'] and
+              notebook.metadata.pagr.source_sha256 == source_hash)
+    else:
+        expected = builder.cells_from_script(source)
+        check('notebook cells and source hash',
+              [(cell.cell_type, cell.source) for cell in notebook.cells] ==
+              [(cell.cell_type, cell.source) for cell in expected] and
+              notebook.metadata.pagr.source_sha256 == source_hash)
     code = [cell for cell in notebook.cells if cell.cell_type == 'code']
     check('all notebook code cells executed without errors',
           len(code) == 5 and all(cell.execution_count is not None for cell in code)

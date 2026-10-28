@@ -1,0 +1,28 @@
+{
+  "question": "At the same number of Actor optimizer.step() calls, does terminal-gradient reliability affect true reward or true SOC J?",
+  "source_run": "runs/02-flow-am-dim-formal-8q5obfng",
+  "tasks": ["independent_d2", "independent_d16", "coupled_d16"],
+  "seeds": [38001, 38002, 38003],
+  "actor_update_counts": [0, 50, 100, 150, 200, 250, 300],
+  "core_checkpoints": [50, 150, 300],
+  "serialized_actor_checkpoints": [0, 150, 300],
+  "K": 64,
+  "B": 64,
+  "beta": 1.5,
+  "curve_evaluation": {
+    "paths": 512,
+    "noise_role": 300000,
+    "source_file": "learning-curves.csv",
+    "measured_during_original_training": true
+  },
+  "final_evaluation": {
+    "paths": 4096,
+    "noise_role": 700000,
+    "source_file": "final.csv",
+    "independent_of_curve_stream": true
+  },
+  "new_actor_training": false,
+  "new_checkpoint_evaluation": false,
+  "match_path_KL": false,
+  "select_best_checkpoint": false
+}

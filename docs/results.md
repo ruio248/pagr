@@ -141,3 +141,19 @@ K32 actor 在 K32/K64 上重评，K64的 learned/oracle B64 也已在全部三�
 5. **仍无法区分**终端梯度本身、critic 值拟合难度、actor路径状态分布、行为先验、Base拟合质量和有限优化的各自因果贡献。最终诊断的值RMSE/真实奖励SD分别约0.130、0.884、0.398；B的标量估计也明显更难，故不能说“值几乎完全正确但梯度独立变坏”。
 
 Base 的 held-out FM loss/d 分别约 1.556、1.576、1.644；Base SDE对行为的固定随机投影距离约0.0825、0.0772、0.0766，邻接相关误差RMS约0.0384、0.0365、0.0321。这些指标、每维均值/方差和耦合分布的逆变换检查保存在各 seed 的 `base-quality.json`；它们显示可运行的预训练与有限维分布检查，但随机投影距离或二维散点不证明完整16维分布拟合。真实训练没有用真值指导 critic/learned actor，Oracle 仅是终点标签替换的诊断，也不是可部署上界。旧二维四模式 Flow 的负结果按[字节级归档](../notebooks/archive/flow_am_four_mode/README.md)保留，不能并入本轮 `independent_d2` 统计。
+
+### 同 Actor 更新次数的只读重分析
+
+这节**没有新训练，也没有新增checkpoint评价**。它读取原正式 run 的 `learning-curves.csv`：`N=0,50,100,150,200,250,300`，每个任务/seed两臂在同一512条评价噪声下测得；训练时只保存了0/150/300的模型与优化器checkpoint。最终4096条路径评价来自另一独立噪声流，分表呈现。固定 `K=64`、`B=64`；`N` 是Actor的实际 `optimizer.step()` 次数，不是生成步数或运行时间。
+
+正的 `ΔR=(R_Oracle−R_Learned)/d` 表示Oracle任务奖励更高，正的 `ΔJ=(J_Learned−J_Oracle)/d` 表示Oracle原随机控制目标更低。下表为512路径曲线的三训练seed配对均值，括号中是优势同向seed数；完整七点、逐seed数值、SD与KL分解见[固定N报告](../runs/02-flow-am-update-analysis-formal-q6xpxevn/report.md)和[机器可读表](../runs/02-flow-am-update-analysis-formal-q6xpxevn/paired-updates-by-seed.csv)。
+
+| 任务 | N=50：ΔR / ΔJ | N=150：ΔR / ΔJ | N=300：ΔR / ΔJ |
+|---|---:|---:|---:|
+| independent_d2 | −0.00060 (1/3) / +0.00117 (1/3) | −0.00092 (1/3) / +0.00281 (3/3) | −0.00212 (1/3) / +0.00168 (3/3) |
+| independent_d16 | −0.00118 (1/3) / +0.00717 (3/3) | −0.00587 (1/3) / +0.03924 (3/3) | −0.00348 (1/3) / +0.04711 (3/3) |
+| coupled_d16 | +0.00634 (3/3) / +0.01038 (3/3) | +0.01395 (2/3) / +0.02789 (3/3) | +0.01441 (2/3) / +0.02842 (3/3) |
+
+所以，对于“同样更新N次”的问题，答案必须分指标：二维独立任务的Oracle奖励无稳定优势，`J` 的小差距到中后段才在三seed同向；十六维独立任务从N=50开始 `J` 在三seed同向更好，差距到后段增大，但平均奖励反而略低，主要伴随Oracle更低的Path KL；十六维耦合任务从N=50起两指标平均均占优，但后段奖励只在2/3 seed同向。独立的4096路径最终评价也保留这个区分：三任务的Oracle `J` 都是3/3同向，奖励同向数依次为1/3、1/3、2/3。`ΔJ=1.5ΔR−ΔKL`逐seed逐N核对成立。未做同KL校准，最终 `J` 降低百分比仅是性能百分比，不是训练步数或运行时间加速比。
+
+这组结果支持“终端标签真值可能在有限N内改变控制表现”，但不表明Oracle一般更快、更高奖励或渐近更优；也不能单独区分终点梯度误差、critic拟合、Base质量与actor状态分布。三seed、300步为探索性范围，Oracle真实梯度只作为诊断对照。新的[分析来源清单](../runs/02-flow-am-update-analysis-formal-q6xpxevn/source-manifest.json)和[原始已执行notebook归档](../notebooks/archive/dimension_coupling_initial/README.md)明确区分重分析与历史训练。

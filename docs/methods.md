@@ -116,3 +116,11 @@ K32 actor 分别在 K32/K64 有限链上评价；K64 的 learned/oracle B64 在�
 本轮 matching loss 整体除以维度：`L_AM=h/(2Bd) Σ_(i,k)||u_θ(X_k,t_k)+nu_k p_(k+1)||²`。路径与标签 detach，只有当前 actor 的局部输出求参数导数；这不是精确的 `∇_θ J`。有限链真实目标仍是 `J_d=PathKL-β E[R_d]`，每条路径的 `PathKL=Σ_k h||u_k||²/2` 由同协方差 Gaussian 转移的条件 KL 得出。报告 `J_d/d`、`E[R_d]/d`、`PathKL/d` 仅为跨维度展示，不更改 β。
 
 Oracle 与 Learned 每次从同一 Base/空 Adam 状态出发，使用相同 seed 的训练噪声；actor 分化后，状态路径自然不相同。真实评价使用同一 4096 条初始/Brownian 噪声、固定第 300 步，不根据真实 J 选 checkpoint。Oracle 只更换终端标签来源，既不是可部署方法，也不是最优策略上界。核心比较 `G_d=(J_Learned-J_Oracle)/d` 仅检验此有限训练协议内可恢复的差距。高维 Base 若拟合不足，或 Oracle 本身无法改善 Frozen Base，需要优先报告平台限制。三个探索 seed 不足以建立普遍维度规律。
+
+### 固定 Actor 更新次数的主问题
+
+本轮把主问题收紧为：在相同累计 Actor `optimizer.step()` 次数 `N` 下，终端梯度标签来源是否改变学习效果？`N` 不是单次生成的离散步数 `K`，也不是每次更新的rollout数 `B`。历史训练两臂均为 `K=64`、`B=64`、最多 `N=300`；相同数据、Base、初始 Actor/Adam 和可配对随机数流，差别仅在 `p_K=-β∇R_hat(X_K)` 与 `p_K=-β∇R_true(X_K)`。本轮不作同KL、同时间或同最终策略分布匹配。
+
+每个 `N=0,50,…,300` 单独报告真实任务奖励 `E[R_true]/d` 与原目标 `J_true/d`，再用 `PathKL/d` 解释差异。每 seed 的定义是 `ΔR=(R_Oracle−R_Learned)/d`、`ΔJ=(J_Learned−J_Oracle)/d`、`ΔKL=(KL_Oracle−KL_Learned)/d`，满足 `ΔJ=βΔR−ΔKL`。正的 `ΔR` 与正的 `ΔJ` 分别意味着更高奖励与更低控制目标；二者不等价。三 seed 先各自配对，之后才汇总均值、SD与同向数量；不做 best-so-far 平滑或事后挑选有利训练区间。
+
+曲线的七个点由原训练时对同一512条评价噪声测得，只有 `0/150/300` 模型/Adam checkpoint 序列化。固定300步的另一个4096路径评价独立于曲线，作为分开的最终表。新的[固定步数报告](../runs/02-flow-am-update-analysis-formal-q6xpxevn/report.md)是对既有训练产物的只读分析；原训练、模型、数据和原已执行 notebook 输出仍可通过[来源归档](../notebooks/archive/dimension_coupling_initial/README.md)检查。已有共同路径和虚拟Adam一步诊断仅是局部机制证据，不是精确 `∇θJ`、相同训练历史或渐近最优性证明。

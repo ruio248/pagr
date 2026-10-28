@@ -14,13 +14,13 @@
 
 区分三件事：终点数值误差、传播后的标签/actor 更新误差、最终真实控制代价。梯度 disagreement 不是已校准的梯度误差；局部 matching loss 的下降也不是一般意义的真实控制代价下降。
 
-新的主 Notebook 2 在**二维独立、十六维独立、十六维非线性耦合**三个任务上分别真实预训练行为 Flow，并以相同有限标量奖励数据预算比较 learned/oracle lean AM；没有 TD 自举、人为梯度污染或新误差抑制算法。这是单步 bandit 的 Flow policy extraction 平台，不是 OGBench 或 TRQAM 复现。此前的二维四模式 Flow notebook 和更早的导航 SOC notebook 都保留为历史实验。
+新的主 Notebook 2 明确问：**在相同 Actor 参数更新次数 `N` 下，终端梯度可靠性是否影响真实奖励或真实随机控制目标 `J`？** 它在二维独立、十六维独立、十六维非线性耦合三个任务上比较 learned/oracle lean AM；配对的生成离散步数 `K=64` 和每次更新的 batch `B=64` 也固定。Path KL 保留在原目标里，但不强制两种方法 KL 相等。没有 TD 自举、人为梯度污染或新误差抑制算法。这是单步 bandit 的 Flow policy extraction 平台，不是 OGBench 或 TRQAM 复现。此前的二维四模式 Flow notebook 和更早的导航 SOC notebook 都保留为历史实验。
 
 旧 toy 数据来自自定义动力学上的自然离线轨迹和带执行噪声的终点观测。旧二维避障是四维位置–速度状态；另一旧任务是六关节平面臂的随机位姿生成，不是实物机器人实验。它们已明确归为历史导航/控制 SOC 实验，不能当作 pretrained Flow 的结果。
 
-## 新主 Notebook 2：维度 × 耦合的探索结果
+## 主 Notebook 2：固定 Actor 更新次数的结果
 
-固定新 seed 38001–38003，每任务/seed 重新训练1个Base和5个标量奖励模型，Learned/Oracle各进行300步AM微调；固定第300步，以4096条共同噪声评价。真实目标是 `J=PathKL-1.5×E[R]`，越低越好。下表每个单元是三个训练 seed 的均值±seed SD；`G=(J_Learned-J_Oracle)/d` 正值表示 Oracle 在相同真实目标下更好。
+本轮**复用**此前完成的三任务训练，没有新增 Actor 更新。原训练固定 seed 38001–38003，每任务/seed 各有1个Base、5个标量奖励模型，Learned/Oracle各进行300次更新。学习曲线在 `N=0,50,…,300` 用每 seed 固定的512条公共评价噪声；下表是另一组4096条公共噪声的独立最终评价，不能静默接到512路径曲线上。真实目标为 `J=PathKL-1.5×E[R]`，越低越好；`G=(J_Learned-J_Oracle)/d` 正值表示 Oracle 在相同目标下更好。数值为三个训练 seed 的均值±seed SD。
 
 | 任务 | Frozen J/d | Learned J/d | Oracle J/d | G | 终端梯度相对RMS误差 |
 |---|---:|---:|---:|---:|---:|
@@ -28,7 +28,9 @@
 | independent_d16 | 1.88185±0.05087 | 0.89733±0.03056 | 0.84998±0.01546 | 0.04735±0.03203 | 0.4047 |
 | coupled_d16 | 1.95956±0.02122 | 1.00072±0.01534 | 0.97265±0.01194 | 0.02807±0.00578 | 0.3063 |
 
-三个任务的 Oracle 都优于 Frozen，九个任务–seed 对中 Oracle 的真实 J 均优于 Learned。维度从2增至16时，终端梯度误差与每维 Oracle 收益空间都变大；但加入非线性耦合后，Base Jacobian 非对角占比上升，梯度误差和 G **没有继续增大**。这支持研究高维有限标量数据下的梯度可靠性，却不证明耦合必然放大损害，更不能独立归因于 adjoint：critic 拟合难度、输入分布、Base质量与 actor 状态分布也同时变化。三个 seed 是探索性证据，不是普适维度规律或新算法胜出。完整每 seed 的 J、奖励、KL、共同路径诊断、模型和数据见[已执行的新 notebook](notebooks/02_flow_am_dimension_coupling.ipynb)、[正式报告](runs/02-flow-am-dim-formal-8q5obfng/report.md)、[方法](docs/methods.md#新主-notebook-2终端梯度维度--生成结构耦合)和[审计](runs/02-flow-am-dim-formal-8q5obfng/validation.json)。
+在同一更新次数下，**奖励与 `J` 的结论不同**：独立二维的 Oracle 奖励没有稳定优势，`J` 的小优势主要到中后段才在3/3 seed上同号；独立十六维从 `N=50` 起 `J` 就在3/3 seed上更低，差值后期增大，但平均奖励没有更高，主要伴随更低 Path KL；耦合十六维在 `N=50` 时奖励与 `J` 都是3/3 seed占优，最终奖励为2/3、`J` 为3/3。不能把 `J` 下降比例称作训练速度提升。完整无平滑曲线、N=50/150/300的逐 seed 配对差和指标来源见[固定更新次数报告](runs/02-flow-am-update-analysis-formal-q6xpxevn/report.md)及[已执行 Notebook 2](notebooks/02_flow_am_dimension_coupling.ipynb)。原始训练及模型在[不变的正式 run](runs/02-flow-am-dim-formal-8q5obfng)，新[来源 manifest](runs/02-flow-am-update-analysis-formal-q6xpxevn/source-manifest.json)记录了复用关系。
+
+维度从2增至16时，终端梯度误差与每维 Oracle `J` 收益空间都变大；加入非线性耦合后，Base Jacobian 非对角占比上升，梯度误差和 `J` 差距**没有继续增大**。critic 拟合、输入分布、Base质量与 actor 状态分布也同时变化，不能独立归因于 adjoint。三个探索 seed 不是普适规律或新算法胜出。
 
 ## 历史二维四模式 Flow AM 结果
 
@@ -91,7 +93,8 @@ python -m pagr replay --task arm --seed 18001 --method am_adam --output runs/arm
 | 内容 | 入口 |
 |---|---|
 | **Notebook 1：可解析 motivation、AM 标签误差、因果干预与反例** | [01_motivation_analytic.ipynb](notebooks/01_motivation_analytic.ipynb) · [完整 Python 脚本](notebooks/01_motivation_analytic.py) |
-| **Notebook 2：终端梯度维度 × 生成结构耦合，新的三任务主实验** | [已执行 notebook](notebooks/02_flow_am_dimension_coupling.ipynb) · [完整 Python 脚本](notebooks/02_flow_am_dimension_coupling.py) · [固定配置](configs/flow_am_dimension_coupling.json) |
+| **Notebook 2：三任务、同 Actor 更新次数下的梯度可靠性** | [已执行 notebook](notebooks/02_flow_am_dimension_coupling.ipynb) · [完整 Python 脚本](notebooks/02_flow_am_dimension_coupling.py) · [训练配置](configs/flow_am_dimension_coupling.json) · [固定评价配置](configs/flow_am_fixed_update_analysis.json) |
+| 三任务原始执行输出：本次重分析前字节不变 | [原始 notebook 归档](notebooks/archive/dimension_coupling_initial/README.md) · [来源 manifest](notebooks/archive/dimension_coupling_initial/manifest.json) |
 | 历史二维四模式 Flow Notebook 2：负结果与全部输出保留 | [字节不变的归档](notebooks/archive/flow_am_four_mode/README.md) · [原位置入口](notebooks/02_flow_am_terminal_gradient.ipynb) · [来源 SHA-256](notebooks/archive/flow_am_four_mode/manifest.json) |
 | 历史导航 SOC Notebook 2：源码与执行输出字节不变 | [归档 notebook](notebooks/archive/02_navigation_am_and_candidates.ipynb) · [源码](notebooks/archive/02_navigation_am_and_candidates.py) · [SHA-256 manifest](notebooks/archive/manifest.json) |
 | 完整实验参数、随机种子、预算和指标 | [docs/settings.md](docs/settings.md) |
@@ -100,13 +103,13 @@ python -m pagr replay --task arm --seed 18001 --method am_adam --output runs/arm
 | 历史实验报告及可编译 TeX 源文件 | [reports/lean_am_followup.pdf](reports/lean_am_followup.pdf)、[TeX](reports/lean_am_followup.tex) |
 | 全部 42 个逐 seed 结果和最终 actor | [src/pagr/assets/reference/followup](src/pagr/assets/reference/followup) |
 | 离线数据、原始/替代 critic | [src/pagr/assets](src/pagr/assets) |
-| 当前实现的轻量测试 | [Flow AM 数值审计](tests/test_flow_am.py) · [历史实现测试](tests/test_research.py) |
+| 当前实现的轻量测试 | [同更新次数分析测试](tests/test_fixed_update_analysis.py) · [三任务数值审计](tests/test_flow_am_dimension_coupling.py) · [历史实现测试](tests/test_research.py) |
 | 来源、公开包转换和 SHA256 | [provenance/export_manifest.json](provenance/export_manifest.json) |
 | GitHub 设置、隐私边界、许可证状态 | [docs/repository.md](docs/repository.md) |
 
 两份主 notebook 的关键数学和实现直接写在单元格中，不是调用 `replay()` 的薄包装。
 第一份包含严格的一步有限批量 AM–SGD 存在性结果，以及此前的冻结轨迹 AM 回归实验；
-新的第二份从头做三任务的 FM 预训练和标量 reward ensemble 拟合，比较 frozen、AM-learned、AM-oracle；三个新正式 seeds，以及共同 checkpoint 的误差/Adam 诊断。四模式、2x和 K/2K 数值敏感性属于归档的上一版，不自动重跑。
+新的第二份完整展开三任务 FM 预训练和标量 reward ensemble 拟合的实现，比较 frozen、AM-learned、AM-oracle；当前执行输出复用已审计的三 seed 训练产物，主展示按相同 Actor 更新次数排列真实奖励、真实 `J`、配对差和 KL，再解释共同 checkpoint 的误差/Adam 诊断。四模式、2x和 K/2K 数值敏感性属于归档的上一版，不自动重跑。
 两者分别回答“解析动机在什么条件下成立”和“自然估计误差在真实训练的 Flow 上是否产生可恢复损失”，不把前者当作后者成功的证明。
 执行命令、输出和证据边界见下方链接中的 [Notebook 部分](docs/reproduction.md#notebook)。
 

@@ -164,3 +164,18 @@ Success：整条轨迹无碰撞、终点位置误差 <0.4、速度误差 <0.5。
 | 预算 | 每任务×每seed训练1个Base、5个reward model、2个actor；全套9/45/18。训练样本数与更新数相同，但实际运行时间独立记录 |
 
 RNG 使用 `(task_index+1)*10^12+seed*10^7+role_offset`，每任务/seed隔离，Learned/Oracle 共享其训练噪声流；曲线、最终评价、校准与诊断使用不同 role。可选的等误差 Oracle 辅助控制默认关闭，本轮没有运行。三个 seed 的均值和 SD 都只是探索性摘要。
+
+### 相同 Actor 更新次数的只读重分析
+
+机器可读固定配置为 [`flow_am_fixed_update_analysis.json`](../configs/flow_am_fixed_update_analysis.json)。本轮不改上表的训练协议，也不新训 Base、critic 或 Actor；只读取已完成的 [`02-flow-am-dim-formal-8q5obfng`](../runs/02-flow-am-dim-formal-8q5obfng) 并写入独立分析目录。
+
+| 符号/项目 | 定义与来源 |
+|---|---|
+| `N` | 累计 Actor `optimizer.step()` 次数；分析 `0,50,100,150,200,250,300`，核心表突出50/150/300。原始训练仅保存0/150/300模型及Adam checkpoint，其余点来自训练时真实记录的曲线，不是插值 |
+| `K`、`B` | 每次 Flow rollout 的EM离散步数64；每次 Actor 更新的rollout batch64；Learned/Oracle完全一致 |
+| 学习曲线 | 原 `learning-curves.csv`；每任务/seed的两臂在同一512条噪声上评价，RNG role300000；Frozen参考取N0的同一512路径值 |
+| 最终表 | 原 `final.csv` 与各 seed `eval-*.npz`；固定N300，另一组独立4096条公共噪声，RNG role700000；不并入512路径曲线 |
+| 指标 | `E[R_true]/d` 越高越好、`J_true/d=(PathKL−1.5E[R_true])/d` 越低越好、`PathKL/d` 只作解释。三项按seed先配对再求均值、seed SD及同向seed数 |
+| 不做的事 | 不匹配PathKL、不择优checkpoint、不重评未保存的中间模型、不改变β、不新增训练或算法 |
+
+配对差定义为 `ΔR=(R_Oracle−R_Learned)/d`、`ΔJ=(J_Learned−J_Oracle)/d`、`ΔKL=(KL_Oracle−KL_Learned)/d`，逐seed/逐N核对 `ΔJ=1.5ΔR−ΔKL`。原始训练与本次只读分析的source hash、配置hash、模型/数据/checkpoint hash由分析目录中的 `source-manifest.json` 记录。

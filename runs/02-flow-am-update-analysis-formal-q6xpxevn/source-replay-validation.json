@@ -1,0 +1,1031 @@
+{
+  "status": "passed",
+  "run": "runs/02-flow-am-dim-formal-8q5obfng",
+  "source_sha256": "b76ac41c7094fd92c6a7e0cd0e3b92489e8a41ebb57213a5251130e8d61699a3",
+  "config_sha256": "c37e730eeee22d59c2d6f83d8a3205522f63d2c3f350f894b453eac0a90479a0",
+  "checks": [
+    {
+      "name": "formal config exactly frozen",
+      "passed": true
+    },
+    {
+      "name": "source hash start/completion/selected source",
+      "passed": true
+    },
+    {
+      "name": "config hash start/completion/current",
+      "passed": true
+    },
+    {
+      "name": "archived original notebook and source provenance",
+      "passed": true
+    },
+    {
+      "name": "all notebook code cells executed without errors",
+      "passed": true
+    },
+    {
+      "name": "suite completed without failure",
+      "passed": true
+    },
+    {
+      "name": "nine seed completions",
+      "passed": true
+    },
+    {
+      "name": "eighteen actor completions",
+      "passed": true
+    },
+    {
+      "name": "formal count metadata",
+      "passed": true
+    },
+    {
+      "name": "27 final method rows",
+      "passed": true
+    },
+    {
+      "name": "144 diagnostic repeats",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001: all data replay exactly",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001: calibration replay",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001: frozen model hashes",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001: data hashes",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001/Frozen Base: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "name": "independent_d2/38001/learned: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001/learned: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001/learned: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001/learned: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001/learned: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001/learned: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001/learned: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 7.632783294297951e-17
+    },
+    {
+      "name": "independent_d2/38001/oracle: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001/oracle: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001/oracle: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001/oracle: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001/oracle: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001/oracle: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38001/oracle: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 5.551115123125783e-17
+    },
+    {
+      "name": "independent_d2/38001: gain formula",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002: all data replay exactly",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002: calibration replay",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002: frozen model hashes",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002: data hashes",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002/Frozen Base: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 4.440892098500626e-16
+    },
+    {
+      "name": "independent_d2/38002/learned: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002/learned: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002/learned: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002/learned: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002/learned: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002/learned: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002/learned: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.280770596475918e-17
+    },
+    {
+      "name": "independent_d2/38002/oracle: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002/oracle: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002/oracle: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002/oracle: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002/oracle: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002/oracle: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38002/oracle: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 1.214306433183765e-17
+    },
+    {
+      "name": "independent_d2/38002: gain formula",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003: all data replay exactly",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003: calibration replay",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003: frozen model hashes",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003: data hashes",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003/Frozen Base: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "name": "independent_d2/38003/learned: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003/learned: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003/learned: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003/learned: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003/learned: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003/learned: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003/learned: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.540979117872439e-17
+    },
+    {
+      "name": "independent_d2/38003/oracle: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003/oracle: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003/oracle: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003/oracle: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003/oracle: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003/oracle: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "independent_d2/38003/oracle: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.8879238130678e-17
+    },
+    {
+      "name": "independent_d2/38003: gain formula",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001: all data replay exactly",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001: calibration replay",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001: frozen model hashes",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001: data hashes",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001/Frozen Base: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "name": "independent_d16/38001/learned: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001/learned: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001/learned: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001/learned: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001/learned: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001/learned: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001/learned: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.71445146547012e-17
+    },
+    {
+      "name": "independent_d16/38001/oracle: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001/oracle: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001/oracle: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001/oracle: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001/oracle: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001/oracle: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38001/oracle: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.367506770274758e-17
+    },
+    {
+      "name": "independent_d16/38001: gain formula",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002: all data replay exactly",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002: calibration replay",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002: frozen model hashes",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002: data hashes",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002/Frozen Base: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 5.551115123125783e-17
+    },
+    {
+      "name": "independent_d16/38002/learned: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002/learned: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002/learned: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002/learned: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002/learned: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002/learned: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002/learned: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 1.7763568394002505e-15
+    },
+    {
+      "name": "independent_d16/38002/oracle: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002/oracle: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002/oracle: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002/oracle: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002/oracle: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002/oracle: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38002/oracle: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 9.71445146547012e-17
+    },
+    {
+      "name": "independent_d16/38002: gain formula",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003: all data replay exactly",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003: calibration replay",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003: frozen model hashes",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003: data hashes",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003/Frozen Base: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "name": "independent_d16/38003/learned: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003/learned: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003/learned: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003/learned: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003/learned: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003/learned: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003/learned: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 5.551115123125783e-17
+    },
+    {
+      "name": "independent_d16/38003/oracle: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003/oracle: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003/oracle: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003/oracle: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003/oracle: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003/oracle: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "independent_d16/38003/oracle: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 7.28583859910259e-17
+    },
+    {
+      "name": "independent_d16/38003: gain formula",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001: all data replay exactly",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001: calibration replay",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001: frozen model hashes",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001: data hashes",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001/Frozen Base: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 6.938893903907228e-17
+    },
+    {
+      "name": "coupled_d16/38001/learned: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001/learned: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001/learned: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001/learned: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001/learned: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001/learned: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001/learned: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 1.7763568394002505e-15
+    },
+    {
+      "name": "coupled_d16/38001/oracle: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001/oracle: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001/oracle: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001/oracle: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001/oracle: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001/oracle: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38001/oracle: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 1.1102230246251565e-16
+    },
+    {
+      "name": "coupled_d16/38001: gain formula",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002: all data replay exactly",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002: calibration replay",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002: frozen model hashes",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002: data hashes",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002/Frozen Base: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 3.552713678800501e-15
+    },
+    {
+      "name": "coupled_d16/38002/learned: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002/learned: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002/learned: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002/learned: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002/learned: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002/learned: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002/learned: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 1.1102230246251565e-16
+    },
+    {
+      "name": "coupled_d16/38002/oracle: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002/oracle: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002/oracle: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002/oracle: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002/oracle: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002/oracle: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38002/oracle: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 1.1102230246251565e-16
+    },
+    {
+      "name": "coupled_d16/38002: gain formula",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003: all data replay exactly",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003: calibration replay",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003: frozen model hashes",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003: data hashes",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003/Frozen Base: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 5.551115123125783e-17
+    },
+    {
+      "name": "coupled_d16/38003/learned: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003/learned: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003/learned: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003/learned: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003/learned: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003/learned: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003/learned: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 8.326672684688674e-17
+    },
+    {
+      "name": "coupled_d16/38003/oracle: exact Base initialization",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003/oracle: checkpoint 0",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003/oracle: checkpoint 150",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003/oracle: checkpoint 300",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003/oracle: fixed budget and frozen models",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003/oracle: all updates finite",
+      "passed": true
+    },
+    {
+      "name": "coupled_d16/38003/oracle: fixed checkpoint replay",
+      "passed": true,
+      "metric_max_abs": 1.1102230246251565e-16
+    },
+    {
+      "name": "coupled_d16/38003: gain formula",
+      "passed": true
+    },
+    {
+      "name": "figure behavior-base-projections.png",
+      "passed": true
+    },
+    {
+      "name": "figure final-reward-KL-J.png",
+      "passed": true
+    },
+    {
+      "name": "figure terminal-gradient-to-Adam.png",
+      "passed": true
+    },
+    {
+      "name": "figure oracle-gain-and-propagation.png",
+      "passed": true
+    },
+    {
+      "name": "historical archive unchanged: notebooks/02_flow_am_terminal_gradient.py",
+      "passed": true
+    },
+    {
+      "name": "historical archive unchanged: notebooks/archive/flow_am_four_mode/02_flow_am_terminal_gradient.py",
+      "passed": true
+    },
+    {
+      "name": "historical archive unchanged: notebooks/02_flow_am_terminal_gradient.ipynb",
+      "passed": true
+    },
+    {
+      "name": "historical archive unchanged: notebooks/archive/flow_am_four_mode/02_flow_am_terminal_gradient.ipynb",
+      "passed": true
+    },
+    {
+      "name": "historical archive unchanged: configs/flow_am.json",
+      "passed": true
+    },
+    {
+      "name": "historical archive unchanged: notebooks/archive/flow_am_four_mode/flow_am.json",
+      "passed": true
+    }
+  ],
+  "checkpoint_replays": [
+    {
+      "task": "independent_d2",
+      "seed": 38001,
+      "method": "Frozen Base",
+      "per_path_exact": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "task": "independent_d2",
+      "seed": 38001,
+      "method": "learned",
+      "per_path_exact": true,
+      "metric_max_abs": 7.632783294297951e-17
+    },
+    {
+      "task": "independent_d2",
+      "seed": 38001,
+      "method": "oracle",
+      "per_path_exact": true,
+      "metric_max_abs": 5.551115123125783e-17
+    },
+    {
+      "task": "independent_d2",
+      "seed": 38002,
+      "method": "Frozen Base",
+      "per_path_exact": true,
+      "metric_max_abs": 4.440892098500626e-16
+    },
+    {
+      "task": "independent_d2",
+      "seed": 38002,
+      "method": "learned",
+      "per_path_exact": true,
+      "metric_max_abs": 9.280770596475918e-17
+    },
+    {
+      "task": "independent_d2",
+      "seed": 38002,
+      "method": "oracle",
+      "per_path_exact": true,
+      "metric_max_abs": 1.214306433183765e-17
+    },
+    {
+      "task": "independent_d2",
+      "seed": 38003,
+      "method": "Frozen Base",
+      "per_path_exact": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "task": "independent_d2",
+      "seed": 38003,
+      "method": "learned",
+      "per_path_exact": true,
+      "metric_max_abs": 9.540979117872439e-17
+    },
+    {
+      "task": "independent_d2",
+      "seed": 38003,
+      "method": "oracle",
+      "per_path_exact": true,
+      "metric_max_abs": 9.8879238130678e-17
+    },
+    {
+      "task": "independent_d16",
+      "seed": 38001,
+      "method": "Frozen Base",
+      "per_path_exact": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "task": "independent_d16",
+      "seed": 38001,
+      "method": "learned",
+      "per_path_exact": true,
+      "metric_max_abs": 9.71445146547012e-17
+    },
+    {
+      "task": "independent_d16",
+      "seed": 38001,
+      "method": "oracle",
+      "per_path_exact": true,
+      "metric_max_abs": 9.367506770274758e-17
+    },
+    {
+      "task": "independent_d16",
+      "seed": 38002,
+      "method": "Frozen Base",
+      "per_path_exact": true,
+      "metric_max_abs": 5.551115123125783e-17
+    },
+    {
+      "task": "independent_d16",
+      "seed": 38002,
+      "method": "learned",
+      "per_path_exact": true,
+      "metric_max_abs": 1.7763568394002505e-15
+    },
+    {
+      "task": "independent_d16",
+      "seed": 38002,
+      "method": "oracle",
+      "per_path_exact": true,
+      "metric_max_abs": 9.71445146547012e-17
+    },
+    {
+      "task": "independent_d16",
+      "seed": 38003,
+      "method": "Frozen Base",
+      "per_path_exact": true,
+      "metric_max_abs": 2.220446049250313e-16
+    },
+    {
+      "task": "independent_d16",
+      "seed": 38003,
+      "method": "learned",
+      "per_path_exact": true,
+      "metric_max_abs": 5.551115123125783e-17
+    },
+    {
+      "task": "independent_d16",
+      "seed": 38003,
+      "method": "oracle",
+      "per_path_exact": true,
+      "metric_max_abs": 7.28583859910259e-17
+    },
+    {
+      "task": "coupled_d16",
+      "seed": 38001,
+      "method": "Frozen Base",
+      "per_path_exact": true,
+      "metric_max_abs": 6.938893903907228e-17
+    },
+    {
+      "task": "coupled_d16",
+      "seed": 38001,
+      "method": "learned",
+      "per_path_exact": true,
+      "metric_max_abs": 1.7763568394002505e-15
+    },
+    {
+      "task": "coupled_d16",
+      "seed": 38001,
+      "method": "oracle",
+      "per_path_exact": true,
+      "metric_max_abs": 1.1102230246251565e-16
+    },
+    {
+      "task": "coupled_d16",
+      "seed": 38002,
+      "method": "Frozen Base",
+      "per_path_exact": true,
+      "metric_max_abs": 3.552713678800501e-15
+    },
+    {
+      "task": "coupled_d16",
+      "seed": 38002,
+      "method": "learned",
+      "per_path_exact": true,
+      "metric_max_abs": 1.1102230246251565e-16
+    },
+    {
+      "task": "coupled_d16",
+      "seed": 38002,
+      "method": "oracle",
+      "per_path_exact": true,
+      "metric_max_abs": 1.1102230246251565e-16
+    },
+    {
+      "task": "coupled_d16",
+      "seed": 38003,
+      "method": "Frozen Base",
+      "per_path_exact": true,
+      "metric_max_abs": 5.551115123125783e-17
+    },
+    {
+      "task": "coupled_d16",
+      "seed": 38003,
+      "method": "learned",
+      "per_path_exact": true,
+      "metric_max_abs": 8.326672684688674e-17
+    },
+    {
+      "task": "coupled_d16",
+      "seed": 38003,
+      "method": "oracle",
+      "per_path_exact": true,
+      "metric_max_abs": 1.1102230246251565e-16
+    }
+  ],
+  "elapsed_seconds": 11.670267042005435
+}

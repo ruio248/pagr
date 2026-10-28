@@ -1,0 +1,9 @@
+{
+  "original_commit": "7454e2562d47f820277ab02a7cf53015dd6647ac",
+  "executed_notebook": "notebooks/archive/dimension_coupling_initial/02_flow_am_dimension_coupling.ipynb",
+  "executed_notebook_sha256": "6db6779b10a931a655d8467aea35a53e2d6b3204e66920cc23c3e5abad3b4b8e",
+  "original_source_at_commit": "notebooks/02_flow_am_dimension_coupling.py",
+  "formal_config": "configs/flow_am_dimension_coupling.json",
+  "formal_config_sha256": "c37e730eeee22d59c2d6f83d8a3205522f63d2c3f350f894b453eac0a90479a0",
+  "unchanged_training_run": "runs/02-flow-am-dim-formal-8q5obfng"
+}

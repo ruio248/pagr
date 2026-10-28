@@ -1,0 +1,36 @@
+{
+  "fixed_update_analysis_spec_sha256": "b78b47991fe0f93079be425630de42619572b89e3365f1b0e4750765685961f5",
+  "N_definition": "cumulative Actor optimizer.step() calls",
+  "fixed_N": [
+    0,
+    50,
+    100,
+    150,
+    200,
+    250,
+    300
+  ],
+  "paired_K": 64,
+  "paired_B": 64,
+  "beta": 1.5,
+  "curve": {
+    "paths": 512,
+    "role": 300000,
+    "checkpoints": "measured during original training",
+    "model_checkpoints_saved": [
+      0,
+      150,
+      300
+    ]
+  },
+  "final": {
+    "paths": 4096,
+    "role": 700000,
+    "checkpoint": 300,
+    "source": "independent, larger evaluation stream from original final.csv"
+  },
+  "KL_matched": false,
+  "best_checkpoint_selected": false,
+  "new_checkpoint_evaluations": 0,
+  "new_actor_optimizer_steps": 0
+}

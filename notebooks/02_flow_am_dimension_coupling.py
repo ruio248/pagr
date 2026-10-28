@@ -1,20 +1,31 @@
 # %% [markdown]
-# # Notebook 2 — terminal-gradient dimension × generative coupling
+# # Notebook 2 — does terminal-gradient reliability matter at fixed Actor updates?
 #
-# Three new tasks use one construction: independent_d2 (d=2, rho=0),
+# The primary question is: with the same number N of Actor optimizer.step()
+# calls, does a reliable terminal gradient yield higher true task reward,
+# lower true stochastic-control J, or both? N is not the K discretization
+# steps of a Flow rollout or the B trajectories in one Actor update. We
+# compare N=0,50,100,150,200,250,300 with K=64 and B=64 held fixed.
+# Path KL is part of J, but is not a matching condition between methods.
+#
+# Three tasks use one construction: independent_d2 (d=2, rho=0),
 # independent_d16 (d=16, rho=0), and coupled_d16 (d=16, rho=.5).
-# These are exploratory, fixed before formal execution. The previous
+# These are exploratory, fixed before the original formal execution. The previous
 # four-mode two-dimensional Flow experiment is retained as a historical
 # runnable notebook and is not used as the independent_d2 result.
 #
 # We study a fixed true objective, J = path KL - beta E[R]. Oracle AM
 # replaces only the terminal gradient label; it is a diagnostic, not an
 # exact policy gradient or a deployable method. No gradient corruption,
-# guard, or new control algorithm is introduced.
+# guard, KL matching, or new control algorithm is introduced.
 #
-# Each seed trains its own Flow from behavior samples and five scalar
-# reward models from 512 noisy observations. Learned and oracle actors
-# start from the identical frozen Flow and use paired noise streams.
+# This execution may read the completed 2026-10-28 three-seed training
+# using PAGR_DIM_SOURCE_RUN. That read-only path reuses saved curve rows,
+# models, data and checkpoints without any new Actor optimizer.step().
+# The fixed reanalysis protocol is in
+# configs/flow_am_fixed_update_analysis.json and is checked at runtime.
+# An unset PAGR_DIM_SOURCE_RUN still runs the full explicit training below.
+# The analysis writes to a new, unique run and never edits its source.
 
 # %%
 import copy
@@ -43,6 +54,7 @@ from torch import nn
 ROOT = Path.cwd() if (Path.cwd()/'pyproject.toml').exists() else Path.cwd().parent
 assert (ROOT/'pyproject.toml').exists(), 'Run from the repository or notebooks directory'
 SPEC_PATH = ROOT/'configs/flow_am_dimension_coupling.json'
+FIXED_SPEC_PATH = ROOT/'configs/flow_am_fixed_update_analysis.json'
 
 
 def configuration(profile='formal'):
@@ -75,6 +87,27 @@ def config_dict(c):
     for key in ('seeds', 'actor_checkpoints', 'diagnostic_checkpoints', 'adam_betas'):
         result[key] = list(result[key])
     return result
+
+
+def fixed_analysis_protocol(c, source):
+    raw = json.loads(FIXED_SPEC_PATH.read_text())
+    expected = dict(source_run=str(source.relative_to(ROOT)),
+                    tasks=[task.name for task in c.tasks], seeds=list(c.seeds),
+                    actor_update_counts=list(range(0, c.actor_updates+1, c.curve_every)),
+                    core_checkpoints=[50, 150, 300],
+                    serialized_actor_checkpoints=list(c.actor_checkpoints),
+                    K=c.steps, B=c.actor_batch, beta=c.beta)
+    for key, value in expected.items():
+        if raw[key] != value:
+            raise AssertionError(f'Fixed-update analysis config mismatch: {key}')
+    if (raw['curve_evaluation']['paths'] != c.curve_paths or
+        raw['curve_evaluation']['noise_role'] != 300000 or
+        raw['final_evaluation']['paths'] != c.final_paths or
+        raw['final_evaluation']['noise_role'] != 700000 or
+        raw['new_actor_training'] or raw['new_checkpoint_evaluation'] or
+        raw['match_path_KL'] or raw['select_best_checkpoint']):
+        raise AssertionError('Fixed-update evaluation source or scope changed')
+    return raw
 
 
 def generator(seed):
@@ -143,14 +176,24 @@ torch.set_num_threads(1)
 torch.use_deterministic_algorithms(True)
 CFG = configuration(os.environ.get('PAGR_DIM_PROFILE', 'formal'))
 (ROOT/'runs').mkdir(exist_ok=True)
-OUT = Path(tempfile.mkdtemp(prefix=f'02-flow-am-dim-{CFG.profile}-', dir=ROOT/'runs'))
+source_setting = os.environ.get('PAGR_DIM_SOURCE_RUN')
+SOURCE_RUN = ((ROOT/source_setting).resolve() if source_setting else None)
+if SOURCE_RUN is not None and (not SOURCE_RUN.is_dir() or
+                               not SOURCE_RUN.is_relative_to((ROOT/'runs').resolve())):
+    raise ValueError('PAGR_DIM_SOURCE_RUN must identify an existing run under this repository')
+FIXED_SPEC = fixed_analysis_protocol(CFG, SOURCE_RUN) if SOURCE_RUN else None
+FIXED_SPEC_SHA = hashlib.sha256(FIXED_SPEC_PATH.read_bytes()).hexdigest() if SOURCE_RUN else None
+prefix = f'02-flow-am-update-analysis-{CFG.profile}-' if SOURCE_RUN else f'02-flow-am-dim-{CFG.profile}-'
+OUT = Path(tempfile.mkdtemp(prefix=prefix, dir=ROOT/'runs'))
 CONFIG_SHA = hashlib.sha256(SPEC_PATH.read_bytes()).hexdigest()
 SOURCE_SHA = hashlib.sha256((ROOT/'notebooks/02_flow_am_dimension_coupling.py').read_bytes()).hexdigest()
 save_json(OUT/'config.json', config_dict(CFG))
 save_json(OUT/'environment.json', dict(python=sys.version, torch=torch.__version__,
           numpy=np.__version__, pandas=pd.__version__, platform=platform.platform(),
           threads=torch.get_num_threads(), device='cpu', source_sha256=SOURCE_SHA,
-          formal_spec_sha256=CONFIG_SHA))
+          formal_spec_sha256=CONFIG_SHA,
+          fixed_update_spec_sha256=FIXED_SPEC_SHA,
+          source_run=str(SOURCE_RUN.relative_to(ROOT)) if SOURCE_RUN else None))
 print('New run:', OUT.relative_to(ROOT))
 display(pd.DataFrame([dict(vars(task)) for task in CFG.tasks]))
 
@@ -911,14 +954,297 @@ def run_suite(c, out):
         raise
 
 
+def file_sha256(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def load_completed_suite(c, source, destination):
+    source_config = json.loads((source/'config.json').read_text())
+    completion = json.loads((source/'completion.json').read_text())
+    environment = json.loads((source/'environment.json').read_text())
+    audit = json.loads((source/'validation.json').read_text())
+    if source_config != config_dict(c) or completion['status'] != 'complete':
+        raise AssertionError('Source run does not match the frozen formal protocol')
+    if completion['formal_spec_sha256'] != CONFIG_SHA or environment['formal_spec_sha256'] != CONFIG_SHA:
+        raise AssertionError('Source run was not produced from the frozen config')
+    if completion['source_sha256'] != environment['source_sha256'] or audit['status'] != 'passed':
+        raise AssertionError('Source run provenance or replay audit failed')
+    if len(audit['checkpoint_replays']) != 27 or not all(
+            item['passed'] for item in audit['checks']):
+        raise AssertionError('Source run final checkpoint replay is incomplete')
+    required = ('final.csv', 'fit-history.csv', 'base-quality.csv', 'learning-curves.csv',
+                'diagnostics.csv', 'adjoint-time.csv', 'propagation-structure.csv',
+                'budgets.csv', 'oracle-gains-by-seed.csv')
+    frames = {name: pd.read_csv(source/name) for name in required}
+    visual = {}
+    preserved = {}
+    for task in c.tasks:
+        sample = np.load(source/task.name/f'seed-{c.seeds[0]}'/'base-quality-samples.npz')
+        visual[task.name] = {name: torch.from_numpy(sample[name]) for name in sample.files}
+        for seed in c.seeds:
+            root = source/task.name/f'seed-{seed}'
+            preserved[f'{task.name}/{seed}/base'] = file_sha256(root/'base.pt')
+            preserved[f'{task.name}/{seed}/data'] = file_sha256(root/'data.npz')
+            for member in range(c.ensemble_members):
+                preserved[f'{task.name}/{seed}/reward-{member}'] = file_sha256(
+                    root/f'reward-{member}.pt')
+            for label in ('learned', 'oracle'):
+                budget = json.loads((root/label/'budget.json').read_text())
+                if budget['updates'] != c.actor_updates or budget['training_rollouts'] != c.actor_updates*c.actor_batch:
+                    raise AssertionError('Actor N or B differs from fixed protocol')
+                start = torch.load(root/label/'checkpoint-0.pt', weights_only=True)
+                base = torch.load(root/'base.pt', weights_only=True)
+                if start['update'] != 0 or start['optimizer']['state'] or not all(
+                        torch.equal(start['actor'][key], value) for key, value in base.items()):
+                    raise AssertionError('Actor did not start from the shared Base and empty Adam state')
+                for step in c.actor_checkpoints:
+                    saved = torch.load(root/label/f'checkpoint-{step}.pt', weights_only=True)
+                    if saved['update'] != step:
+                        raise AssertionError('Checkpoint index mismatch')
+                    preserved[f'{task.name}/{seed}/{label}/checkpoint-{step}'] = file_sha256(
+                        root/label/f'checkpoint-{step}.pt')
+    save_json(destination/'source-manifest.json', dict(
+        source_run=str(source.relative_to(ROOT)),
+        fixed_update_analysis_spec_sha256=FIXED_SPEC_SHA,
+        source_run_status=completion['status'],
+        source_code_sha256=completion['source_sha256'],
+        source_config_sha256=completion['formal_spec_sha256'],
+        source_validation_status=audit['status'],
+        source_checkpoint_replays=len(audit['checkpoint_replays']),
+        input_sha256={name: file_sha256(source/name) for name in
+                      ('config.json', 'completion.json', 'environment.json', 'validation.json',
+                       'learning-curves.csv', 'final.csv', 'diagnostics.csv', 'budgets.csv')},
+        preserved_model_data_checkpoint_sha256=preserved,
+        new_actor_optimizer_steps=0, new_training_runs=0))
+    record_event(destination, 'source_reused', source_run=str(source.relative_to(ROOT)),
+                 new_actor_optimizer_steps=0)
+    return dict(final=frames['final.csv'], gains=frames['oracle-gains-by-seed.csv'],
+                fits=frames['fit-history.csv'], quality=frames['base-quality.csv'],
+                curves=frames['learning-curves.csv'], diagnostics=frames['diagnostics.csv'],
+                adjoint=frames['adjoint-time.csv'], structure=frames['propagation-structure.csv'],
+                budgets=frames['budgets.csv'], visual=visual)
+
+
 START = time.monotonic()
-RESULTS = run_suite(CFG, OUT)
-display(RESULTS['final'][['task', 'seed', 'method', 'reward_per_dim',
-                          'energy_per_dim', 'cost', 'cost_per_dim']])
-display(RESULTS['gains'])
+RESULTS = (load_completed_suite(CFG, SOURCE_RUN, OUT) if SOURCE_RUN else run_suite(CFG, OUT))
+print('Training mode:', 'read-only reuse; 0 new Actor updates' if SOURCE_RUN else 'fresh training')
 
 # %% [markdown]
-# ## 4. Fixed final checkpoint results and mechanism measurements
+# ## 4. Same Actor-update budget: reward, true J, then Path KL
+#
+# N counts actual Actor Adam optimizer.step() calls. K=64 is the number
+# of Euler–Maruyama steps within each rollout, and B=64 is the number
+# of rollout paths in one update; these are held equal for both arms.
+# Every N=0,50,100,150,200,250,300 curve point was evaluated during
+# the original training on 512 *common* paths per task-seed, drawn with
+# the curve-specific RNG role. The two methods' states diverge after
+# N=0, but their evaluation noise remains paired. The Frozen reference
+# in these figures is the shared N=0 value on the same 512 paths.
+#
+# The final.csv and saved per-path arrays use a different 4096-path
+# stream at N=300. They form a separate, higher-precision final table,
+# never a splice into the 512-path learning curve. Only checkpoints
+# 0,150,300 were serialized. The other curve points are contemporaneous
+# measurements, not interpolated or newly evaluated checkpoints.
+#
+# Delta_R=(R_Oracle-R_Learned)/d; Delta_J=(J_Learned-J_Oracle)/d;
+# Delta_KL=(KL_Oracle-KL_Learned)/d. Positive Delta_R and Delta_J
+# favor Oracle in their respective metrics. The identity
+# Delta_J=beta Delta_R-Delta_KL is checked for every seed and N.
+# Path KL is not matched or used to select a checkpoint.
+
+# %%
+def paired_updates(curves, c):
+    fixed = tuple(range(0, c.actor_updates+1, c.curve_every))
+    expected = len(c.tasks)*len(c.seeds)*2*len(fixed)
+    if len(curves) != expected or curves.duplicated(['task', 'seed', 'source', 'update']).any():
+        raise AssertionError('Missing, duplicated, or extra learning-curve rows')
+    rows = []
+    for task in c.tasks:
+        for seed in c.seeds:
+            for method in ('learned', 'oracle'):
+                observed = curves[(curves.task == task.name) & (curves.seed == seed)
+                                  & (curves.source == method)].sort_values('update')
+                if tuple(observed['update']) != fixed:
+                    raise AssertionError('Mismatched Actor-update checkpoints')
+                residual = observed.cost_per_dim-(observed.energy_per_dim-c.beta*observed.reward_per_dim)
+                if float(residual.abs().max()) > 1e-8:
+                    raise AssertionError('Curve J does not include the original KL and reward')
+            for update in fixed:
+                pair = curves[(curves.task == task.name) & (curves.seed == seed)
+                              & (curves['update'] == update)].set_index('source')
+                learned, oracle = pair.loc['learned'], pair.loc['oracle']
+                delta_r = float(oracle.reward_per_dim-learned.reward_per_dim)
+                delta_j = float(learned.cost_per_dim-oracle.cost_per_dim)
+                delta_kl = float(oracle.energy_per_dim-learned.energy_per_dim)
+                if abs(delta_j-(c.beta*delta_r-delta_kl)) > 1e-7:
+                    raise AssertionError('Paired curve ΔJ decomposition failed')
+                if update == 0 and max(abs(delta_r), abs(delta_j), abs(delta_kl)) > 1e-12:
+                    raise AssertionError('Shared Base initialization differs at N=0')
+                rows.append(dict(task=task.name, seed=seed, dim=task.dim, N=update,
+                                 K=c.steps, B=c.actor_batch, evaluation_paths=c.curve_paths,
+                                 evaluation_noise_role=300000,
+                                 delta_reward_per_dim=delta_r,
+                                 delta_J_per_dim=delta_j,
+                                 delta_KL_per_dim=delta_kl))
+    paired = pd.DataFrame(rows)
+    summary = paired.groupby(['task', 'N'], sort=False).agg(
+        delta_reward_mean=('delta_reward_per_dim', 'mean'),
+        delta_reward_seed_sd=('delta_reward_per_dim', 'std'),
+        reward_positive_seeds=('delta_reward_per_dim', lambda x: int((x > 0).sum())),
+        delta_J_mean=('delta_J_per_dim', 'mean'),
+        delta_J_seed_sd=('delta_J_per_dim', 'std'),
+        J_positive_seeds=('delta_J_per_dim', lambda x: int((x > 0).sum())),
+        delta_KL_mean=('delta_KL_per_dim', 'mean'),
+        delta_KL_seed_sd=('delta_KL_per_dim', 'std'),
+        KL_positive_seeds=('delta_KL_per_dim', lambda x: int((x > 0).sum()))
+    ).reset_index()
+    summary.insert(2, 'training_seeds', len(c.seeds))
+    summary.insert(3, 'evaluation_paths', c.curve_paths)
+    return paired, summary
+
+
+def paired_final(final, c):
+    rows = []
+    for task in c.tasks:
+        for seed in c.seeds:
+            frame = final[(final.task == task.name) & (final.seed == seed)].set_index('method')
+            if set(frame.index) != {'Frozen Base', 'learned', 'oracle'}:
+                raise AssertionError('Incomplete Frozen/Learned/Oracle final evaluation')
+            learned, oracle = frame.loc['learned'], frame.loc['oracle']
+            delta_r = float(oracle.reward_per_dim-learned.reward_per_dim)
+            delta_j = float(learned.cost_per_dim-oracle.cost_per_dim)
+            delta_kl = float(oracle.energy_per_dim-learned.energy_per_dim)
+            if abs(delta_j-(c.beta*delta_r-delta_kl)) > 1e-7:
+                raise AssertionError('Paired final ΔJ decomposition failed')
+            rows.append(dict(task=task.name, seed=seed, dim=task.dim, N=c.actor_updates,
+                             K=c.steps, B=c.actor_batch, evaluation_paths=c.final_paths,
+                             evaluation_noise_role=700000,
+                             frozen_reward_per_dim=float(frame.loc['Frozen Base'].reward_per_dim),
+                             frozen_J_per_dim=float(frame.loc['Frozen Base'].cost_per_dim),
+                             learned_reward_per_dim=float(learned.reward_per_dim),
+                             learned_J_per_dim=float(learned.cost_per_dim),
+                             oracle_reward_per_dim=float(oracle.reward_per_dim),
+                             oracle_J_per_dim=float(oracle.cost_per_dim),
+                             learned_KL_per_dim=float(learned.energy_per_dim),
+                             oracle_KL_per_dim=float(oracle.energy_per_dim),
+                             delta_reward_per_dim=delta_r, delta_J_per_dim=delta_j,
+                             delta_KL_per_dim=delta_kl,
+                             final_J_reduction_percent=100*delta_j/float(learned.cost_per_dim)))
+    return pd.DataFrame(rows)
+
+
+def plot_update_metric(curves, c, out, metric, title, ylabel, filename):
+    fig, axes = plt.subplots(1, len(c.tasks), figsize=(15, 4.3), sharex=True)
+    colors = {'learned': 'tab:blue', 'oracle': 'tab:orange'}
+    for ax, task in zip(axes, c.tasks):
+        subset = curves[curves.task.eq(task.name)]
+        for method in ('learned', 'oracle'):
+            arm = subset[subset.source.eq(method)]
+            for seed in c.seeds:
+                row = arm[arm.seed.eq(seed)].sort_values('update')
+                ax.plot(row['update'], row[metric], color=colors[method], alpha=.27,
+                        lw=1, marker='.', markersize=3)
+            grouped = arm.groupby('update')[metric].agg(['mean', 'std'])
+            updates = grouped.index.to_numpy(dtype=float)
+            center = grouped['mean'].to_numpy(dtype=float)
+            spread = grouped['std'].fillna(0).to_numpy(dtype=float)
+            ax.plot(updates, center, color=colors[method], marker='o', lw=2.2,
+                    label=method.capitalize())
+            ax.fill_between(updates, center-spread, center+spread,
+                            color=colors[method], alpha=.12)
+        frozen = float(subset[subset['update'].eq(0) & subset.source.eq('learned')][metric].mean())
+        ax.axhline(frozen, color='.45', ls=':', lw=1.4,
+                   label='Frozen Base (same 512-path stream)')
+        ax.set_title(task.name)
+        ax.set_xlabel('Actor optimizer updates N (not Flow steps K)')
+        ax.set_xticks(range(0, c.actor_updates+1, c.curve_every))
+        ax.grid(alpha=.18)
+    axes[0].set_ylabel(ylabel)
+    axes[0].legend(fontsize=8)
+    fig.suptitle(title+'; 512 paired evaluation paths; thin lines=seeds, thick=mean ± seed SD')
+    fig.tight_layout()
+    fig.savefig(out/filename, dpi=155, bbox_inches='tight')
+    display(fig); plt.close(fig)
+    return filename
+
+
+def plot_paired_updates(paired, summary, c, out):
+    fig, axes = plt.subplots(len(c.tasks), 2, figsize=(11.5, 10), sharex=True)
+    quantities = [('delta_reward_per_dim', 'delta_reward_mean', 'delta_reward_seed_sd',
+                   'Δ reward/d: positive means Oracle reward is higher'),
+                  ('delta_J_per_dim', 'delta_J_mean', 'delta_J_seed_sd',
+                   'Δ J/d: positive means Oracle true J is lower')]
+    for row_index, task in enumerate(c.tasks):
+        by_seed = paired[paired.task.eq(task.name)]
+        by_task = summary[summary.task.eq(task.name)].sort_values('N')
+        for column, (value, mean, sd, title) in enumerate(quantities):
+            ax = axes[row_index, column]
+            for seed in c.seeds:
+                selected = by_seed[by_seed.seed.eq(seed)].sort_values('N')
+                ax.plot(selected['N'], selected[value], marker='.', lw=1, alpha=.4,
+                        label=f'seed {seed}' if row_index == 0 and column == 0 else None)
+            ax.errorbar(by_task['N'], by_task[mean], yerr=by_task[sd].fillna(0),
+                        color='black', marker='o', lw=1.8, capsize=2,
+                        label='mean ± seed SD' if row_index == 0 and column == 0 else None)
+            ax.axhline(0, color='.5', lw=.8)
+            ax.set_title(task.name+' — '+title, fontsize=9)
+            ax.set_xticks(range(0, c.actor_updates+1, c.curve_every))
+            ax.grid(alpha=.18)
+    axes[-1, 0].set_xlabel('Actor optimizer updates N')
+    axes[-1, 1].set_xlabel('Actor optimizer updates N')
+    axes[0, 0].legend(fontsize=8)
+    fig.suptitle('Per-seed paired differences on the same 512-path curve protocol')
+    fig.tight_layout()
+    filename = 'paired-fixed-update-differences.png'
+    fig.savefig(out/filename, dpi=155, bbox_inches='tight')
+    display(fig); plt.close(fig)
+    return filename
+
+
+def analyze_fixed_updates(result, c, out):
+    paired, summary = paired_updates(result['curves'], c)
+    final = paired_final(result['final'], c)
+    core_steps = FIXED_SPEC['core_checkpoints'] if FIXED_SPEC else (50, 150, 300)
+    core = summary[summary.N.isin(core_steps)].copy()
+    paired.to_csv(out/'paired-updates-by-seed.csv', index=False)
+    summary.to_csv(out/'paired-updates-summary.csv', index=False)
+    core.to_csv(out/'core-checkpoints-50-150-300.csv', index=False)
+    final.to_csv(out/'final-4096-paired.csv', index=False)
+    save_json(out/'evaluation-protocol.json', dict(
+        fixed_update_analysis_spec_sha256=FIXED_SPEC_SHA,
+        N_definition='cumulative Actor optimizer.step() calls',
+        fixed_N=list(range(0, c.actor_updates+1, c.curve_every)),
+        paired_K=c.steps, paired_B=c.actor_batch, beta=c.beta,
+        curve=dict(paths=c.curve_paths, role=300000, checkpoints='measured during original training',
+                   model_checkpoints_saved=list(c.actor_checkpoints)),
+        final=dict(paths=c.final_paths, role=700000, checkpoint=c.actor_updates,
+                   source='independent, larger evaluation stream from original final.csv'),
+        KL_matched=False, best_checkpoint_selected=False,
+        new_checkpoint_evaluations=0, new_actor_optimizer_steps=0 if SOURCE_RUN else 2*len(c.tasks)*len(c.seeds)*c.actor_updates))
+    files = [plot_update_metric(result['curves'], c, out, 'reward_per_dim',
+                'True task reward at the same Actor update count', 'E[R_true]/d (higher is better)',
+                'fixed-updates-true-reward.png'),
+             plot_update_metric(result['curves'], c, out, 'cost_per_dim',
+                'Original stochastic-control objective at the same Actor update count',
+                'J_true/d (lower is better)', 'fixed-updates-true-J.png'),
+             plot_update_metric(result['curves'], c, out, 'energy_per_dim',
+                'Path KL explains, but does not constrain, the two arms',
+                'PathKL/d', 'fixed-updates-path-KL.png'),
+             plot_paired_updates(paired, summary, c, out)]
+    display(core[['task', 'N', 'delta_reward_mean', 'delta_reward_seed_sd',
+                  'reward_positive_seeds', 'delta_J_mean', 'delta_J_seed_sd',
+                  'J_positive_seeds', 'delta_KL_mean']])
+    display(final[['task', 'seed', 'learned_reward_per_dim', 'oracle_reward_per_dim',
+                   'learned_J_per_dim', 'oracle_J_per_dim', 'delta_reward_per_dim',
+                   'delta_J_per_dim', 'delta_KL_per_dim', 'final_J_reduction_percent']])
+    return dict(paired=paired, summary=summary, core=core, final=final, figures=files)
+
+
+UPDATE_ANALYSIS = analyze_fixed_updates(RESULTS, CFG, OUT)
+
+# %% [markdown]
+# ## 5. Fixed final checkpoint and compact mechanism measurements
 #
 # The comparison unit is a training seed, not thousands of evaluation
 # actions or eight diagnostic repeats. G=(J_learned-J_oracle)/d is
@@ -1175,16 +1501,164 @@ def make_report(result, c, files):
     return '\n'.join(lines)+'\n'
 
 
-FIGURES = make_figures(RESULTS, CFG, OUT)
-REPORT = make_report(RESULTS, CFG, FIGURES)
+def make_fixed_update_report(result, analysis, c, source):
+    core = analysis['core']
+    final = analysis['final']
+    final_means = final.groupby('task').agg(
+        delta_reward_mean=('delta_reward_per_dim', 'mean'),
+        delta_reward_seed_sd=('delta_reward_per_dim', 'std'),
+        reward_positive_seeds=('delta_reward_per_dim', lambda x: int((x > 0).sum())),
+        delta_J_mean=('delta_J_per_dim', 'mean'),
+        delta_J_seed_sd=('delta_J_per_dim', 'std'),
+        J_positive_seeds=('delta_J_per_dim', lambda x: int((x > 0).sum())),
+        delta_KL_mean=('delta_KL_per_dim', 'mean')).reset_index()
+    mechanism = result['diagnostics'][result['diagnostics'].checkpoint_step.eq(c.actor_updates)]
+    mechanism = mechanism.groupby('task')[
+        ['terminal_gradient_relative_rms', 'q_relative_difference',
+         'step_relative_difference']].mean().reset_index()
+    key_columns = ['task', 'N', 'delta_reward_mean', 'delta_reward_seed_sd',
+                   'reward_positive_seeds', 'delta_J_mean', 'delta_J_seed_sd',
+                   'J_positive_seeds', 'delta_KL_mean']
+    stage_text = []
+    for task in c.tasks:
+        rows = core[core.task.eq(task.name)].set_index('N')
+        bits = []
+        for step in (50, 150, 300):
+            row = rows.loc[step]
+            bits.append(f'N={step}: reward {int(row.reward_positive_seeds)}/3, '
+                        f'J {int(row.J_positive_seeds)}/3 seeds favor Oracle')
+        stage_text.append(f'- {task.name}: '+ '; '.join(bits)+'.')
+    by_task = {task.name: core[core.task.eq(task.name)].set_index('N') for task in c.tasks}
+    d2 = by_task['independent_d2']
+    d16 = by_task['independent_d16']
+    coupled = by_task['coupled_d16']
+    final_columns = ['task', 'seed', 'learned_reward_per_dim', 'oracle_reward_per_dim',
+                     'learned_J_per_dim', 'oracle_J_per_dim',
+                     'learned_KL_per_dim', 'oracle_KL_per_dim',
+                     'delta_reward_per_dim', 'delta_J_per_dim',
+                     'delta_KL_per_dim', 'final_J_reduction_percent']
+    lines = [
+        '# Same Actor-update budget: terminal-gradient reliability in Lean AM', '',
+        'Primary question: after the same number N of Actor optimizer.step() calls, '
+        'does Oracle terminal-gradient access yield higher true task reward, lower '
+        'true stochastic-control J, or both? Oracle is a truth-assisted diagnostic, '
+        'not a deployable algorithm or theoretical upper bound.', '',
+        '## Provenance and what was executed', '',
+        f'This is a read-only reanalysis of `{source.relative_to(ROOT)}`. '
+        'The original three tasks × three seeds × two Actor arms had already '
+        'completed 300 updates each. No Actor, Base or reward model was retrained; '
+        'zero new optimizer steps and zero new checkpoint evaluations were performed. '
+        'The models and data remain in the source run. The new output directory '
+        'contains analyses, figures, the source manifest and this report.', '',
+        f'N is Actor parameter updates; K={c.steps} is Flow EM discretization, '
+        f'B={c.actor_batch} is rollout paths per update. Both arms share N/K/B, '
+        'Base, scalar data, reward ensemble, initial Actor, initial Adam state '
+        'and pairable training/evaluation noise. Their state paths differ after '
+        'policies diverge. The intervention is only the terminal label source. '
+        'Lean AM, not full adjoint or BPTT, is used in both arms.', '',
+        f'The complete learning curve uses N={list(range(0, c.actor_updates+1, c.curve_every))} '
+        f'and {c.curve_paths} common evaluation paths per task-seed (noise role 300000). '
+        'It was measured during original training. Only N=0,150,300 model/optimizer '
+        'checkpoints were serialized; N=50,100,200,250 are real curve measurements, '
+        'not reconstructed models. The independent N=300 final table uses '
+        f'{c.final_paths} different paths (noise role 700000); it is never spliced '
+        'into the 512-path curve.', '',
+        '## Reward versus Actor updates (higher is better)', '',
+        'Each task has unsmoothed Learned/Oracle curves with every seed, their mean '
+        'and training-seed SD, and a Frozen Base N=0 reference. See '
+        '`fixed-updates-true-reward.png` and the exact 126 source curve rows.', '',
+        '## True SOC J versus Actor updates (lower is better)', '',
+        'The original objective remains `J=PathKL-beta E[R_true]`, beta=1.5. '
+        'No post-hoc PathKL matching, actor scaling, checkpoint selection or '
+        'extra energy loss was performed. See `fixed-updates-true-J.png`.', '',
+        '## Paired checkpoint effects', '',
+        'Define `Delta_R=(R_Oracle-R_Learned)/d`, '
+        '`Delta_J=(J_Learned-J_Oracle)/d`, '
+        '`Delta_KL=(KL_Oracle-KL_Learned)/d`. '
+        'Positive Delta_R means higher Oracle task reward; positive Delta_J '
+        'means lower Oracle true J. Every row obeys '
+        '`Delta_J=beta*Delta_R-Delta_KL`. Pair within seed first, then aggregate. '
+        'The table below is the pre-specified N=50/150/300 summary; '
+        '`paired-updates-by-seed.csv` and `paired-updates-summary.csv` keep all '
+        'three seeds and all seven update points.', '',
+        markdown_table(core, key_columns), '',
+        'Direction counts at the three highlighted checkpoints:', '',
+        *stage_text, '',
+        'Direct fixed-N reading of this run:', '',
+        f'- independent_d2: mean Delta_J/d is {d2.loc[50, "delta_J_mean"]:.5g} '
+        f'at N=50 and {d2.loc[300, "delta_J_mean"]:.5g} at N=300; '
+        f'the N=300 mean reward difference is {d2.loc[300, "delta_reward_mean"]:.5g}. '
+        'A small J advantage does not imply a reward advantage.',
+        f'- independent_d16: mean Delta_J/d rises from '
+        f'{d16.loc[50, "delta_J_mean"]:.5g} at N=50 to '
+        f'{d16.loc[300, "delta_J_mean"]:.5g} at N=300, while '
+        f'the mean N=300 Delta_R/d is {d16.loc[300, "delta_reward_mean"]:.5g} '
+        f'and Delta_KL/d is {d16.loc[300, "delta_KL_mean"]:.5g}. '
+        'This is earlier and accumulating J separation, not evidence of '
+        'consistently higher reward or a measured training-speed ratio.',
+        f'- coupled_d16: mean Delta_R/d and Delta_J/d are '
+        f'{coupled.loc[50, "delta_reward_mean"]:.5g} and '
+        f'{coupled.loc[50, "delta_J_mean"]:.5g} at N=50, versus '
+        f'{coupled.loc[300, "delta_reward_mean"]:.5g} and '
+        f'{coupled.loc[300, "delta_J_mean"]:.5g} at N=300; '
+        f'final curve directions are {int(coupled.loc[300, "reward_positive_seeds"])}/3 '
+        f'for reward and {int(coupled.loc[300, "J_positive_seeds"])}/3 for J.', '',
+        '## Path KL as explanation, not a matching condition', '',
+        'See `fixed-updates-path-KL.png` and `delta_KL_mean` above. '
+        'A lower J does not imply higher reward; a higher reward does not imply '
+        'lower J. Differences in control intensity are allowed and explicitly '
+        'accounted for by the original J.', '',
+        '## Independent high-sample N=300 final table', '',
+        markdown_table(final, final_columns), '',
+        'The final J reduction percentage is `(J_Learned-J_Oracle)/J_Learned×100` '
+        'for this fixed checkpoint only. It is not an update-count saving or '
+        'wall-clock acceleration. Final paired means, seed SD and direction counts:', '',
+        markdown_table(final_means, ['task', 'delta_reward_mean',
+             'delta_reward_seed_sd', 'reward_positive_seeds', 'delta_J_mean',
+             'delta_J_seed_sd', 'J_positive_seeds', 'delta_KL_mean']), '',
+        '## Compact mechanism readout', '',
+        markdown_table(mechanism, ['task', 'terminal_gradient_relative_rms',
+                                   'q_relative_difference',
+                                   'step_relative_difference']), '',
+        'These existing common-path/shared-Adam-history diagnostics describe '
+        'label, local matching-gradient and one-step optimizer discrepancies. '
+        'They do not establish the true J policy gradient or equate the two '
+        'independent training histories. A more accurate terminal gradient '
+        'need not improve every reward checkpoint.', '',
+        '## Scope of the conclusion', '',
+        'The tables answer fixed-N performance separately for true reward and '
+        'true J, including stages where their directions differ. Three explored '
+        'training seeds and 300 steps do not establish a general convergence '
+        'rate, asymptotic optimum, or causal isolation of critic error from '
+        'Base quality and evolving state distributions. Future robust methods '
+        'must use the same data, initial Actor, B, K and actual N optimizer '
+        'steps; any extra forward/adjoint/critic computation must be logged '
+        'separately. No such new method is implemented here.', '',
+        'Figures: '+', '.join(analysis['figures'])+'.'
+    ]
+    return '\n'.join(lines)+'\n'
+
+
+if SOURCE_RUN:
+    FIGURES = UPDATE_ANALYSIS['figures']
+    REPORT = make_fixed_update_report(RESULTS, UPDATE_ANALYSIS, CFG, SOURCE_RUN)
+else:
+    FIGURES = UPDATE_ANALYSIS['figures']+make_figures(RESULTS, CFG, OUT)
+    REPORT = make_report(RESULTS, CFG, FIGURES)
 (OUT/'report.md').write_text(REPORT)
 save_json(OUT/'completion.json', dict(status='complete', profile=CFG.profile,
+          kind='read_only_fixed_update_reanalysis' if SOURCE_RUN else 'fresh_training',
+          source_run=str(SOURCE_RUN.relative_to(ROOT)) if SOURCE_RUN else None,
           tasks=[task.name for task in CFG.tasks], seeds=list(CFG.seeds),
-          base_runs=len(CFG.tasks)*len(CFG.seeds),
-          reward_models=len(CFG.tasks)*len(CFG.seeds)*CFG.ensemble_members,
-          actor_runs=2*len(CFG.tasks)*len(CFG.seeds),
-          diagnostic_repetitions=len(CFG.tasks)*len(CFG.seeds)*2*CFG.diagnostic_repeats,
+          new_base_runs=0 if SOURCE_RUN else len(CFG.tasks)*len(CFG.seeds),
+          new_reward_models=0 if SOURCE_RUN else len(CFG.tasks)*len(CFG.seeds)*CFG.ensemble_members,
+          new_actor_runs=0 if SOURCE_RUN else 2*len(CFG.tasks)*len(CFG.seeds),
+          new_actor_optimizer_steps=0 if SOURCE_RUN else 2*len(CFG.tasks)*len(CFG.seeds)*CFG.actor_updates,
+          new_checkpoint_evaluations=0 if SOURCE_RUN else len(CFG.tasks)*len(CFG.seeds)*3,
           figures=FIGURES, elapsed_seconds=time.monotonic()-START,
-          formal_spec_sha256=CONFIG_SHA, source_sha256=SOURCE_SHA))
+          formal_spec_sha256=CONFIG_SHA, fixed_update_spec_sha256=FIXED_SPEC_SHA,
+          source_sha256=SOURCE_SHA))
+record_event(OUT, 'analysis_complete', new_actor_optimizer_steps=0 if SOURCE_RUN else
+             2*len(CFG.tasks)*len(CFG.seeds)*CFG.actor_updates)
 display(Markdown(REPORT))
 print('Complete run:', OUT.relative_to(ROOT))

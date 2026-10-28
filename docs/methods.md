@@ -2,6 +2,20 @@
 
 本页区分研究 motivation、现有算法和未被证明的部分。PAGR 是研究方向名，不能将全部 ablation 统称为一个已成功的方法。
 
+## 当前主 Notebook 2：多步 TD-Q 与条件 Flow AM
+
+入口：[完整源码](../notebooks/02_qam_td_terminal_error.py)、[已执行 notebook](../notebooks/02_qam_td_terminal_error.ipynb)、[预设配置](../configs/qam_td_terminal_error.json)。旧单步奖励回归的 Notebook 2 [原样归档](../notebooks/archive/reward_regression_previous_main/README.md)，其 `Q_true=R` 特例不能当作完整 QAM critic。
+
+环境时间 `k=0,…,7`、内部生成时间 `τ∈[0,1]`、累计 Actor 更新 `N` 分别记录。固定任务为 `d=16`，`y_{k+1}=y_k+B a_k+σ_env ξ_k`；仅 `k=7` 的 `r=1{||y_8||≤r_goal}` 非零。环境随机性使给定 `(k,y,a)` 的未来成功概率可微；不对单次成功指示函数反传。设计 seed 产生满秩、条件数温和且所有训练 seed 共用的 `B`；参考闭环终态的解析 20% 分位数一次性确定半径。
+
+实验 A 固定后续策略 `a=B^{-1}[-κy+σ_π ε]`。设 `n=7-k`、`F=1-κ`，则 `y_8|(k,y,a)∼N(μ,vI)`，`μ=F^n(y+Ba)`，`v=F^{2n}σ_env²+(σ_π²+σ_env²)Σ_{j=0}^{n-1}F^{2j}`。解析 `Q_ref=γ^n F_ncx2(r_goal²/v;d,||μ||²/v)` 只用于 Oracle 标签/评价和数值核验；Critic 训练只用真实转移与 `r+γ E_{a'∼π_ref}Q_target(k+1,y',a')`，终止 target 为 `r`。`dF_d/dλ=(F_{d+2}-F_d)/2` 得到 `∇_a Q_ref=γ^n F^n B^T μ/v (F_{d+2}-F_d)`。代码用 float64 SciPy 计算，再明确转换为训练 dtype。Monte Carlo、多个中心差分步长、Bellman、终止和边界测试独立核验。实验 A 的 Learned/Oracle 标签分别为 `p_1=-β∇_a Q_hat(k,y,X_1)` / `-β∇_a Q_ref(k,y,X_1)`；Critic 冻结、Base 和其他训练预算配对。
+
+条件 Flow 输入 `(k/H,y,X_τ,τ)`，`k,y` 在一次动作生成内固定。Lean Adjoint 仅通过冻结 Base 的 `D_X b_base` 做 VJP：`p_j=p_{j+1}+h[D_X b_base(k,y,X_j,τ_j)]^T p_{j+1}`。当前 sampler 先做 Base RK2 warmup 到 `ε=.05`，随后 K64 步全部为左端 Gaussian EM，终点是真实 noisy `X_1`。官方 QAM [代码 commit 2726d76](https://github.com/ColinQiyangLi/qam/blob/2726d767c9a0a7a46d49693f0391f73dc2cf58ac/agents/qam.py) 的 shifted schedule、末步 ODE、默认 ODE 部署、clipping/best-of-n 等与此不同，不能说逐行复现。官方方法与我们核对的 `critic_loss`、`adj_matching`、`actor_loss`、`sample_actions` 对应关系见[论文 v3](https://arxiv.org/html/2601.14234v3)及新 run 报告。
+
+实验 A 的同路径机制诊断显式计算 `e_g=∇Q_hat−∇Q_ref`、`δp_1=-βe_g`、沿途 `δp_j`、Matching 标签误差 `ν_jδp_{j+1}`、局部参数梯度差及同一 Adam history 的虚拟一步差。离散传播与 Actor-Jacobian 投影恒等式逐 seed 验证；这些是**冻结路径**等式，Oracle Lean 梯度不是一般意义的完整真实策略梯度。固定独立状态分布上的 `J_extract=E[PathKL−βQ_ref(k,y,X_1)]` 与八步闭环成功率/折扣回报分开测量，固定 `N=0,50,…,300` 不挑 best checkpoint。
+
+实验 B 从 A 的 TD-Critic 预训练结果初始化，但之后每次 TD 备份的后继动作来自**当前 Actor**；每一步 Critic 更新之后做一次 Learned-Q Lean-AM Actor 更新。B 不使用 `Q_ref` 作为当前 Actor 的 Oracle，不与 A 的配对机制差混表。这只是受控的联合核心流程，非官方完整 benchmark。新 run 独立保存 transitions、checkpoint、逐 seed 曲线、Oracle checks、机制 NPZ、provenance；不覆盖旧 run。
+
 ## 固定真实目标
 
 设控制与噪声共用矩阵 S，

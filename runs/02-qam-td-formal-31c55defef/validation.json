@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "profile": "formal",
+  "seeds": [
+    49001,
+    49002,
+    49003
+  ],
+  "train_successes": {
+    "49001": 113,
+    "49002": 107,
+    "49003": 108
+  },
+  "fixed_N": [
+    0,
+    50,
+    100,
+    150,
+    200,
+    250,
+    300
+  ],
+  "flow_steps": 64,
+  "checks": "source/config hashes, historical bytes, transition semantics, per-seed checkpoints/curves/mechanism, final evaluation"
+}

@@ -1,0 +1,13 @@
+{
+  "profile": "formal",
+  "seeds": [
+    49001,
+    49002,
+    49003
+  ],
+  "source_sha256": "9cc41036e422f58d0dfb66393114be8f9e229c76443b3fe4d4a8f35e9a350589",
+  "config_sha256": "30ec247fe79f144911ee8e1ef5c28ca77e86e63f61f850ddd4f0a4f7e52baef2",
+  "official_qam_commit": "2726d767c9a0a7a46d49693f0391f73dc2cf58ac",
+  "old_runs_untouched": true,
+  "notebook1_untouched": true
+}

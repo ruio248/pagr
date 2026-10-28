@@ -1,5 +1,22 @@
 # 实验设置：以实现和冻结协议为准
 
+## 当前主 Notebook 2：多步 TD-Q 稀疏任务固定协议
+
+完整逐字段配置见 [`qam_td_terminal_error.json`](../configs/qam_td_terminal_error.json)，代码/执行输出见 [`02_qam_td_terminal_error.ipynb`](../notebooks/02_qam_td_terminal_error.ipynb)。实验 A/B 共用同一个由 design seed `60729` 冻结的16维满秩 `B`、目标零点、`H=8`、`κ=.1`、`σπ=.35`、`σenv=.15`、`γ=.98`、参考策略终态20%分位确定的半径。三个正式训练 seed 为 `49001–49003`，smoke seed `49000` 不计入结果。
+
+| 设置 | 固定值 |
+|---|---|
+| 离线真实转移 | 每 seed 512训练 episode =4096转移、128独立验证 episode；仅终步成功奖励 |
+| Critic A | 条件 `(k,y,a)` 的5成员128×128 SiLU，TD batch256、10000更新、Adam 0.001、target EMA 0.005；后继动作4个固定参考策略样本取均值 |
+| 条件行为 Flow | 输入 `(k/H,y,Xτ,τ)`；FM batch256、2500更新、Adam 0.0003；同seed数据，训完冻结 |
+| 生成与终点 | 8步 Base RK2 warmup 到 ε=.05；K64步左端 Gaussian EM，无动作 clip/tanh，末步仍随机，终点真实 noisy X1 |
+| Actor A | Learned/Oracle 同 Base、初始Adam、状态batch和生成噪声；batch64、N300、Adam 0.0003、gradient norm clip5、β10；仅终点 `Q` 梯度来源不同 |
+| Actor B | 从同 Base及A预训练 Critic开始，300轮，每轮1次当前Actor后继动作 TD更新＋1次 learned-Q AM更新；无解析当前策略Oracle |
+| 曲线与机制 | N=0/50/100/150/200/250/300；共同路径机制N=0/150/300；曲线128环境 episode/128提取状态，独立最终512环境 episode/512提取状态 |
+| 目标边界 | A: `J_extract=E[PathKL−βQ_ref]` 与闭环成功率分列；B只报告真实闭环，不使用A的Qref差解释B |
+
+开发 smoke 使用缩小步数和样本来检查调用链；正式配置未根据 Oracle/Learned 结果改动。Oracle 解析梯度计算成本另列，不声称两臂 wall-clock 相同。旧三任务单步奖励回归协议保留在本文件后续章节，不能与本设置混表。
+
 前半部分描述仓库中可直接重放的历史 42-run follow-up：2 个任务 × 3 个 seed × 7 个方法。历史协议保留在 `src/pagr/assets/reference/history/`，不能混用其 full-adjoint 或非 Adam 设置来解释本表。新的 Flow AM 固定协议见文末，不能与旧动力学实验混为一组结果。
 
 机器可读任务配置为 [`configs/tasks.json`](../configs/tasks.json)，方法配置为 [`configs/methods.json`](../configs/methods.json)。历史 task config 中存在继承的 `updates`、`batch` 等字段；**最新 actor 训练使用方法 `Options` 的 1000 / 64，而不是这些历史默认值**。CLI 不读取 `configs/tasks.json` 作为可调覆盖文件；它是冻结 `assets/original/protocol.json` 的可读镜像。

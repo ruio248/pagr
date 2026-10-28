@@ -1,0 +1,48 @@
+{
+  "scope": "terminal-label generation only; excludes critic training, actor rollouts and other compute",
+  "hardware": "local CPU, not a method-matched wall-clock study",
+  "rows": [
+    {
+      "seed": 49001,
+      "source": "learned",
+      "batch": 64,
+      "repeats": 100,
+      "seconds_per_label_batch": 0.00034734916873276235
+    },
+    {
+      "seed": 49001,
+      "source": "oracle",
+      "batch": 64,
+      "repeats": 100,
+      "seconds_per_label_batch": 0.00012924790848046542
+    },
+    {
+      "seed": 49002,
+      "source": "learned",
+      "batch": 64,
+      "repeats": 100,
+      "seconds_per_label_batch": 0.0003461350011639297
+    },
+    {
+      "seed": 49002,
+      "source": "oracle",
+      "batch": 64,
+      "repeats": 100,
+      "seconds_per_label_batch": 0.00012596416985616088
+    },
+    {
+      "seed": 49003,
+      "source": "learned",
+      "batch": 64,
+      "repeats": 100,
+      "seconds_per_label_batch": 0.00034223499940708277
+    },
+    {
+      "seed": 49003,
+      "source": "oracle",
+      "batch": 64,
+      "repeats": 100,
+      "seconds_per_label_batch": 0.00012692000018432736
+    }
+  ]
+}

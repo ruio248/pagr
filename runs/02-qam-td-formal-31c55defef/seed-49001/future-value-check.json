@@ -1,0 +1,8 @@
+{
+  "k": 0,
+  "immediate_reward": 0.0,
+  "Q_mean": 0.1777813881635666,
+  "Q_std": 0.05666186287999153,
+  "Q_action_perturb_mean_abs_change": 0.004340752959251404,
+  "Q_action_gradient_nonzero_fraction": 1.0
+}

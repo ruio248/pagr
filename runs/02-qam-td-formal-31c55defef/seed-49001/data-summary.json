@@ -1,0 +1,16 @@
+{
+  "episodes": 512,
+  "transitions": 4096,
+  "successes": 113,
+  "nonzero_reward_fraction": 0.027587890625,
+  "transitions_by_k": {
+    "0": 512,
+    "1": 512,
+    "2": 512,
+    "3": 512,
+    "4": 512,
+    "5": 512,
+    "6": 512,
+    "7": 512
+  }
+}

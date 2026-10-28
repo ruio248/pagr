@@ -73,9 +73,19 @@ python -m pagr replay --task arm --seed 18001 --method silu --inputs runs/genera
 ### 两份逐行展开的研究 notebook
 
 1. [`01_motivation_analytic.ipynb`](../notebooks/01_motivation_analytic.ipynb)：解析的“值准、梯度不准”例子；一次实际 AM–SGD 更新的精确期望损害；三维线性 Gaussian 下的逐轨迹/条件均值误差；有限样本 AM 回归、状态反馈、同 KL 控制性能；梯度修复与值偏移对照；精确全局优化的反例。A 是 SGD，B 是冻结轨迹回归，不冒充多轮 Adam 实验。
-2. [`02_flow_am_dimension_coupling.ipynb`](../notebooks/02_flow_am_dimension_coupling.ipynb)：新的主 Notebook 2，问题是同 Actor 更新次数下终端梯度可靠性是否改变真实奖励或真实 `J`。它读取已完成的二维独立、十六维独立、十六维耦合三任务训练；数学、构造、拟合、lean adjoint、训练实现、固定N评价和机制诊断仍在 notebook 中展开。当前已执行输出是**只读重分析，零新增训练**。训练与分析配置分别见 [`flow_am_dimension_coupling.json`](../configs/flow_am_dimension_coupling.json)和[`flow_am_fixed_update_analysis.json`](../configs/flow_am_fixed_update_analysis.json)。
+2. [`02_qam_td_terminal_error.ipynb`](../notebooks/02_qam_td_terminal_error.ipynb)：当前主 Notebook 2，在同一个16维八步稀疏任务上从真实环境转移做 TD，拟合条件 `Q(k,y,a)`，训练条件 Flow，并分别执行固定参考后续策略的 Learned/Oracle AM 提取（A）及当前 Actor 后继动作的最小联合 TD+AM（B）。[`配置`](../configs/qam_td_terminal_error.json)预先冻结3个正式 seed。报告和新目录中的 checkpoint、数据、数值核验分开保存；源码直接在[同名 `.py`](../notebooks/02_qam_td_terminal_error.py)展开。
+
+旧的 [`02_flow_am_dimension_coupling.ipynb`](../notebooks/02_flow_am_dimension_coupling.ipynb) 原样保留并[归档说明](../notebooks/archive/reward_regression_previous_main/README.md)：它是三任务的单步带噪奖励回归，不是多步 TD-Q。原来的只读重分析输出及历史核验仍保留，下述旧命令仅用于重放该历史实验。
 
 此前二维四模式 Flow Notebook 2 及其负结果保留在[历史归档](../notebooks/archive/flow_am_four_mode/README.md)和原位置，仍可运行；它不是新任务的 `independent_d2` 成绩。更早的导航 SOC Notebook 2 为[另一个历史归档](../notebooks/archive/02_navigation_am_and_candidates.ipynb)，也不是预训练 Flow 实验。
+
+当前主 Notebook 2 的正式执行命令（每次创建唯一新 run；正式训练较长）是：
+
+```bash
+PAGR_QAM_PROFILE=formal python scripts/execute_notebook.py --notebook notebooks/02_qam_td_terminal_error.ipynb --output runs/notebooks/02_qam_td_formal.executed.ipynb --timeout 72000
+```
+
+`PAGR_QAM_PROFILE=smoke` 是默认短链路检查，参数更小，不可当作正式结果。正式设置为3个新 seed，N=0/50/…/300，critic 预训练10000更新、5成员、固定最终 checkpoint，Base 2500更新，A/B各300 Actor 更新；A和B的目标/解释不同。完整数值 Oracle 验证在每次 run 开始前执行。若要重新构建空白 notebook，`python scripts/build_research_notebooks.py --name 02_qam_td_terminal_error --replace` 会清除该 notebook 现有执行输出，请先保存或使用不同位置。
 
 ```bash
 python scripts/execute_notebook.py --notebook notebooks/01_motivation_analytic.ipynb --output runs/notebooks/01_motivation.executed.ipynb

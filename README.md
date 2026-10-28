@@ -14,11 +14,13 @@
 
 区分三件事：终点数值误差、传播后的标签/actor 更新误差、最终真实控制代价。梯度 disagreement 不是已校准的梯度误差；局部 matching loss 的下降也不是一般意义的真实控制代价下降。
 
-新的主 Notebook 2 明确问：**在相同 Actor 参数更新次数 `N` 下，终端梯度可靠性是否影响真实奖励或真实随机控制目标 `J`？** 它在二维独立、十六维独立、十六维非线性耦合三个任务上比较 learned/oracle lean AM；配对的生成离散步数 `K=64` 和每次更新的 batch `B=64` 也固定。Path KL 保留在原目标里，但不强制两种方法 KL 相等。没有 TD 自举、人为梯度污染或新误差抑制算法。这是单步 bandit 的 Flow policy extraction 平台，不是 OGBench 或 TRQAM 复现。此前的二维四模式 Flow notebook 和更早的导航 SOC notebook 都保留为历史实验。
+新的主 Notebook 2 是[多步稀疏任务的 TD-Critic/条件 Flow AM 实验](notebooks/02_qam_td_terminal_error.ipynb)。它明确分开环境时间 `k`、动作生成内部的 Flow 时间 `tau` 与 Actor 更新次数 `N`。实验 A 在固定后续策略下训练 TD critic，并用解析的同策略长期 `Q` 作 Oracle 对照；实验 B 则以当前 Actor 产生 TD 后继动作，交替更新 Critic 与 AM Actor。两者不混表，B 不冒用 A 的 Oracle。本轮没有新鲁棒算法，也不是官方 QAM 的逐行复现。此前的单步带噪奖励回归主 Notebook 2 [原样归档](notebooks/archive/reward_regression_previous_main/README.md)，不能称为完整 QAM critic。
+
+正式三 seed 的新实验已执行：[报告、数据与 checkpoint](runs/02-qam-td-formal-31c55defef/report.md)、[独立高样本最终评价](runs/02-qam-td-formal-31c55defef/final-independent-evaluation.csv)、[数值审计](runs/02-qam-td-formal-31c55defef/validation.json)及[结果解释](docs/results.md#当前主-notebook-2多步稀疏任务的-td-q-梯度实验)。实验 A 在固定 `N=300` 的三个探索 seed 中，Oracle 的内层提取目标和真实闭环成功率均优于 Learned；但验证 `Q` RMSE 约0.167，相对真实Q均值并不小，**不能声称本轮已证明“Q值准确、只有梯度不准确”**。实验 B 的联合更新可运行并改善闭环表现，但没有当前策略的精确 Oracle，不被算入 A 的估计误差因果对照。
 
 旧 toy 数据来自自定义动力学上的自然离线轨迹和带执行噪声的终点观测。旧二维避障是四维位置–速度状态；另一旧任务是六关节平面臂的随机位姿生成，不是实物机器人实验。它们已明确归为历史导航/控制 SOC 实验，不能当作 pretrained Flow 的结果。
 
-## 主 Notebook 2：固定 Actor 更新次数的结果
+## 历史单步奖励回归 Notebook 2：固定 Actor 更新次数的结果
 
 本轮**复用**此前完成的三任务训练，没有新增 Actor 更新。原训练固定 seed 38001–38003，每任务/seed 各有1个Base、5个标量奖励模型，Learned/Oracle各进行300次更新。学习曲线在 `N=0,50,…,300` 用每 seed 固定的512条公共评价噪声；下表是另一组4096条公共噪声的独立最终评价，不能静默接到512路径曲线上。真实目标为 `J=PathKL-1.5×E[R]`，越低越好；`G=(J_Learned-J_Oracle)/d` 正值表示 Oracle 在相同目标下更好。数值为三个训练 seed 的均值±seed SD。
 
@@ -93,7 +95,8 @@ python -m pagr replay --task arm --seed 18001 --method am_adam --output runs/arm
 | 内容 | 入口 |
 |---|---|
 | **Notebook 1：可解析 motivation、AM 标签误差、因果干预与反例** | [01_motivation_analytic.ipynb](notebooks/01_motivation_analytic.ipynb) · [完整 Python 脚本](notebooks/01_motivation_analytic.py) |
-| **Notebook 2：三任务、同 Actor 更新次数下的梯度可靠性** | [已执行 notebook](notebooks/02_flow_am_dimension_coupling.ipynb) · [完整 Python 脚本](notebooks/02_flow_am_dimension_coupling.py) · [训练配置](configs/flow_am_dimension_coupling.json) · [固定评价配置](configs/flow_am_fixed_update_analysis.json) |
+| **Notebook 2：多步 TD-Q 动作梯度可靠性与条件 Flow AM** | [notebook](notebooks/02_qam_td_terminal_error.ipynb) · [完整 Python 脚本](notebooks/02_qam_td_terminal_error.py) · [冻结配置](configs/qam_td_terminal_error.json) |
+| 历史三任务单步奖励回归 Notebook 2 | [原样保留的 notebook](notebooks/02_flow_am_dimension_coupling.ipynb) · [归档说明](notebooks/archive/reward_regression_previous_main/README.md) |
 | 三任务原始执行输出：本次重分析前字节不变 | [原始 notebook 归档](notebooks/archive/dimension_coupling_initial/README.md) · [来源 manifest](notebooks/archive/dimension_coupling_initial/manifest.json) |
 | 历史二维四模式 Flow Notebook 2：负结果与全部输出保留 | [字节不变的归档](notebooks/archive/flow_am_four_mode/README.md) · [原位置入口](notebooks/02_flow_am_terminal_gradient.ipynb) · [来源 SHA-256](notebooks/archive/flow_am_four_mode/manifest.json) |
 | 历史导航 SOC Notebook 2：源码与执行输出字节不变 | [归档 notebook](notebooks/archive/02_navigation_am_and_candidates.ipynb) · [源码](notebooks/archive/02_navigation_am_and_candidates.py) · [SHA-256 manifest](notebooks/archive/manifest.json) |
@@ -109,13 +112,13 @@ python -m pagr replay --task arm --seed 18001 --method am_adam --output runs/arm
 
 两份主 notebook 的关键数学和实现直接写在单元格中，不是调用 `replay()` 的薄包装。
 第一份包含严格的一步有限批量 AM–SGD 存在性结果，以及此前的冻结轨迹 AM 回归实验；
-新的第二份完整展开三任务 FM 预训练和标量 reward ensemble 拟合的实现，比较 frozen、AM-learned、AM-oracle；当前执行输出复用已审计的三 seed 训练产物，主展示按相同 Actor 更新次数排列真实奖励、真实 `J`、配对差和 KL，再解释共同 checkpoint 的误差/Adam 诊断。四模式、2x和 K/2K 数值敏感性属于归档的上一版，不自动重跑。
+历史单步 Flow notebook 完整展开三任务 FM 预训练和标量 reward ensemble 拟合，比较 frozen、AM-learned、AM-oracle；其固定 Actor 更新分析复用已审计的三 seed 训练产物，但不含 TD critic。新的第二份 notebook 以真正的多步环境转移、TD、条件 Flow 和固定 `N` 的策略提取/闭环评价代替这项简化。四模式、2x和 K/2K 数值敏感性仍属于此前历史版，不自动重跑。
 两者分别回答“解析动机在什么条件下成立”和“自然估计误差在真实训练的 Flow 上是否产生可恢复损失”，不把前者当作后者成功的证明。
 执行命令、输出和证据边界见下方链接中的 [Notebook 部分](docs/reproduction.md#notebook)。
 
 **历史** Run All 验证：Notebook 1 的 387 项数值核验通过；归档导航 notebook 重新生成的 12 组数据数组、30 个 critic 和 15 个最终 actor 与冻结参考逐元素一致，最终/细网格指标也一致；历史 10 项实现测试通过。原始记录 [notebook_validation.json](provenance/notebook_validation.json) 原样保留。这是同协议重建，不是新的独立 seeds。自然导航诊断没有得到“值误差可忽略”的前提，因此不把它写成解析存在性结果在自然任务上的完整因果证明。
 
-新三任务 Flow notebook 的协议、端点近似和正式结果分别见 [方法](docs/methods.md#新主-notebook-2终端梯度维度--生成结构耦合)、[设置](docs/settings.md#新主-notebook-2维度--耦合固定协议)、[结果](docs/results.md#新主-notebook-2维度--耦合探索实验)。历史 audits 不被新结果覆盖。
+历史三任务 Flow notebook 的协议、端点近似和正式结果分别见 [方法](docs/methods.md#新主-notebook-2终端梯度维度--生成结构耦合)、[设置](docs/settings.md#新主-notebook-2维度--耦合固定协议)、[结果](docs/results.md#新主-notebook-2维度--耦合探索实验)。这些历史 audits 不被新结果覆盖。
 
 ## 公开范围与许可
 

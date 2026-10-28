@@ -1,6 +1,26 @@
 # 结果、motivation 与审计边界
 
-前半部分为历史导航/Arm结果，数据来源：`src/pagr/assets/reference/summary.json`、`mechanism.json`、`guard_diagnosis.json`、`delivery_audit.json`。所有表格保留全部方法，不筛掉失败 seed。新的预训练 Flow AM 结果见文末，与历史实验分开解释。
+## 当前主 Notebook 2：多步稀疏任务的 TD-Q 梯度实验
+
+完整执行输出在[新 formal run](../runs/02-qam-td-formal-31c55defef/report.md)，[Notebook 2](../notebooks/02_qam_td_terminal_error.ipynb) 已实际执行，6个代码单元没有错误。三个预设 seed `49001–49003` 共享同一个16维、8步任务设计、目标和半径；训练各512 episode（4096转移），成功数分别为113/107/108，只有最后环境步有非零奖励。解析 `Q^{pi_ref}` 的独立 Monte Carlo、中心差分、Bellman、终止与数值边界核验通过。[验证记录](../runs/02-qam-td-formal-31c55defef/validation.json)确认历史单步 notebook 字节未动，所有预设固定 `N` checkpoint、数据和机制 NPZ 均存在。不能把这项新任务说成官方 QAM 使用的 benchmark。
+
+实验 A 的 Critic **只用真实转移和 TD backup** 训练10000步、5成员，后继动作来自固定 `pi_ref`，最终 checkpoint 固定且没有用 Oracle 选模型。验证集的 `Q_hat−Q_ref` RMSE 分别为0.1686/0.1673/0.1663，模型的 `Q` 非恒零，但误差相对约0.18的真实Q均值并不小；因此本轮**未实现“值几乎准确而仅梯度明显失真”的自然前提**。共同路径的 N=300 终点动作梯度相对 RMS 误差均值约1.005。`k=0` 的即时奖励恒为0，而 `Q_ref` 随动作变化且梯度非零，证明这不是即时奖励梯度回归。
+
+固定 Actor 更新次数 `N=300`，使用与曲线不同、独立的512条高样本最终闭环 episode 和512个固定提取状态（各方法同 seed 共享评价噪声）：
+
+| seed | A Learned J_extract ↓ | A Oracle J_extract ↓ | A Learned 成功率 ↑ | A Oracle 成功率 ↑ | B 联合成功率 ↑ |
+|---|---:|---:|---:|---:|---:|
+| 49001 | -1.93193 | -2.01373 | 0.56836 | 0.60742 | 0.67969 |
+| 49002 | -2.08695 | -2.14977 | 0.57813 | 0.65625 | 0.68945 |
+| 49003 | -2.12377 | -2.19145 | 0.56641 | 0.65430 | 0.64844 |
+
+实验 A 的配对 `J_extract` 差（Learned − Oracle，正值表示 Oracle 更好）为0.08180/0.06282/0.06768，均值0.07077，3/3同号；闭环成功率差（Oracle − Learned）为0.03906/0.07813/0.08789，均值0.06836，3/3同号。这支持在**本任务、固定 pi_ref critic 目标、此有限训练预算**下存在可恢复的估计梯度相关损失；三个探索 seed 不证明普遍规律，也不能把 `J_extract` 当环境回报。原始固定N=0/50/…/300曲线和每 seed 表在[报告](../runs/02-qam-td-formal-31c55defef/report.md)及[图](../runs/02-qam-td-formal-31c55defef/fixed-N-and-propagation.png)。
+
+同一个 Actor/相同路径的终点误差、`ν_j δp_{j+1}` 标签误差、Matching 参数梯度差、克隆相同 Adam history 后的虚拟步差均被保存；最大伴随传播残差为约`1.9e-6`、参数投影恒等式残差约`3.3e-8`。N=300 的伴随误差在终端约1.07 RMS，逆传到起点约0.0042，**没有出现必然放大**，但仍改变 Matching/Adam 更新。[每维及方向统计](../runs/02-qam-td-formal-31c55defef/gradient-dimension-direction-diagnostics.csv)和[每维图](../runs/02-qam-td-formal-31c55defef/terminal-gradient-per-dimension.png)另存，未改变训练结果。
+
+实验 B 复用 A 的 Critic 预训练初始化，之后每次 TD 后继动作由当前 Actor 的同一 SDE sampler 给出，并交替执行一次 Critic/一次 AM Actor 更新。最终闭环成功率均值0.67253；它验证联合 TD→Q动作梯度→Lean AM→Actor 的调用链及本设置中的性能提升，**但没有精确当前策略 Oracle，不能把 A 的 `Q^{pi_ref}` 当作 B 的梯度误差真值**，也不能与 A 的 Oracle 差混表。两分支均不是完整官方工程复现。额外解析 Oracle 标签计算的64样本 CPU microbenchmark（单批约0.126–0.129 ms，Learned critic 自动微分约0.342–0.347 ms）[单独记录](../runs/02-qam-td-formal-31c55defef/terminal-label-compute-cost.json)；不含训练/rollout，不代表两方法 wall-clock 效率。没有提出或测试新的抑制算法。
+
+以下旧章节为历史导航/Arm与单步 Flow 结果，数据来源包括 `src/pagr/assets/reference/summary.json`、`mechanism.json`、`guard_diagnosis.json`、`delivery_audit.json`。所有表格保留全部方法，不筛掉失败 seed；它们与上述多步 TD-Q 实验分开解释。
 
 ## 能说什么，不能说什么
 

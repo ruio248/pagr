@@ -1,0 +1,38 @@
+{"event": "start", "utc": "2026-10-28T08:25:00Z", "formal_spec_sha256": "c37e730eeee22d59c2d6f83d8a3205522f63d2c3f350f894b453eac0a90479a0", "source_sha256": "b76ac41c7094fd92c6a7e0cd0e3b92489e8a41ebb57213a5251130e8d61699a3"}
+{"event": "pretrain_start", "utc": "2026-10-28T08:25:00Z", "task": "independent_d2", "seed": 38001}
+{"event": "actor_completed", "utc": "2026-10-28T08:25:11Z", "task": "independent_d2", "seed": 38001, "source": "learned"}
+{"event": "actor_completed", "utc": "2026-10-28T08:25:17Z", "task": "independent_d2", "seed": 38001, "source": "oracle"}
+{"event": "seed_completed", "utc": "2026-10-28T08:25:18Z", "task": "independent_d2", "seed": 38001, "elapsed_seconds": 18.039730875054374}
+{"event": "pretrain_start", "utc": "2026-10-28T08:25:18Z", "task": "independent_d2", "seed": 38002}
+{"event": "actor_completed", "utc": "2026-10-28T08:25:29Z", "task": "independent_d2", "seed": 38002, "source": "learned"}
+{"event": "actor_completed", "utc": "2026-10-28T08:25:34Z", "task": "independent_d2", "seed": 38002, "source": "oracle"}
+{"event": "seed_completed", "utc": "2026-10-28T08:25:36Z", "task": "independent_d2", "seed": 38002, "elapsed_seconds": 17.563785708043724}
+{"event": "pretrain_start", "utc": "2026-10-28T08:25:36Z", "task": "independent_d2", "seed": 38003}
+{"event": "actor_completed", "utc": "2026-10-28T08:25:46Z", "task": "independent_d2", "seed": 38003, "source": "learned"}
+{"event": "actor_completed", "utc": "2026-10-28T08:25:51Z", "task": "independent_d2", "seed": 38003, "source": "oracle"}
+{"event": "seed_completed", "utc": "2026-10-28T08:25:53Z", "task": "independent_d2", "seed": 38003, "elapsed_seconds": 17.217166624963284}
+{"event": "pretrain_start", "utc": "2026-10-28T08:25:53Z", "task": "independent_d16", "seed": 38001}
+{"event": "actor_completed", "utc": "2026-10-28T08:26:03Z", "task": "independent_d16", "seed": 38001, "source": "learned"}
+{"event": "actor_completed", "utc": "2026-10-28T08:26:10Z", "task": "independent_d16", "seed": 38001, "source": "oracle"}
+{"event": "seed_completed", "utc": "2026-10-28T08:26:13Z", "task": "independent_d16", "seed": 38001, "elapsed_seconds": 19.455135041847825}
+{"event": "pretrain_start", "utc": "2026-10-28T08:26:13Z", "task": "independent_d16", "seed": 38002}
+{"event": "actor_completed", "utc": "2026-10-28T08:26:25Z", "task": "independent_d16", "seed": 38002, "source": "learned"}
+{"event": "actor_completed", "utc": "2026-10-28T08:26:32Z", "task": "independent_d16", "seed": 38002, "source": "oracle"}
+{"event": "seed_completed", "utc": "2026-10-28T08:26:34Z", "task": "independent_d16", "seed": 38002, "elapsed_seconds": 21.28028416703455}
+{"event": "pretrain_start", "utc": "2026-10-28T08:26:34Z", "task": "independent_d16", "seed": 38003}
+{"event": "actor_completed", "utc": "2026-10-28T08:26:44Z", "task": "independent_d16", "seed": 38003, "source": "learned"}
+{"event": "actor_completed", "utc": "2026-10-28T08:26:50Z", "task": "independent_d16", "seed": 38003, "source": "oracle"}
+{"event": "seed_completed", "utc": "2026-10-28T08:26:52Z", "task": "independent_d16", "seed": 38003, "elapsed_seconds": 17.997660958906636}
+{"event": "pretrain_start", "utc": "2026-10-28T08:26:52Z", "task": "coupled_d16", "seed": 38001}
+{"event": "actor_completed", "utc": "2026-10-28T08:27:02Z", "task": "coupled_d16", "seed": 38001, "source": "learned"}
+{"event": "actor_completed", "utc": "2026-10-28T08:27:07Z", "task": "coupled_d16", "seed": 38001, "source": "oracle"}
+{"event": "seed_completed", "utc": "2026-10-28T08:27:09Z", "task": "coupled_d16", "seed": 38001, "elapsed_seconds": 17.53260145918466}
+{"event": "pretrain_start", "utc": "2026-10-28T08:27:09Z", "task": "coupled_d16", "seed": 38002}
+{"event": "actor_completed", "utc": "2026-10-28T08:27:21Z", "task": "coupled_d16", "seed": 38002, "source": "learned"}
+{"event": "actor_completed", "utc": "2026-10-28T08:27:28Z", "task": "coupled_d16", "seed": 38002, "source": "oracle"}
+{"event": "seed_completed", "utc": "2026-10-28T08:27:30Z", "task": "coupled_d16", "seed": 38002, "elapsed_seconds": 20.873215333092958}
+{"event": "pretrain_start", "utc": "2026-10-28T08:27:30Z", "task": "coupled_d16", "seed": 38003}
+{"event": "actor_completed", "utc": "2026-10-28T08:27:41Z", "task": "coupled_d16", "seed": 38003, "source": "learned"}
+{"event": "actor_completed", "utc": "2026-10-28T08:27:47Z", "task": "coupled_d16", "seed": 38003, "source": "oracle"}
+{"event": "seed_completed", "utc": "2026-10-28T08:27:49Z", "task": "coupled_d16", "seed": 38003, "elapsed_seconds": 18.501242625061423}
+{"event": "suite_completed", "utc": "2026-10-28T08:27:49Z", "task_seed_pairs": 9, "actor_runs": 18}

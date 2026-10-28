@@ -145,3 +145,22 @@ Success：整条轨迹无碰撞、终点位置误差 <0.4、速度误差 <0.5。
 | 额外成本 | 训练轨迹、生成时间步、Adam步、真值梯度点数、checkpoint运行时间和独立probe耗时分别保存 |
 
 正式新增产物在 runs/02-flow-am-formal-8u0sh2xk/oracle-diagnostic/report.md。每组高维梯度与逐路径虚拟一步差值均以压缩数组保存，用于复算方差交叉项和配对 Monte Carlo 标准误。旧运行与失败 smoke 输出保持原样，不参与最终统计。
+
+## 新主 Notebook 2：维度 × 耦合固定协议
+
+本节为新的独立实验，不继承上一节的四模式二维数据或 seed。完整机器可读协议见 [`flow_am_dimension_coupling.json`](../configs/flow_am_dimension_coupling.json)。在正式运行前固定三个任务与 seed 38001–38003；独立 smoke seed 为 99001。
+
+| 项目 | 三任务共用设置 |
+|---|---|
+| 行为 | `independent_d2`: d2/rho0；`independent_d16`: d16/rho0；`coupled_d16`: d16/rho0.5。`a_1=z_1, a_j=z_j+rho sin(z_(j-1))`；每 seed 4096 train、2048 valid |
+| 真奖励 | `R=-0.5 Σ_j w_j(a_j-a*_j)^2`，`a*=(1,-1,...)`、`w=(0.5,2,...)`；所有维度相关 |
+| 观测 | 512 train、256 valid 标量；噪声 std=0.2×独立16384行为动作上的真实奖励 std；校准 seed 与数值逐 seed 保存 |
+| Flow | d维输出，128×128 SiLU；2500 FM updates、batch256、lr0.001，loss/d；每100步 held-out 选择 |
+| Reward | 五成员128×128 SiLU，固定512标签 bootstrap；1800 updates、batch128、lr0.001；仅 train label 均值/std 标准化，每100步 noisy validation MSE 选择，网络输出原始尺度 |
+| 生成 | 0→0.05 frozen-base RK2 warmup8；0.05→1 全 Gaussian EM K64，左端时间 |
+| Actor | Learned/Oracle 各300更新、batch64，Adam lr0.0003、β=(0.9,0.999)、eps1e-8，global clip5；目标系数 beta1.5，matching loss 整体除以 d |
+| 保存与评价 | checkpoint0/150/300；每50步512条曲线；固定300步以4096条共同噪声评价 Frozen/Learned/Oracle，不按真值选最优 |
+| 简化诊断 | 初始和 Learned 最终各8次独立B64共同路径，终端值/梯度、四个伴随时刻、局部参数梯度、共享历史虚拟Adam步；少量路径估计Base Jacobian及传播奇异值 |
+| 预算 | 每任务×每seed训练1个Base、5个reward model、2个actor；全套9/45/18。训练样本数与更新数相同，但实际运行时间独立记录 |
+
+RNG 使用 `(task_index+1)*10^12+seed*10^7+role_offset`，每任务/seed隔离，Learned/Oracle 共享其训练噪声流；曲线、最终评价、校准与诊断使用不同 role。可选的等误差 Oracle 辅助控制默认关闭，本轮没有运行。三个 seed 的均值和 SD 都只是探索性摘要。

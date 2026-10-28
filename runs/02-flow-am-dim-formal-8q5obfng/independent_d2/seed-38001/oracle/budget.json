@@ -1,0 +1,28 @@
+{
+  "task": "independent_d2",
+  "seed": 38001,
+  "source": "oracle",
+  "updates": 300,
+  "training_rollouts": 19200,
+  "stochastic_velocity_calls": 1228800,
+  "warmup_velocity_calls": 307200,
+  "oracle_gradient_points": 19200,
+  "clipping_count": 1,
+  "wall_seconds": 5.799384834012017,
+  "frozen_hashes_before": [
+    "25e84844bd15fc72fbc23285ef8c42b9a5794a0187f9e5764b732de356f7fdb7",
+    "77bf3644f3e102ac1a7c46188086fb4792c6ef7d293dbd746dbb700ca09b69a5",
+    "58342d8d5fb68cd56cbc11063a5d5391b4160afcaff93be8927bf7db112e8ee1",
+    "a651800a9915d18e5bbb130c762cf8e28c86cd514316ddf1c229ebe20ad71553",
+    "aa6996ed8c3fc61ec2d0e3445311a811109b5aec7a3aef68f2a5013b7701be93",
+    "f6db8b8b3b440dddecd51f6b617667d4797b2e226d1cfea969c79296d981be5d"
+  ],
+  "frozen_hashes_after": [
+    "25e84844bd15fc72fbc23285ef8c42b9a5794a0187f9e5764b732de356f7fdb7",
+    "77bf3644f3e102ac1a7c46188086fb4792c6ef7d293dbd746dbb700ca09b69a5",
+    "58342d8d5fb68cd56cbc11063a5d5391b4160afcaff93be8927bf7db112e8ee1",
+    "a651800a9915d18e5bbb130c762cf8e28c86cd514316ddf1c229ebe20ad71553",
+    "aa6996ed8c3fc61ec2d0e3445311a811109b5aec7a3aef68f2a5013b7701be93",
+    "f6db8b8b3b440dddecd51f6b617667d4797b2e226d1cfea969c79296d981be5d"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "python": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:08) [Clang 20.1.8 ]",
+  "torch": "2.9.1",
+  "numpy": "2.3.5",
+  "pandas": "2.3.3",
+  "platform": "macOS-26.2-arm64-arm-64bit-Mach-O",
+  "threads": 1,
+  "device": "cpu",
+  "source_sha256": "b76ac41c7094fd92c6a7e0cd0e3b92489e8a41ebb57213a5251130e8d61699a3",
+  "formal_spec_sha256": "c37e730eeee22d59c2d6f83d8a3205522f63d2c3f350f894b453eac0a90479a0"
+}

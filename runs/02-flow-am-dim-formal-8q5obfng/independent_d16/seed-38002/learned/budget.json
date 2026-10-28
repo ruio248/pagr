@@ -1,0 +1,28 @@
+{
+  "task": "independent_d16",
+  "seed": 38002,
+  "source": "learned",
+  "updates": 300,
+  "training_rollouts": 19200,
+  "stochastic_velocity_calls": 1228800,
+  "warmup_velocity_calls": 307200,
+  "oracle_gradient_points": 0,
+  "clipping_count": 0,
+  "wall_seconds": 7.489085457986221,
+  "frozen_hashes_before": [
+    "f54ef643f73bfbb848030927002397102857abee88cbf621c94cde2ddfdd3fe6",
+    "9eeb959e72ffb43ee31bd04b94be23fc9d45a391d74406fd45476569e1b3acae",
+    "be45d08336318e8dd89f806052413dc118c36390d096fd68147a0866f1d69147",
+    "766dcfefbf5015f7041613e306851c589d169d86f37fd556e30cfea063d3e673",
+    "eece8c10ce96c6cdefdec37d7d1a27bccf9fe2862a9280cadcd8da8e134ef45b",
+    "fc3c8e168fcc2247a1ec02c8717d06ffaa39b6f4ecdccc858d09e8645d5af7fa"
+  ],
+  "frozen_hashes_after": [
+    "f54ef643f73bfbb848030927002397102857abee88cbf621c94cde2ddfdd3fe6",
+    "9eeb959e72ffb43ee31bd04b94be23fc9d45a391d74406fd45476569e1b3acae",
+    "be45d08336318e8dd89f806052413dc118c36390d096fd68147a0866f1d69147",
+    "766dcfefbf5015f7041613e306851c589d169d86f37fd556e30cfea063d3e673",
+    "eece8c10ce96c6cdefdec37d7d1a27bccf9fe2862a9280cadcd8da8e134ef45b",
+    "fc3c8e168fcc2247a1ec02c8717d06ffaa39b6f4ecdccc858d09e8645d5af7fa"
+  ]
+}

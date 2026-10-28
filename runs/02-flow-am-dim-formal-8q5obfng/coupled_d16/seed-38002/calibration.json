@@ -1,0 +1,8 @@
+{
+  "calibration_seed": 3380020000016,
+  "calibration_paths": 16384,
+  "calibration_reward_std": 7.091131687164307,
+  "observation_std": 1.4182263374328614,
+  "observed_train_mean": -21.009572982788086,
+  "observed_train_std": 6.679747104644775
+}

@@ -1,0 +1,70 @@
+{
+  "task": "independent_d2",
+  "seed": 38002,
+  "base": {
+    "selected_update": 400,
+    "heldout_loss_per_dim": 1.5447463989257812
+  },
+  "rewards": [
+    {
+      "member": 0,
+      "selected_update": 1500,
+      "noisy_valid_mse": 0.2734004855155945,
+      "label_mean": -2.3528666496276855,
+      "label_std": 2.3543589115142822
+    },
+    {
+      "member": 1,
+      "selected_update": 1700,
+      "noisy_valid_mse": 0.2690269351005554,
+      "label_mean": -2.3528666496276855,
+      "label_std": 2.3543589115142822
+    },
+    {
+      "member": 2,
+      "selected_update": 800,
+      "noisy_valid_mse": 0.26823651790618896,
+      "label_mean": -2.3528666496276855,
+      "label_std": 2.3543589115142822
+    },
+    {
+      "member": 3,
+      "selected_update": 500,
+      "noisy_valid_mse": 0.26655465364456177,
+      "label_mean": -2.3528666496276855,
+      "label_std": 2.3543589115142822
+    },
+    {
+      "member": 4,
+      "selected_update": 500,
+      "noisy_valid_mse": 0.28186118602752686,
+      "label_mean": -2.3528666496276855,
+      "label_std": 2.3543589115142822
+    }
+  ],
+  "model_hashes": [
+    "83456f85c5bb31c105165a88873e1148e8eb51742e37a4fd341933fcbd340daa",
+    "cd1bf77cd2231cf6ff1bd56276be2b40effb4f40e1c1db48d93ef5b10364dc38",
+    "f2dce839f6fc586b566908ef9d4e75f63735c282367b5fcd2f83c5cd67a353e0",
+    "e6444eef857638ef098bc97c3823c1b20a69818e3b815e4d7c520b7fc96a3064",
+    "0d945186d5f7730014b6234c319721f0ef19ddd502e20aa020566bb3ec6012a6",
+    "98f2bbcc5d87fff902e4e07dd04af91b20941a231a7f3ff5c25e8552620237ee"
+  ],
+  "data_hashes": {
+    "behavior": "a8df21caa7a43976f80626e73f9815907b75049cea72a5c97bcb26c1954e128c",
+    "heldout": "b6bfdd271d41a00c8757f3fe54a3b36840b6fa859a39904166da30d64089506e",
+    "reward_x": "0ccef1c2be167966296450032d32fe15758c946910260f0b5fa2d6ca7e6ba4ba",
+    "valid_x": "243170733facbec8ae41c8ef5801f0f14ca66d7a42a3b2193a28c4763c15074e",
+    "reward_y": "af3b41989e263d3b9641df2039ff213557fea434609e449543b6c42aeeeb5534",
+    "valid_y": "a1dcfeab04fd8b40c230b7b7917dffaeb4437ad8c567eee77655c588f38b58a8"
+  },
+  "calibration": {
+    "calibration_seed": 1380020000016,
+    "calibration_paths": 16384,
+    "calibration_reward_std": 2.5002455711364746,
+    "observation_std": 0.5000491142272949,
+    "observed_train_mean": -2.3528666496276855,
+    "observed_train_std": 2.3543589115142822
+  },
+  "wall_seconds": 3.3343620831146836
+}

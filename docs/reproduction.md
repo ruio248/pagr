@@ -73,25 +73,39 @@ python -m pagr replay --task arm --seed 18001 --method silu --inputs runs/genera
 ### 两份逐行展开的研究 notebook
 
 1. [`01_motivation_analytic.ipynb`](../notebooks/01_motivation_analytic.ipynb)：解析的“值准、梯度不准”例子；一次实际 AM–SGD 更新的精确期望损害；三维线性 Gaussian 下的逐轨迹/条件均值误差；有限样本 AM 回归、状态反馈、同 KL 控制性能；梯度修复与值偏移对照；精确全局优化的反例。A 是 SGD，B 是冻结轨迹回归，不冒充多轮 Adam 实验。
-2. [`02_flow_am_terminal_gradient.ipynb`](../notebooks/02_flow_am_terminal_gradient.ipynb)：四模式行为分布、真实 FM 预训练、有限标量奖励模型、随机生成、lean AM、learned/oracle/2x 对照、实际 Adam 和 conditional averaging 诊断。三个新固定 seeds，不从历史模型或结果 replay。完整设置见 [`configs/flow_am.json`](../configs/flow_am.json)。
+2. [`02_flow_am_dimension_coupling.ipynb`](../notebooks/02_flow_am_dimension_coupling.ipynb)：新的主 Notebook 2，重新训练二维独立、十六维独立、十六维非线性耦合三个任务；固定标量奖励数据预算，比较每个任务的 Frozen Base、Learned AM 与 Oracle AM。数学、构造、拟合、lean adjoint、训练、评价和机制诊断均在 notebook 中展开。完整设置见 [`configs/flow_am_dimension_coupling.json`](../configs/flow_am_dimension_coupling.json)。
 
-旧 Notebook 2 为[历史导航 SOC 实验](../notebooks/archive/02_navigation_am_and_candidates.ipynb)，源码与已执行输出按 SHA-256 原样归档，原位置保留供旧审计兼容。它不是预训练 Flow 实验。
+此前二维四模式 Flow Notebook 2 及其负结果保留在[历史归档](../notebooks/archive/flow_am_four_mode/README.md)和原位置，仍可运行；它不是新任务的 `independent_d2` 成绩。更早的导航 SOC Notebook 2 为[另一个历史归档](../notebooks/archive/02_navigation_am_and_candidates.ipynb)，也不是预训练 Flow 实验。
 
 ```bash
 python scripts/execute_notebook.py --notebook notebooks/01_motivation_analytic.ipynb --output runs/notebooks/01_motivation.executed.ipynb
-python scripts/execute_notebook.py --notebook notebooks/02_flow_am_terminal_gradient.ipynb --output runs/notebooks/02_flow_am.executed.ipynb
+python scripts/execute_notebook.py --notebook notebooks/02_flow_am_dimension_coupling.ipynb --output runs/notebooks/02_flow_am_dim.executed.ipynb
 ```
 
-每条命令使用当前解释器对应的临时 kernel；不会偷偷切换到系统 Python。默认每个 cell 允许 1800 秒，可用 `--timeout` 调整。输出文件已存在时必须明确加 `--replace` 或换文件名。每次 Run All 另外创建唯一的 `runs/01-motivation-*` / `runs/02-flow-am-formal-*` 目录，保存全部表格、图、协议与模型，不覆盖上一次。Flow 的失败会写入该目录 `events.jsonl` 并抛错，不会静默跳过 seed。
+每条命令使用当前解释器对应的临时 kernel；不会偷偷切换到系统 Python。默认每个 cell 允许 1800 秒，可用 `--timeout` 调整。输出文件已存在时必须明确加 `--replace` 或换文件名。每次 Run All 另外创建唯一的 `runs/01-motivation-*` / `runs/02-flow-am-dim-formal-*` 目录，保存全部表格、图、协议与模型，不覆盖上一次。Flow 的失败会写入该目录 `events.jsonl` 并抛错，不会静默跳过 seed。
 
 同名 `.py` 是可直接执行的 percent-cell 源文件，代码和 notebook 一致；脚本模式建议使用非交互绘图后端：
 
 ```bash
 MPLBACKEND=Agg python notebooks/01_motivation_analytic.py
-MPLBACKEND=Agg python notebooks/02_flow_am_terminal_gradient.py
+MPLBACKEND=Agg python notebooks/02_flow_am_dimension_coupling.py
 ```
 
-若只编辑新 Flow `.py`，使用 `python scripts/build_research_notebooks.py --name 02_flow_am_terminal_gradient --replace`（**只清除新 notebook 的执行输出**），再执行。不要无意重建 Notebook 1 或归档文件。轻量测试包含 source/notebook 一致性、旧导航审计以及新的 Flow AM 离散误差传播、VJP、有限差分、oracle guard 和 RNG coupling。
+若只编辑新 Flow `.py`，使用 `python scripts/build_research_notebooks.py --name 02_flow_am_dimension_coupling --replace`（**会清除新 notebook 的执行输出**），再执行。不要无意重建 Notebook 1 或归档文件。轻量测试见 `tests/test_flow_am_dimension_coupling.py`，包含 d维采样、解析梯度、VJP、Lean递推、真值隔离、有限链KL、历史字节校验。
+
+新主 Notebook 2 已先用独立 smoke seed 99001 跑通，再以固定的 38001–38003 seed 运行。只做轻量检查时可执行：
+
+```bash
+PAGR_DIM_PROFILE=smoke python scripts/execute_notebook.py --notebook notebooks/02_flow_am_dimension_coupling.ipynb --output runs/notebooks/02_flow_am_dim.smoke.ipynb
+```
+
+正式配置是默认 `PAGR_DIM_PROFILE=formal`。新 run 中保存每 seed 的行为/标量数据、校准噪声、9个Base、45个critic、18个actor的checkpoint、per-path最终评价、诊断CSV、环境和source/config hash。使用新的审计脚本核对数据与全部27组 Frozen/Learned/Oracle 最终 checkpoint 回放（将目录名换成实际输出）：
+
+```bash
+python scripts/validate_flow_am_dimension_coupling.py --run runs/02-flow-am-dim-formal-EXAMPLE --output runs/02-flow-am-dim-formal-EXAMPLE/validation.json
+```
+
+以下 smoke、验证与 K 网格描述只属于**归档的二维四模式 Flow notebook**，不在本轮三个任务上自动重跑：
 
 独立开发 smoke（seed 91001，不使用正式 seeds，不能据此宣称预训练质量或方法效果）：
 

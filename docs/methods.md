@@ -102,3 +102,17 @@ $$\operatorname{trCov}(q_L)=\operatorname{trCov}(q_O)+\operatorname{trCov}(d)+2\
 mean(d) 是32次重复的均值估计，不是真正已知的总体 bias；qO 也不是 ∇θJ。对每一对 q 使用独立复制、完全相同的 Adam 一阶/二阶矩和计数器，按正式训练的 norm clip 与 Adam 更新，然后用新的1024条共同评价噪声直接比较 oracle 虚拟一步减 learned 虚拟一步的 J、reward。Monte Carlo SE 从每条路径的配对差计算；批间 SD、MC SE、训练 seed 差异分开报告。正式 actor、optimizer 和全局训练 RNG 不被虚拟步改写。终点投影 qL=cqO+r⊥ 在 qO 接近零时标记未定义，不删掉重复。
 
 K32 actor 分别在 K32/K64 有限链上评价；K64 的 learned/oracle B64 在全部三个 seed 重新训练并在共同 K64 噪声上评价。这只是网格敏感性，不构成 K64 的完整梯度来源×batch 交互实验。所有新结果写入独立 run，原正式 run 和此前负结果不覆盖。
+
+## 新主 Notebook 2：终端梯度维度 × 生成结构耦合
+
+主入口是 [已执行 notebook](../notebooks/02_flow_am_dimension_coupling.ipynb) 与[完整源码](../notebooks/02_flow_am_dimension_coupling.py)。上一节的二维四模式 Flow 实验保留在[历史归档](../notebooks/archive/flow_am_four_mode/README.md)，其结果不是本轮 `independent_d2` 数据。
+
+本轮三任务共用同一构造：`z ~ N(0,I_d)`，`a_1=z_1`，`a_j=z_j+rho sin(z_(j-1))`。A 为 `(d=2,rho=0)`，B 为 `(d=16,rho=0)`，C 为 `(d=16,rho=.5)`；此处右端是上一个 **z**，而不是上一个 **a**。真实奖励始终是 `R_d(a)=-0.5 Σ_j w_j(a_j-a*_j)^2`，目标坐标依次 `+1,-1`，权重依次 `0.5,2`。每个维度都与目标相关，但奖励本身可分离。因此 B/C 改变行为分布、奖励拟合输入分布和学到的生成过程；不能单凭 B/C 差异将机制归因于 adjoint。
+
+每个任务与 seed 从 4096 个行为动作学习独立的 FM velocity，noise→action 插值 `x_t=(1-t)z+ta`，FM 平均平方误差除以 `d`。冻结 base 后，用 512 个带噪声标量奖励训练五成员 SiLU critic，噪声标准差为独立 16384 个行为动作上的真实奖励标准差的 0.2 倍。仅训练标签决定输出标准化；模型对外给出原始奖励尺度，终点输入梯度也包含反标准化系数。选择依据仅为 noisy validation MSE。
+
+生成器在冻结 base 的 RK2 warmup 后执行 K64 全 Gaussian EM 步，`nu_k²=2(1-t_k)/t_k`，`b_θ=2v_θ-x/t_k`，`u_θ=2(v_θ-v_base)/nu_k`。终端标签是 `p_K=-β∇R_hat(X_K)` 或 Oracle 诊断用的 `-β∇R(X_K)`，Lean 伴随以 `p_k=p_(k+1)+h[D_x b_base(X_k,t_k)]ᵀp_(k+1)` 反传。冻结 base 的输入 VJP 由 MLP 层精确计算，不构造训练路径上的 `d×d` Jacobian；小规模测试对照 autograd 显式递推。共同路径诊断则直接替换终端标签，观察沿途伴随、局部参数梯度和共享 Adam 历史的一步更新差。
+
+本轮 matching loss 整体除以维度：`L_AM=h/(2Bd) Σ_(i,k)||u_θ(X_k,t_k)+nu_k p_(k+1)||²`。路径与标签 detach，只有当前 actor 的局部输出求参数导数；这不是精确的 `∇_θ J`。有限链真实目标仍是 `J_d=PathKL-β E[R_d]`，每条路径的 `PathKL=Σ_k h||u_k||²/2` 由同协方差 Gaussian 转移的条件 KL 得出。报告 `J_d/d`、`E[R_d]/d`、`PathKL/d` 仅为跨维度展示，不更改 β。
+
+Oracle 与 Learned 每次从同一 Base/空 Adam 状态出发，使用相同 seed 的训练噪声；actor 分化后，状态路径自然不相同。真实评价使用同一 4096 条初始/Brownian 噪声、固定第 300 步，不根据真实 J 选 checkpoint。Oracle 只更换终端标签来源，既不是可部署方法，也不是最优策略上界。核心比较 `G_d=(J_Learned-J_Oracle)/d` 仅检验此有限训练协议内可恢复的差距。高维 Base 若拟合不足，或 Oracle 本身无法改善 Frozen Base，需要优先报告平台限制。三个探索 seed 不足以建立普遍维度规律。

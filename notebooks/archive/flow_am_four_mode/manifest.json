@@ -1,0 +1,30 @@
+{
+  "description": "Byte-identical archive of the prior two-dimensional four-mode Flow Notebook 2. The original paths and all tracked run artifacts remain in place.",
+  "source_commit": "d195e5a",
+  "files": [
+    {
+      "original": "notebooks/02_flow_am_terminal_gradient.py",
+      "archived": "notebooks/archive/flow_am_four_mode/02_flow_am_terminal_gradient.py",
+      "sha256": "1afdd983f345795495022fd21da9cd4fbcd82dd69b55618858042b49cf781236"
+    },
+    {
+      "original": "notebooks/02_flow_am_terminal_gradient.ipynb",
+      "archived": "notebooks/archive/flow_am_four_mode/02_flow_am_terminal_gradient.ipynb",
+      "sha256": "bee8e10c95c545f6a0c6ad2f65d292b5c0f0e34370ceee82a3745fac3429866e"
+    },
+    {
+      "original": "configs/flow_am.json",
+      "archived": "notebooks/archive/flow_am_four_mode/flow_am.json",
+      "sha256": "b6327daae69349bfc5d7569e75716267c82fab805f1000d71385562cf16b2f40"
+    }
+  ],
+  "historical_result_directories": [
+    "runs/02-flow-am-formal-drdkjy4g",
+    "runs/02-flow-am-formal-8u0sh2xk"
+  ],
+  "further_provenance": [
+    "provenance/flow_am_validation.json",
+    "provenance/flow_am_development.json",
+    "provenance/flow_am_unittest_output.json"
+  ]
+}

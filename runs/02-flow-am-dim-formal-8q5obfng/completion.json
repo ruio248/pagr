@@ -1,0 +1,27 @@
+{
+  "status": "complete",
+  "profile": "formal",
+  "tasks": [
+    "independent_d2",
+    "independent_d16",
+    "coupled_d16"
+  ],
+  "seeds": [
+    38001,
+    38002,
+    38003
+  ],
+  "base_runs": 9,
+  "reward_models": 45,
+  "actor_runs": 18,
+  "diagnostic_repetitions": 144,
+  "figures": [
+    "behavior-base-projections.png",
+    "final-reward-KL-J.png",
+    "terminal-gradient-to-Adam.png",
+    "oracle-gain-and-propagation.png"
+  ],
+  "elapsed_seconds": 169.26403774996288,
+  "formal_spec_sha256": "c37e730eeee22d59c2d6f83d8a3205522f63d2c3f350f894b453eac0a90479a0",
+  "source_sha256": "b76ac41c7094fd92c6a7e0cd0e3b92489e8a41ebb57213a5251130e8d61699a3"
+}

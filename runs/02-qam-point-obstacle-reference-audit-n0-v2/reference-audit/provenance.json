@@ -1,0 +1,68 @@
+{
+  "source_run": "runs/02-qam-point-obstacle-smoke-e6eff27267",
+  "seed": 59000,
+  "N": 0,
+  "points_sha256": "8e1028f0e6075827b5bc1b167e552cc22a4af761179ee29c8ac92e517496f77b",
+  "actor_sha256": "2154fa4da395eabc9bd96079f3edd80e00411f79a2101b3c8d13335fe184bc74",
+  "critic_sha256": "24123313d25ef282f02da6ec0b1dc9640b66310afee09a93bab03d94be5582a9",
+  "base_sha256": "2154fa4da395eabc9bd96079f3edd80e00411f79a2101b3c8d13335fe184bc74",
+  "config_sha256": "dd24dcf15c9105421aaf484a96159417bf7b7f1c3682be623f18406b45013de5",
+  "source_sha256": "a333b77ca235f74d300daeadef0622f9317f1adafd28a0ec282916087a49008a",
+  "core_sha256": "9cc41036e422f58d0dfb66393114be8f9e229c76443b3fe4d4a8f35e9a350589",
+  "audit_code_sha256": "94997eb268aed68ca89ad1b69ff0e06cf06ae343155393c337994aa2c4316adf",
+  "levels": [
+    [
+      "L0",
+      41,
+      8,
+      128
+    ],
+    [
+      "G1",
+      61,
+      8,
+      128
+    ],
+    [
+      "P1",
+      61,
+      16,
+      128
+    ],
+    [
+      "T1",
+      61,
+      16,
+      256
+    ],
+    [
+      "G2",
+      81,
+      16,
+      256
+    ],
+    [
+      "P2",
+      81,
+      32,
+      256
+    ],
+    [
+      "T2",
+      81,
+      32,
+      512
+    ]
+  ],
+  "gradient_samples": [
+    2048,
+    4096,
+    8192
+  ],
+  "mc_episodes_per_split": 8192,
+  "fd_steps": [
+    0.04,
+    0.02,
+    0.01
+  ]
+}

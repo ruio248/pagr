@@ -1,0 +1,17 @@
+[
+  {
+    "previous_runner_sha256": "94997eb268aed68ca89ad1b69ff0e06cf06ae343155393c337994aa2c4316adf",
+    "resumed_runner_sha256": "80c46b87c8863d0c395ab5737abdb4b6c58304de0bfd063a0bd21991f298b59e",
+    "reason": "Audit orchestration-only bug fixes after cached tables: metadata tuple/list normalization and empty MC CSV handling; PointObstacle, PolicyTable, actor, config, and table cache keys unchanged."
+  },
+  {
+    "previous_runner_sha256": "94997eb268aed68ca89ad1b69ff0e06cf06ae343155393c337994aa2c4316adf",
+    "resumed_runner_sha256": "a0f08b26027b94cb839d5de3add354d7ee2545e763dbfa790bc48829711920ec",
+    "reason": "Audit runner revisions after cached tables: cache metadata normalization, empty MC CSV handling, and absolute-error fallback for exactly zero MC standard error. PointObstacle, PolicyTable, actor, config, and table cache keys unchanged."
+  },
+  {
+    "previous_runner_sha256": "94997eb268aed68ca89ad1b69ff0e06cf06ae343155393c337994aa2c4316adf",
+    "resumed_runner_sha256": "6ff432802bcc5fa2a39b227ada3fb0d5b591341ead0ae75fd2116536f58702d6",
+    "reason": "Final reporting-only revision: computes the declared E_ref/E_critic ratio over nondegenerate points, uses a log axis for the error plot, and records deterministic MC split seeds. Existing table, simulator, Actor, and MC samples were reused unchanged."
+  }
+]

@@ -18,6 +18,8 @@
 
 正在开发的[二维小球避障 Notebook](notebooks/02_qam_point_obstacle.ipynb)已完成一个单 seed、`N=10` 的端到端 **smoke**，包含普通/数值表两条训练线、[并排动画](runs/02-qam-point-obstacle-smoke-e6eff27267/showcase.gif)与[学习曲线](runs/02-qam-point-obstacle-smoke-e6eff27267/learning-curves.png)。但独立 MC 与网格/策略积分加密检查显示，当前数值表**尚未达到高精度参考的验收要求**；正式三 seed 训练被代码阻止，不能把 smoke 的差距解释为已证明的梯度性能损失。[完整阻塞说明](runs/02-qam-point-obstacle-smoke-e6eff27267/report.md)。旧 16D 结果仍是已完成的主结果，直到二维正式协议完成。
 
+新的[17 点预注册 reference 精度审计](runs/02-qam-point-obstacle-reference-audit-n0-v2/report.md)在冻结的 Ordinary `N=0` Actor 上逐轴加密数值表，并以每点两组独立 8192 轨迹 MC 与动作有限差分交叉核验。梯度表自身最高两档漂移 / Critic–reference 差距约为 **0.00125**，但数值 (Q) 与独立 MC 的最大差距仍达 **7.01 个 MC 标准误**，因此整体 `reference_validated=false`。这一很小的梯度漂移比率**不是**通过精度认证；正式 3 seed、50 个配对测试和 PAGR 方法开发均未启动。完整 CSV、图、自动判定及数值误差来源记录在该审计目录。
+
 正式三 seed 的新实验已执行：[报告、数据与 checkpoint](runs/02-qam-td-formal-31c55defef/report.md)、[独立高样本最终评价](runs/02-qam-td-formal-31c55defef/final-independent-evaluation.csv)、[数值审计](runs/02-qam-td-formal-31c55defef/validation.json)及[结果解释](docs/results.md#当前主-notebook-2多步稀疏任务的-td-q-梯度实验)。实验 A 在固定 `N=300` 的三个探索 seed 中，Oracle 的内层提取目标和真实闭环成功率均优于 Learned；但验证 `Q` RMSE 约0.167，相对真实Q均值并不小，**不能声称本轮已证明“Q值准确、只有梯度不准确”**。实验 B 的联合更新可运行并改善闭环表现，但没有当前策略的精确 Oracle，不被算入 A 的估计误差因果对照。
 
 [Notebook 2b](notebooks/02b_joint_mc_reference_diagnostic.ipynb) 对实验 B 的9个保存快照做**只读的当前策略梯度诊断**：每个快照固定3个状态/动作点，各用两份独立的8192条模拟轨迹估计动作梯度，再比较伴随传播、虚拟 Adam 步和一步更新后的配对闭环评价。[完整报告](runs/02-qam-joint-mc-diagnostic-d026b21f0a/report.md)与[审计](runs/02-qam-joint-mc-diagnostic-d026b21f0a/validation.json)分开于原训练。选定27点的 critic 梯度差异超过两份MC估计的差异，但Q数值误差也明显；一步干预的收益很小且跨seed区间包含零，**这不是准确Q、错误梯度导致最终性能下降的证明，也不是新算法胜出**。

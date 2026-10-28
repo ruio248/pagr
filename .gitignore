@@ -13,6 +13,7 @@ runs/*
 !runs/02-qam-td-formal-31c55defef/
 !runs/02-qam-joint-mc-diagnostic-d026b21f0a/
 !runs/02-qam-point-obstacle-smoke-e6eff27267/
+!runs/02-qam-point-obstacle-reference-audit-n0-v2/
 tmp/
 .env
 .env.*

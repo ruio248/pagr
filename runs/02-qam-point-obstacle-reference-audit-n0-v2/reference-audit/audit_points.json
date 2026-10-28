@@ -1,0 +1,23 @@
+{
+  "protocol": "point-obstacle-current-policy-reference-audit-v1",
+  "selection": "Predeclared from geometry and action-scale coverage, before running this audit; none is one of the five previous smoke calibration points.",
+  "points": [
+    {"id": "A01", "k": 0, "p_x": 0.12, "p_y": 0.39, "a_x": 0.40, "a_y": -0.20, "geometry_category": "start lower, small action, early horizon"},
+    {"id": "A02", "k": 0, "p_x": 0.14, "p_y": 0.60, "a_x": 1.00, "a_y": 0.80, "geometry_category": "start upper, medium action, early horizon"},
+    {"id": "A03", "k": 4, "p_x": 0.29, "p_y": 0.26, "a_x": 0.90, "a_y": -0.20, "geometry_category": "obstacle lower approach"},
+    {"id": "A04", "k": 8, "p_x": 0.39, "p_y": 0.30, "a_x": 1.00, "a_y": 0.30, "geometry_category": "obstacle lower side"},
+    {"id": "A05", "k": 8, "p_x": 0.39, "p_y": 0.70, "a_x": 1.00, "a_y": -0.30, "geometry_category": "obstacle upper side"},
+    {"id": "A06", "k": 10, "p_x": 0.31, "p_y": 0.50, "a_x": 1.30, "a_y": 0.00, "geometry_category": "direct obstacle approach"},
+    {"id": "A07", "k": 12, "p_x": 0.48, "p_y": 0.31, "a_x": 1.00, "a_y": 0.20, "geometry_category": "obstacle lower tangent"},
+    {"id": "A08", "k": 12, "p_x": 0.48, "p_y": 0.69, "a_x": 1.00, "a_y": -0.20, "geometry_category": "obstacle upper tangent"},
+    {"id": "A09", "k": 16, "p_x": 0.65, "p_y": 0.38, "a_x": 0.80, "a_y": 0.40, "geometry_category": "immediately after obstacle lower"},
+    {"id": "A10", "k": 16, "p_x": 0.65, "p_y": 0.62, "a_x": 0.80, "a_y": -0.40, "geometry_category": "immediately after obstacle upper"},
+    {"id": "A11", "k": 20, "p_x": 0.74, "p_y": 0.49, "a_x": 0.50, "a_y": 0.00, "geometry_category": "near goal, medium action"},
+    {"id": "A12", "k": 23, "p_x": 0.84, "p_y": 0.60, "a_x": 0.40, "a_y": -0.40, "geometry_category": "near goal edge, late horizon"},
+    {"id": "A13", "k": 20, "p_x": 0.94, "p_y": 0.82, "a_x": 1.20, "a_y": 0.40, "geometry_category": "near upper right boundary"},
+    {"id": "A14", "k": 26, "p_x": 0.90, "p_y": 0.10, "a_x": -0.50, "a_y": 0.50, "geometry_category": "late horizon, lower boundary"},
+    {"id": "A15", "k": 2, "p_x": 0.15, "p_y": 0.50, "a_x": 2.00, "a_y": -1.50, "geometry_category": "early horizon, partially tanh-saturated action"},
+    {"id": "A16", "k": 14, "p_x": 0.70, "p_y": 0.80, "a_x": 0.00, "a_y": 0.00, "geometry_category": "small zero action after obstacle"},
+    {"id": "A17", "k": 5, "p_x": 0.05, "p_y": 0.38, "a_x": -1.20, "a_y": 0.00, "geometry_category": "near left boundary, medium action"}
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "reference_validated": false,
+  "gates": {
+    "reference_to_critic_ratio": true,
+    "all_axis_drift": true,
+    "mc_q_consistency": false,
+    "mc_gradient_consistency": true,
+    "mc_gradient_precision": true,
+    "finite_difference": true,
+    "direction": true,
+    "convergence_trend": true
+  },
+  "seed": 59000,
+  "N": 0,
+  "audit_points": 17,
+  "nondegenerate_points": 13,
+  "near_zero_absolute_fallback_points": [
+    "A06",
+    "A09",
+    "A13",
+    "A14"
+  ],
+  "zero_mc_q_se_absolute_fallback_points": [
+    "A14"
+  ],
+  "zero_mc_gradient_se_absolute_fallback_components": [
+    "A14:x",
+    "A14:y"
+  ],
+  "zero_mc_q_se_absolute_fallback_pass": true,
+  "zero_mc_gradient_se_absolute_fallback_pass": true,
+  "E_ref": 0.0006687071797600693,
+  "E_critic": 0.5339844080223941,
+  "reference_to_critic_error_ratio": 0.0012522972014021297,
+  "axis_drift": {
+    "grid": 0.01334381516692321,
+    "policy": 0.012576553224394448,
+    "transition": 0.0006690765186812851,
+    "gradient_quadrature": 0.0003671852419470719
+  },
+  "all_axis_drift_ratio": 0.024989147560163613,
+  "mc_gradient_se_rms": 0.016353292695809773,
+  "mc_gradient_se_to_critic_ratio": 0.030625037828994676,
+  "mc_split_difference_rms": 0.05743416232850318,
+  "mc_split_z_max": 2.4700188976981643,
+  "mc_q_z_rms": 2.7460689708487234,
+  "mc_q_z_max": 7.013993105775371,
+  "mc_gradient_z_rms": 1.0982066190044795,
+  "mc_gradient_z_max": 2.4229465795953136,
+  "fd_error_rms": 0.00828406327342187,
+  "fd_error_max": 0.03649225664328126,
+  "opposite_direction_points": 0,
+  "high_level": "P2: 81^2/32 policy/256 transition",
+  "higher_level": "T2: 81^2/32 policy/512 transition",
+  "gradient_quadrature_final": 8192,
+  "protocol_note": "Gate applies to frozen Ordinary N=0 Actor only; passing it would not automatically certify every formal Actor update."
+}

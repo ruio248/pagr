@@ -85,6 +85,24 @@ python -m pagr replay --task arm --seed 18001 --method silu --inputs runs/genera
 
 上述校验命令的目录是已保存的参考 smoke；重跑时应替换为新打印的目录，并按源码调用 `render_showcase`、`render_curves` 和 `mechanism_probe` 生成展示产物。本轮数值失败细节和计算成本见该 run 的报告；不要将其单 seed 差距当作已验证的梯度因果效应。
 
+#### 冻结当前策略的 reference 精度审计
+
+[`审计点`](../configs/reference_audit_points.json)先于结果在独立提交中固定，覆盖 17 个几何位置、时刻和动作尺度。以下命令只读取现有 smoke 的 Ordinary `N=0` Actor/Critic，在新目录中计算逐轴加密的数值表、每点两份独立的 8192-rollout 环境 MC、以及动作有限差分；**不会训练 Actor，也不会解锁正式三 seed**：
+
+```bash
+.venv/bin/python scripts/audit_point_reference.py --output runs/point-reference-audit-my-replay
+```
+
+这个审计相当耗时，完成的数值表带 Actor、Base、环境源码、审计点和配置 hash 缓存；中断后用相同命令安全续跑，这些科学输入改变会报错而不是混用数据。审计脚本自身的续跑/展示修复单独记录在 `runner-revision-history.json`。输出中的 `reference-audit/precision_summary.json` 是 fail-closed 的精度判定；即使单个 `N=0` 策略通过，也不能自动代表未来每个更新后策略都通过。未经验证的 reference 不得作为“真值”解释 Critic 梯度误差。
+
+已保存的审计目录是 [`02-qam-point-obstacle-reference-audit-n0-v2`](../runs/02-qam-point-obstacle-reference-audit-n0-v2/report.md)，其主 gate 为 **FAIL**；在复制仓库中不要用重放命令覆盖此目录。重放结束后，可以用下列只读校验检查完整性：
+
+```bash
+.venv/bin/python scripts/validate_point_reference_audit.py runs/02-qam-point-obstacle-reference-audit-n0-v2
+```
+
+81²/64-policy 与 121²/32-policy 的单轴加密是主 gate 失败后的诊断，不会逆向改变原 `precision_summary.json`。完整误差来源、计算成本和九项结论见已保存的 [`report.md`](../runs/02-qam-point-obstacle-reference-audit-n0-v2/report.md)。
+
 ### 两份主研究 notebook 与联合训练诊断扩展
 
 1. [`01_motivation_analytic.ipynb`](../notebooks/01_motivation_analytic.ipynb)：解析的“值准、梯度不准”例子；一次实际 AM–SGD 更新的精确期望损害；三维线性 Gaussian 下的逐轨迹/条件均值误差；有限样本 AM 回归、状态反馈、同 KL 控制性能；梯度修复与值偏移对照；精确全局优化的反例。A 是 SGD，B 是冻结轨迹回归，不冒充多轮 Adam 实验。

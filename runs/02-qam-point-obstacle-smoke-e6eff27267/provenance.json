@@ -1,0 +1,9 @@
+{
+  "source_sha256": "e11a6b1f1c80433886e38389ae035e45636077c7fe6eadbb5eee87e0b4596f2b",
+  "core_sha256": "9cc41036e422f58d0dfb66393114be8f9e229c76443b3fe4d4a8f35e9a350589",
+  "config_sha256": "dd24dcf15c9105421aaf484a96159417bf7b7f1c3682be623f18406b45013de5",
+  "seeds": [
+    59000
+  ],
+  "official_qam_commit": "2726d767c9a0a7a46d49693f0391f73dc2cf58ac"
+}

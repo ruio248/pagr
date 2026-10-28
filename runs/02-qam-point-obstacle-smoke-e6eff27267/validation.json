@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "profile": "smoke only",
+  "seeds": [59000],
+  "N": 10,
+  "curve_episodes": 256,
+  "final_episodes": 512,
+  "artifact_and_optimizer_counts_passed": true,
+  "reference_precision_passed": false,
+  "formal_claim_allowed": false,
+  "note": "Generated from scripts/validate_point_obstacle_run.py; formal training is blocked until independent numerical reference precision passes."
+}

@@ -70,6 +70,21 @@ python -m pagr replay --task arm --seed 18001 --method silu --inputs runs/genera
 
 ## Notebook
 
+### 二维避障设计 smoke（正式三 seed 尚未启动）
+
+[已执行的二维 Notebook](../notebooks/02_qam_point_obstacle.ipynb)当前展示的是唯一目录
+[`02-qam-point-obstacle-smoke-e6eff27267`](../runs/02-qam-point-obstacle-smoke-e6eff27267/report.md)
+的单 seed、N=10 **设计检查**，而非正式高精度参考结果。当前数值表在预选点的独立 MC、网格和策略积分核验中未完全收敛；`--profile formal` 因而会主动报错，不会静默用粗表跑三 seed。既有解析、16D 和 MC 诊断完全保留。
+
+要重跑同等 smoke 预算（会创建另一个唯一目录，不覆盖已保存结果）：
+
+```bash
+.venv/bin/python -c 'import importlib.util,sys; from dataclasses import replace; from pathlib import Path; p=Path("notebooks/02_qam_point_obstacle.py"); s=importlib.util.spec_from_file_location("point",p); m=importlib.util.module_from_spec(s);sys.modules[s.name]=m;s.loader.exec_module(m); c,_=m.load_config();c=replace(c,actor_updates=10,curve_updates=(0,5,10),curve_episodes=256,final_episodes=512);print(m.run_experiment(c,(59000,),"smoke"))'
+.venv/bin/python scripts/validate_point_obstacle_run.py runs/02-qam-point-obstacle-smoke-e6eff27267
+```
+
+上述校验命令的目录是已保存的参考 smoke；重跑时应替换为新打印的目录，并按源码调用 `render_showcase`、`render_curves` 和 `mechanism_probe` 生成展示产物。本轮数值失败细节和计算成本见该 run 的报告；不要将其单 seed 差距当作已验证的梯度因果效应。
+
 ### 两份主研究 notebook 与联合训练诊断扩展
 
 1. [`01_motivation_analytic.ipynb`](../notebooks/01_motivation_analytic.ipynb)：解析的“值准、梯度不准”例子；一次实际 AM–SGD 更新的精确期望损害；三维线性 Gaussian 下的逐轨迹/条件均值误差；有限样本 AM 回归、状态反馈、同 KL 控制性能；梯度修复与值偏移对照；精确全局优化的反例。A 是 SGD，B 是冻结轨迹回归，不冒充多轮 Adam 实验。

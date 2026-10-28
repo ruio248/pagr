@@ -1,0 +1,15 @@
+{
+  "seed": 59000,
+  "N": 10,
+  "actor_hash": "713a7df4ce353174406b14a3ae743a25127ec2770eaf5e02e4509d519ece0568",
+  "table_actor_hash": "713a7df4ce353174406b14a3ae743a25127ec2770eaf5e02e4509d519ece0568",
+  "reference_validated": false,
+  "points": 6,
+  "q_mae": 0.44092579567044604,
+  "action_gradient_error_rms": 0.10750146955251694,
+  "terminal_adjoint_error_rms": 0.43000587821006775,
+  "matching_label_error_rms": 0.38840264081954956,
+  "actor_parameter_gradient_difference": 1.5229977369308472,
+  "adam_step_difference": 0.00735773891210556,
+  "table_seconds": 6.923168667126447
+}

@@ -1,0 +1,88 @@
+{
+  "experiment": "two-dimensional point obstacle, current-policy reference QAM",
+  "official_qam_commit": "2726d767c9a0a7a46d49693f0391f73dc2cf58ac",
+  "status": "design smoke; formal settings are frozen only after smoke validation",
+  "horizon": 28,
+  "start_x": [
+    0.08,
+    0.18
+  ],
+  "start_y": [
+    0.35,
+    0.65
+  ],
+  "goal_center": [
+    0.85,
+    0.5
+  ],
+  "goal_radius": 0.06,
+  "obstacle_center": [
+    0.5,
+    0.5
+  ],
+  "obstacle_radius": 0.16,
+  "delta": 0.06,
+  "sigma_env": 0.012,
+  "gamma": 0.98,
+  "train_episodes": 2400,
+  "valid_episodes": 400,
+  "behavior_mix": [
+    0.475,
+    0.475,
+    0.05
+  ],
+  "behavior_action_noise": 0.12,
+  "base_updates": 10000,
+  "base_batch": 256,
+  "critic_pretrain_updates": 1500,
+  "critic_batch": 128,
+  "critic_members": 3,
+  "critic_lr": 0.0005,
+  "critic_ema": 0.01,
+  "actor_updates": 300,
+  "actor_batch": 64,
+  "actor_lr": 0.0003,
+  "actor_clip": 5.0,
+  "beta": 4.0,
+  "flow_steps": 8,
+  "warmup_steps": 2,
+  "flow_epsilon": 0.05,
+  "curve_updates": [
+    0,
+    50,
+    100,
+    150,
+    200,
+    250,
+    300
+  ],
+  "curve_episodes": 256,
+  "final_episodes": 1024,
+  "reference_grid": 41,
+  "reference_policy_samples": 8,
+  "reference_transition_samples": 128,
+  "reference_gradient_samples": 2048,
+  "formal_seeds": [
+    59001,
+    59002,
+    59003
+  ],
+  "smoke_overrides": {
+    "actor_updates": 10,
+    "train_episodes": 2400,
+    "valid_episodes": 400,
+    "curve_episodes": 256,
+    "final_episodes": 512,
+    "base_updates": 10000,
+    "critic_pretrain_updates": 1500,
+    "reference_grid": 41,
+    "reference_policy_samples": 8,
+    "reference_transition_samples": 128,
+    "reference_gradient_samples": 2048,
+    "curve_updates": [
+      0,
+      5,
+      10
+    ]
+  }
+}

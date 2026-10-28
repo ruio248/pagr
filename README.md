@@ -16,6 +16,8 @@
 
 新的主 Notebook 2 是[多步稀疏任务的 TD-Critic/条件 Flow AM 实验](notebooks/02_qam_td_terminal_error.ipynb)。它明确分开环境时间 `k`、动作生成内部的 Flow 时间 `tau` 与 Actor 更新次数 `N`。实验 A 在固定后续策略下训练 TD critic，并用解析的同策略长期 `Q` 作 Oracle 对照；实验 B 则以当前 Actor 产生 TD 后继动作，交替更新 Critic 与 AM Actor。两者不混表，B 不冒用 A 的 Oracle。本轮没有新鲁棒算法，也不是官方 QAM 的逐行复现。此前的单步带噪奖励回归主 Notebook 2 [原样归档](notebooks/archive/reward_regression_previous_main/README.md)，不能称为完整 QAM critic。
 
+正在开发的[二维小球避障 Notebook](notebooks/02_qam_point_obstacle.ipynb)已完成一个单 seed、`N=10` 的端到端 **smoke**，包含普通/数值表两条训练线、[并排动画](runs/02-qam-point-obstacle-smoke-e6eff27267/showcase.gif)与[学习曲线](runs/02-qam-point-obstacle-smoke-e6eff27267/learning-curves.png)。但独立 MC 与网格/策略积分加密检查显示，当前数值表**尚未达到高精度参考的验收要求**；正式三 seed 训练被代码阻止，不能把 smoke 的差距解释为已证明的梯度性能损失。[完整阻塞说明](runs/02-qam-point-obstacle-smoke-e6eff27267/report.md)。旧 16D 结果仍是已完成的主结果，直到二维正式协议完成。
+
 正式三 seed 的新实验已执行：[报告、数据与 checkpoint](runs/02-qam-td-formal-31c55defef/report.md)、[独立高样本最终评价](runs/02-qam-td-formal-31c55defef/final-independent-evaluation.csv)、[数值审计](runs/02-qam-td-formal-31c55defef/validation.json)及[结果解释](docs/results.md#当前主-notebook-2多步稀疏任务的-td-q-梯度实验)。实验 A 在固定 `N=300` 的三个探索 seed 中，Oracle 的内层提取目标和真实闭环成功率均优于 Learned；但验证 `Q` RMSE 约0.167，相对真实Q均值并不小，**不能声称本轮已证明“Q值准确、只有梯度不准确”**。实验 B 的联合更新可运行并改善闭环表现，但没有当前策略的精确 Oracle，不被算入 A 的估计误差因果对照。
 
 [Notebook 2b](notebooks/02b_joint_mc_reference_diagnostic.ipynb) 对实验 B 的9个保存快照做**只读的当前策略梯度诊断**：每个快照固定3个状态/动作点，各用两份独立的8192条模拟轨迹估计动作梯度，再比较伴随传播、虚拟 Adam 步和一步更新后的配对闭环评价。[完整报告](runs/02-qam-joint-mc-diagnostic-d026b21f0a/report.md)与[审计](runs/02-qam-joint-mc-diagnostic-d026b21f0a/validation.json)分开于原训练。选定27点的 critic 梯度差异超过两份MC估计的差异，但Q数值误差也明显；一步干预的收益很小且跨seed区间包含零，**这不是准确Q、错误梯度导致最终性能下降的证明，也不是新算法胜出**。

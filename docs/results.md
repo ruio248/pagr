@@ -1,5 +1,23 @@
 # 结果、motivation 与审计边界
 
+## PointObstacle Q-gradient 幅值 × 方向机制分解（单 seed 特权诊断）
+
+[完整报告、冻结协议与输出表](../reports/point_gradient_magnitude_direction/)；实验代码见
+[runner](../scripts/run_point_gradient_magnitude_direction.py)和[配置](../configs/point_gradient_magnitude_direction.json)。
+该实验只研究固定 seed `59001`、固定初始化及相同训练/评价随机流下，替换 Q-gradient 幅值或方向分别能否恢复
+Learned QAM 与高样本 current-policy MC-reference QAM 的性能差距；MC 标签只进入 Actor terminal label，不用于 TD 或 Critic。
+
+预先规定的继续门槛未达到，故按规则停止在 `N=100`，没有继续至300次更新。4096条独立评价回合上的成功率为：
+
+| 分支 | 成功率 | 相对 Learned |
+|---|---:|---:|
+| Learned | 51.34% | — |
+| Magnitude-only reference | 61.30% | +9.96 pp |
+| Direction-only reference | 51.49% | +0.15 pp |
+| Full MC-reference | 62.35% | +11.01 pp |
+
+因此在**这个 seed、任务和有限预算**下，方向替换只恢复约1.33%的 full-reference gap，而幅值替换恢复约90.47%。这是有特权参考标签的单 seed 机制诊断，不能称为新算法、独立确认或一般因果定律；也不能据此断言方向误差普遍不重要。50条配对轨迹与参数梯度/虚拟 Adam-step 分解见完整报告及随附 CSV/PNG。该公开结果包不含训练数据和 checkpoint，重跑依赖协议记录的源输入。
+
 ## 二维避障长训练扩展：300 次更新之后，差距仍在
 
 [Notebook 2c](../notebooks/02c_qam_point_long_training.ipynb) 和

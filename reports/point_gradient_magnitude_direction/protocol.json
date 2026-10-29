@@ -1,0 +1,161 @@
+{
+  "protocol": {
+    "protocol": "point-obstacle-single-seed-terminal-gradient-magnitude-direction-v1",
+    "seed": 59001,
+    "source_run": "runs/02-qam-point-obstacle-long-mc-v2-20261029",
+    "initialization_source": "seed-59001/shared-initialization.pt",
+    "train_data_source": "seed-59001/train-transitions.npz",
+    "valid_data_source": "seed-59001/valid-transitions.npz",
+    "branches": [
+      "learned",
+      "magnitude_only",
+      "direction_only",
+      "full_reference"
+    ],
+    "stage1_actor_updates": 100,
+    "stage2_actor_updates": 300,
+    "stage1_curve_updates": [
+      0,
+      10,
+      25,
+      50,
+      75,
+      100
+    ],
+    "stage2_curve_updates": [
+      150,
+      200,
+      250,
+      300
+    ],
+    "curve_episodes": 1024,
+    "final_episodes": 4096,
+    "paired_episodes": 50,
+    "reference_mc_episodes": 8192,
+    "actor_update_diagnostic_updates_stage1": [
+      0,
+      50,
+      100
+    ],
+    "actor_update_diagnostic_updates_stage2": [
+      150,
+      300
+    ],
+    "gradient_log_interval": 10,
+    "gradient_zero_tolerance": 1e-08,
+    "gradient_relative_error_epsilon": 1e-08,
+    "admission_direction_gap_recovery_min": 0.5,
+    "admission_direction_success_improvement_min_pp": 3.0,
+    "shared_across_branches": [
+      "offline transitions",
+      "Base Flow and initial Actor",
+      "initial Critic and target Critic",
+      "fresh identical Actor and Critic Adam states",
+      "Actor and TD update counts",
+      "TD and Actor minibatch-index random streams",
+      "TD action and Actor Flow rollout noise",
+      "common curve, final and paired evaluation noise banks",
+      "beta, tau grid, flow steps, batch sizes, optimizer, clipping, task"
+    ],
+    "reference_information_allowed_only_for": "Actor terminal action-Q-gradient labels; current-policy MC continuation actions use that branch's current Actor",
+    "reference_gradient_estimator": "existing scripts/run_point_long_training.py independent_mc; IID score-gradient estimator; unchanged",
+    "selection": "No hyperparameter tuning and no best-checkpoint selection. Stop at N=100 unless the predeclared direction admission rule passes.",
+    "claims_boundary": "Single-seed privileged mechanism decomposition, not a deployable algorithm, not a general causal claim, and not a new QAM objective."
+  },
+  "config": {
+    "dimension": 2,
+    "horizon": 28,
+    "start_x": [
+      0.08,
+      0.18
+    ],
+    "start_y": [
+      0.35,
+      0.65
+    ],
+    "goal_center": [
+      0.85,
+      0.5
+    ],
+    "goal_radius": 0.06,
+    "obstacle_center": [
+      0.5,
+      0.5
+    ],
+    "obstacle_radius": 0.16,
+    "delta": 0.06,
+    "sigma_env": 0.012,
+    "gamma": 0.98,
+    "train_episodes": 2400,
+    "valid_episodes": 400,
+    "behavior_mix": [
+      0.475,
+      0.475,
+      0.05
+    ],
+    "behavior_action_noise": 0.12,
+    "base_updates": 10000,
+    "base_batch": 256,
+    "critic_pretrain_updates": 1500,
+    "critic_batch": 128,
+    "critic_members": 3,
+    "critic_lr": 0.0005,
+    "critic_ema": 0.01,
+    "actor_updates": 100,
+    "actor_batch": 64,
+    "actor_lr": 0.0003,
+    "actor_clip": 5.0,
+    "beta": 4.0,
+    "flow_steps": 8,
+    "warmup_steps": 2,
+    "flow_epsilon": 0.05,
+    "curve_updates": [
+      0,
+      10,
+      25,
+      50,
+      75,
+      100
+    ],
+    "curve_episodes": 1024,
+    "final_episodes": 4096,
+    "reference_grid": 41,
+    "reference_policy_samples": 8,
+    "reference_transition_samples": 128,
+    "reference_gradient_samples": 2048,
+    "formal_seeds": [
+      59001,
+      59002,
+      59003
+    ]
+  },
+  "source_hashes": {
+    "protocol.json": "dcb783d5f0f55c7489ca98827ee74b91cdfa017999ec15e52dbaf053dbec122b",
+    "complete.json": "03e80a70f6095fc4b560d7fc7de46da605ea0e7ea8710972bd295d0ced2947b2",
+    "initialization-source.json": "d9197e94c9195398d0688c825cefded01e170a5997078ad19e75897dc25ef6b0",
+    "initialization-input-directory": "[local source path omitted from public artifact]",
+    "shared-initialization.pt": "a4f356edf0631a37dccb9c7232fd89e7cea4cbfee11264acc45ff8f0a120ced9",
+    "train-transitions.npz": "88de6128df6a4babd11aebfd655c3057b24eef0e878e0d2246b67687ed01eac6",
+    "valid-transitions.npz": "e2f69044e2967276232a484c415b63d2578b5a7bb602fd8beeeb4ddb37e574e6",
+    "run_point_long_training.py": "c2f6ea1c824eef382d6320b89e7123b1e94960b7720f48288ed8b75a17bba77a",
+    "point_reference_accelerated.py": "dc6920f7ee5849b8444314c335f864738e7e2f298a865885738b1d3c94ee534c",
+    "point_obstacle_notebook_source.py": "a333b77ca235f74d300daeadef0622f9317f1adafd28a0ec282916087a49008a",
+    "qam_core.py": "9cc41036e422f58d0dfb66393114be8f9e229c76443b3fe4d4a8f35e9a350589",
+    "experiment_runner.py": "b1f17bccdbc2de1446a3d5386b4b30909c1776dc954022bea174200ddcc8f0ab",
+    "experiment_config.json": "eb9d53f6871b875a25d610c2229ce429d8555428b3ed88d35a1ab95b6eaefe02",
+    "effective-config": "18fbe58528b6763316f4281477de8a04776a9176f0059c1acf8036507ebb2903"
+  },
+  "source_run": "runs/02-qam-point-obstacle-long-mc-v2-20261029",
+  "source_branch_initial_hashes": {
+    "actor": "efd59857ac8a78f4bdef6494f24fcf5c849bc1bf3eaeb968ade1fdba2908ef8a",
+    "critic": "d59e1f5a8a6db8e1442f4c6034b4ff30682fc331010c384e7238b89e5f5c013b",
+    "target": "eca0eef8ae0f29d4730ab08adfa6907d9db385c3abe3343b38e547e6c50c6a07"
+  },
+  "python": "3.11.13 (main, Aug 18 2025, 19:19:13) [Clang 20.1.4 ]",
+  "torch": "2.9.1+cu128",
+  "numpy": "2.3.5",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "config_hash": "fa87d660832c7ef2b232d8bf25736cdcc7f7a96d72f1dd959c8c620be3312a48",
+  "created_at": 1793282490.7722683
+}

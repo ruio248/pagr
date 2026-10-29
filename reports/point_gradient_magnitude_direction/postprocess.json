@@ -1,0 +1,21 @@
+{
+  "created_at_unix": 1793284456.737577,
+  "training_rerun": false,
+  "purpose": "Locally regenerated report clarifies N=300 source baseline versus N=100 admission result; no MC or training rerun.",
+  "frozen_protocol_runner_sha256": "b1f17bccdbc2de1446a3d5386b4b30909c1776dc954022bea174200ddcc8f0ab",
+  "postprocessing_runner_sha256": "b3df6c4f9d4ad6a480581dbd9b4a7d9d1ae692f44f8b8ae193e8aeaa6a324c04",
+  "input_artifact_sha256": {
+    "final-independent.csv": "dedf0d4913c88d594705c09ca00ab8848009a60e4b30086e206a9c7c3ae4bf93",
+    "curves.csv": "5a68f65c2cc9b267069fc9d8cf42183cda052bdef5b8d8672b5d4e63a4db85c2",
+    "admission.json": "1386bd4f48d7f3c60e55c54095e44122fa289d17dd010aaa3565f9da9c341f80",
+    "actor_update_decomposition.csv": "84c2b84103184067f6e0cd56cc0a6413738180661a9171a55ae4dfdedbbd13bf",
+    "gradient-decomposition-per-sample.csv": "044f27f7b332aa759683448cf1f68e6a4cb3fe2c68fb38b1b17566a6a7fbbb7f",
+    "test50-N100/branch-summary.csv": "de31f0bdb627094ad805cf8be27ef81b3a639b4067c6828db18bc5b60ff992ae",
+    "test50-N100/paired-transition-counts.csv": "dcb23fac415ac02f437e0ab82f9e73fad54220067112e36f4e71296da56a9e70"
+  },
+  "output_artifact_sha256": {
+    "report.md": "308731e435a8e941ccd350e6c48d7a6f5abe34d3645a428f1c506b51bc4dec78",
+    "mechanism_results.csv": "feb2d1aa5f1817cd35befc21fa6a8f01496b36ec7777bb0bab39f3f5aa7e13cf",
+    "gradient-decomposition-per-sample.csv": "044f27f7b332aa759683448cf1f68e6a4cb3fe2c68fb38b1b17566a6a7fbbb7f"
+  }
+}

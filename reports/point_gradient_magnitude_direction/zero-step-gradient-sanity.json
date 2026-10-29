@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "seed": 59001,
+  "endpoints": 64,
+  "mc_episodes_per_endpoint": 8192,
+  "mc_seconds": 1.5732399149565026,
+  "summary": {
+    "count": 64,
+    "learned_gradient_norm_mean": 0.07838699221611023,
+    "reference_gradient_norm_mean": 0.24593280255794525,
+    "learned_reference_cosine_mean": 0.5873637795448303,
+    "learned_reference_cosine_median": 0.8257538676261902,
+    "fraction_cos_lt_0": 0.109375,
+    "fraction_cos_lt_0_5": 0.28125,
+    "learned_to_reference_norm_ratio": 2.27709698677063,
+    "learned_zero_fraction": 0.0,
+    "reference_zero_fraction": 0.0,
+    "relative_error_learned": 2.5720716430805624,
+    "relative_error_magnitude_only": 0.733152531349333,
+    "magnitude_only_zero_fraction": 0.0,
+    "relative_error_direction_only": 2.205533614847809,
+    "direction_only_zero_fraction": 0.0,
+    "relative_error_full_reference": 0.0,
+    "full_reference_zero_fraction": 0.0
+  },
+  "zero_vector_fraction": {
+    "learned_gradient": 0.0,
+    "reference_gradient": 0.0,
+    "learned_label": 0.0,
+    "magnitude_only_label": 0.0,
+    "direction_only_label": 0.0,
+    "full_reference_label": 0.0
+  }
+}

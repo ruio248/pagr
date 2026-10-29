@@ -1,0 +1,73 @@
+{
+  "N": 0,
+  "seed": 59001,
+  "source_actor_branch": "learned",
+  "current_policy_reference": true,
+  "reference_mc_episodes": 8192,
+  "mc_seconds": 1.4738057779613882,
+  "gradient_norms": {
+    "learned": 0.07838699221611023,
+    "magnitude_only": 0.24302469193935394,
+    "direction_only": 0.07838699221611023,
+    "full_reference": 0.24302469193935394
+  },
+  "raw_reference_gradient_se_rms": 0.015868208666089827,
+  "rows": [
+    {
+      "N": 0,
+      "method": "learned",
+      "samples": 64,
+      "mc_seconds": 1.4738057779613882,
+      "matching_loss": 0.00872939731925726,
+      "parameter_gradient_norm": 0.5994390249252319,
+      "q_cosine_to_full_reference": 0.9291467666625977,
+      "q_relative_distance_to_full_reference": 0.7324042320251465,
+      "virtual_adam_step_norm": 0.03987095132470131,
+      "adam_step_cosine_to_full_reference": 0.7994300723075867,
+      "adam_step_relative_distance_to_full_reference": 0.6333252191543579,
+      "step_zero": false
+    },
+    {
+      "N": 0,
+      "method": "magnitude_only",
+      "samples": 64,
+      "mc_seconds": 1.4738057779613882,
+      "matching_loss": 0.18044553697109222,
+      "parameter_gradient_norm": 1.9815524816513062,
+      "q_cosine_to_full_reference": 0.9698438048362732,
+      "q_relative_distance_to_full_reference": 0.24400466680526733,
+      "virtual_adam_step_norm": 0.03987346962094307,
+      "adam_step_cosine_to_full_reference": 0.8421977162361145,
+      "adam_step_relative_distance_to_full_reference": 0.5617715716362,
+      "step_zero": false
+    },
+    {
+      "N": 0,
+      "method": "direction_only",
+      "samples": 64,
+      "mc_seconds": 1.4738057779613882,
+      "matching_loss": 0.012082296423614025,
+      "parameter_gradient_norm": 0.5401320457458496,
+      "q_cosine_to_full_reference": 0.9762091040611267,
+      "q_relative_distance_to_full_reference": 0.7411084771156311,
+      "virtual_adam_step_norm": 0.03987139090895653,
+      "adam_step_cosine_to_full_reference": 0.8504889607429504,
+      "adam_step_relative_distance_to_full_reference": 0.5468035340309143,
+      "step_zero": false
+    },
+    {
+      "N": 0,
+      "method": "full_reference",
+      "samples": 64,
+      "mc_seconds": 1.4738057779613882,
+      "matching_loss": 0.2500859498977661,
+      "parameter_gradient_norm": 2.0189592838287354,
+      "q_cosine_to_full_reference": 1.0,
+      "q_relative_distance_to_full_reference": 0.0,
+      "virtual_adam_step_norm": 0.0398733876645565,
+      "adam_step_cosine_to_full_reference": 0.9999909400939941,
+      "adam_step_relative_distance_to_full_reference": 0.0,
+      "step_zero": false
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+N,source_curve_available,passed,max_abs_metric_difference
+0,True,True,0.0
+10,True,True,6.938893903907227e-17
+25,True,True,8.326672684688674e-17
+50,True,True,8.326672684688674e-17
+75,False,,
+100,True,True,2.0816681711721685e-17

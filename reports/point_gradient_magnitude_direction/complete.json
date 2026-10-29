@@ -1,0 +1,22 @@
+{
+  "seed": 59001,
+  "final_actor_updates": 100,
+  "admission": {
+    "seed": 59001,
+    "N": 100,
+    "success_rate": {
+      "learned": 0.513427734375,
+      "magnitude_only": 0.613037109375,
+      "direction_only": 0.514892578125,
+      "full_reference": 0.62353515625
+    },
+    "direction_gap_recovery": 0.013303769401330377,
+    "direction_minus_learned_pp": 0.146484375,
+    "magnitude_minus_learned_pp": 9.9609375,
+    "full_reference_gap_positive": true,
+    "continue_to_300": false,
+    "rule": "continue iff direction recovery >= 0.50 or direction gain >= 3 pp; otherwise stop at N=100"
+  },
+  "completed_at": 1793282968.2681901,
+  "status": "complete_n100_stop"
+}

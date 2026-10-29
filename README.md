@@ -25,6 +25,8 @@
 
 后续 [Oracle-radius 探索诊断](docs/oracle_radius_gradient_diagnostic.md)把特权 MC 梯度误差范数作为逐样本鲁棒半径，但两个已完成 seed 都比 Lean AM 低约6个百分点；第三 seed 在 N=240 中止。该候选已停止，方向分解仅为只读审计，不是已验证的改进算法。
 
+随后完成了[单 seed 的 Q-gradient 幅值 × 方向特权机制分解](reports/point_gradient_magnitude_direction/report.md)，固定 seed `59001`，比较 Learned、仅替换 reference 幅值、仅替换 reference 方向、完整 MC-reference 四分支。预设规则在 `N=100` 停止：direction-only 仅比 Learned 高 **0.15 个百分点**，只恢复约 **1.33%** reference gap；magnitude-only 高 **9.96 个百分点**。这提示在该任务/seed/预算下幅值误差更值得后续检验，**不证明方向误差普遍无关，也不是可部署算法或多 seed 确认结果**。[协议、逐样本梯度分解、独立评价表和避障图](reports/point_gradient_magnitude_direction/)一并发布；为了不公开训练数据或 checkpoint，重跑本实验仍需取得协议中记录的本地源输入。
+
 在固定真实控制目标下，即使终点代价的数值估计较准确，其梯度误差仍可能通过 adjoint 传播，污染中间时刻的学习信号，降低有限训练预算下的控制性能。我们希望刻画并抑制其中真正有害的部分，同时保留有效的控制信号。
 
 区分三件事：终点数值误差、传播后的标签/actor 更新误差、最终真实控制代价。梯度 disagreement 不是已校准的梯度误差；局部 matching loss 的下降也不是一般意义的真实控制代价下降。
@@ -119,6 +121,7 @@ python -m pagr replay --task arm --seed 18001 --method am_adam --output runs/arm
 | **Notebook 2：多步 TD-Q 动作梯度可靠性与条件 Flow AM** | [notebook](notebooks/02_qam_td_terminal_error.ipynb) · [完整 Python 脚本](notebooks/02_qam_td_terminal_error.py) · [冻结配置](configs/qam_td_terminal_error.json) |
 | **Notebook 2b：联合 TD＋AM 的当前策略 Monte Carlo 梯度诊断** | [notebook](notebooks/02b_joint_mc_reference_diagnostic.ipynb) · [完整 Python 脚本](notebooks/02b_joint_mc_reference_diagnostic.py) · [诊断配置](configs/qam_joint_mc_diagnostic.json) |
 | **Notebook 2c：二维避障，三 seed × 300 次更新的 QAM / MC-reference 对比** | [notebook](notebooks/02c_qam_point_long_training.ipynb) · [源码](notebooks/02c_qam_point_long_training.py) · [冻结协议](configs/point_long_training_mc.json) |
+| 单 seed Q-gradient 幅值 × 方向机制分解（特权诊断，非新算法） | [runner](scripts/run_point_gradient_magnitude_direction.py) · [冻结配置](configs/point_gradient_magnitude_direction.json) · [报告与结果](reports/point_gradient_magnitude_direction/) |
 | 历史三任务单步奖励回归 Notebook 2 | [原样保留的 notebook](notebooks/02_flow_am_dimension_coupling.ipynb) · [归档说明](notebooks/archive/reward_regression_previous_main/README.md) |
 | 三任务原始执行输出：本次重分析前字节不变 | [原始 notebook 归档](notebooks/archive/dimension_coupling_initial/README.md) · [来源 manifest](notebooks/archive/dimension_coupling_initial/manifest.json) |
 | 历史二维四模式 Flow Notebook 2：负结果与全部输出保留 | [字节不变的归档](notebooks/archive/flow_am_four_mode/README.md) · [原位置入口](notebooks/02_flow_am_terminal_gradient.ipynb) · [来源 SHA-256](notebooks/archive/flow_am_four_mode/manifest.json) |

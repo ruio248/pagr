@@ -41,6 +41,21 @@
 - 没有由此证明“Q 数值已准确，只有梯度不准”，也没有单独识别 adjoint 放大的因果作用。
 - 成功率与环境回报不是包含 KL/控制能量的完整 AM 提取目标；本轮没有证明该完整控制目标改善。
 
+## 二维避障：终端一致的路径级鲁棒 Hamiltonian 候选
+
+在二维点质量避障任务上实现并测试了一个独立候选：[实现](../scripts/terminal_consistent_robust_qam.py)、[配对实验 runner](../scripts/run_terminal_consistent_robust_qam.py)及[冻结协议](../configs/terminal_consistent_robust_qam.json)。每条采样 Flow 路径使用一个共享的终端梯度扰动 $q$，将它沿离散 Lean Adjoint 传播，并对冻结路径上的凸二次内层最大化求解；这是一种**路径级近似**，不同样本的 $q$ 可不同，因此不是全局一致的 `delta(s,a1)` 梯度场，也不声称是严格 HJBI 控制律。
+
+开发 seed `59000` 用 300 次更新和 2048 个 held-out episode 按成功率、碰撞、回报的冻结规则选择扰动半径。规则选择的总体最优是 `epsilon_scale=0`；所有正半径都没有提高开发成功率，较大的半径还恶化了结果。为检查非零扰动是否仍可能在新 seed 上有用，随后将 `0.05` 作为**探索性敏感性检查**，而非开发阶段选出的胜者；三个新 seed `59101–59103` 各进行 300 次 Actor 更新，每个 seed 的两分支共享初始化、TD/Actor 更新预算和评价噪声，最终各用4096个 episode 评测：
+
+| 方法 | 成功率（均值±seed SD） | 碰撞率（均值±seed SD） | 折扣回报（均值±seed SD） |
+|---|---:|---:|---:|
+| Lean AM | 53.34 ± 3.20% | 46.66 ± 3.20% | 0.0028 ± 0.0536 |
+| 路径级鲁棒候选（scale 0.05） | 53.22 ± 3.10% | 46.78 ± 3.10% | 0.0008 ± 0.0519 |
+
+鲁棒候选相对 Lean AM 的配对成功率差为 **−0.12 个百分点**（seed 差为 −0.17、−0.20、0.00 个百分点）：0 胜、1 平、2 负。每 seed 的50条配对轨迹中，未观察到成功/失败标签互换。更新诊断显示平均扰动范数达到约束边界，但对名义总漂移的平均比例仅约 `0.9995`，且 costate target shift 约 `0.0067`；因此这次非零半径产生的实际控制信号变化很小，与几乎重合的学习/评测表现相符。更大的半径在开发集上表现更差，不支持单纯增大半径。
+
+**结论：本次候选没有超过 Lean AM，也没有验证鲁棒抑制有效。** 这不否定终端梯度误差影响控制学习的 motivation；它说明当前“梯度误差球 + 冻结路径 + 二次 Hamiltonian 惩罚”构造，在这个 toy、这套半径尺度和有限样本下未形成有效改善。三个探索性 seed、一个任务不能支持普遍结论；成功率也不是完整含能量/KL的 AM 目标。完整本地训练数据、曲线、checkpoint 与逐路径评价在 `runs/02-qam-point-obstacle-terminal-consistent-robust-dev-20261029-182005-558a/formal/`，notebook/代码单测只验证实现与数值求解，不是方法有效性的证明。
+
 ## 当前主 Notebook 2：多步稀疏任务的 TD-Q 梯度实验
 
 完整执行输出在[新 formal run](../runs/02-qam-td-formal-31c55defef/report.md)，[Notebook 2](../notebooks/02_qam_td_terminal_error.ipynb) 已实际执行，6个代码单元没有错误。三个预设 seed `49001–49003` 共享同一个16维、8步任务设计、目标和半径；训练各512 episode（4096转移），成功数分别为113/107/108，只有最后环境步有非零奖励。解析 `Q^{pi_ref}` 的独立 Monte Carlo、中心差分、Bellman、终止与数值边界核验通过。[验证记录](../runs/02-qam-td-formal-31c55defef/validation.json)确认历史单步 notebook 字节未动，所有预设固定 `N` checkpoint、数据和机制 NPZ 均存在。不能把这项新任务说成官方 QAM 使用的 benchmark。
@@ -162,7 +177,7 @@ step300，固定早中间时刻 `t=0.2875` 的条件续采样：逐路径标签�
 - 本地15项unittest通过；新产物validator101/101通过，38组保存checkpoint重新评估的逐样本reward/cost/energy或ODE动作完全一致。
 - 首轮完整实验之后发现跨seed加法子流碰撞，保留 `runs/02-flow-am-formal-1_blv1k9` 和其完整执行notebook，明确不作为最终独立seed统计。修正为互斥namespace后，在同一组seed编号、固定场景/预算下重跑；没有为了胜出改奖励、优化器或方法。详见 [开发日志](../provenance/flow_am_development.json)。
 - 所有旧assets、参考结果、报告、审计和Notebook1不变；旧Notebook2复制归档且字节一致。
-- 没有新候选，没有新HJBI贡献，也没有传播感知抑制算法已被验证的结论。三seed、一个四模式二维bandit与固定训练预算，只是初步研究平台。
+- 截至该历史四模式 bandit 阶段，没有新候选或新 HJBI 贡献。后续二维避障路径级鲁棒候选及其负结果见上文；目前仍没有传播感知抑制算法已被验证有效的结论。三 seed 和固定预算都只是初步研究证据。
 
 ## Oracle AM 收益空间诊断（追加开发实验）
 

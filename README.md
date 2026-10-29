@@ -20,11 +20,14 @@
 重放核验通过。早期 N=10 已相差约 13.57 个百分点，因此不是“延长训练后才拉开差距”，
 也不是单调扩大。[结果及证据边界](docs/results.md#二维避障长训练扩展300-次更新之后差距仍在)。
 
+随后实现并测试了[终端一致的路径级鲁棒 Hamiltonian 候选](scripts/terminal_consistent_robust_qam.py)，
+实验协议见[配置](configs/terminal_consistent_robust_qam.json)。它在每条冻结 Flow 路径上共享一个终端梯度扰动并做内层二次最大化；这不是全局一致的梯度误差场或严格 HJBI 控制律。开发选择器选中 `epsilon_scale=0`；将 `0.05` 作为非零半径敏感性检查，在三个新 seed 上得到平均成功率 **53.22%**，低于配对 Lean AM 的 **53.34%**（差 **−0.12 个百分点**）。因此当前候选没有胜出，不能宣称鲁棒方法有效；[负结果与限制](docs/results.md#二维避障终端一致的路径级鲁棒-hamiltonian-候选)。
+
 在固定真实控制目标下，即使终点代价的数值估计较准确，其梯度误差仍可能通过 adjoint 传播，污染中间时刻的学习信号，降低有限训练预算下的控制性能。我们希望刻画并抑制其中真正有害的部分，同时保留有效的控制信号。
 
 区分三件事：终点数值误差、传播后的标签/actor 更新误差、最终真实控制代价。梯度 disagreement 不是已校准的梯度误差；局部 matching loss 的下降也不是一般意义的真实控制代价下降。
 
-新的主 Notebook 2 是[多步稀疏任务的 TD-Critic/条件 Flow AM 实验](notebooks/02_qam_td_terminal_error.ipynb)。它明确分开环境时间 `k`、动作生成内部的 Flow 时间 `tau` 与 Actor 更新次数 `N`。实验 A 在固定后续策略下训练 TD critic，并用解析的同策略长期 `Q` 作 Oracle 对照；实验 B 则以当前 Actor 产生 TD 后继动作，交替更新 Critic 与 AM Actor。两者不混表，B 不冒用 A 的 Oracle。本轮没有新鲁棒算法，也不是官方 QAM 的逐行复现。此前的单步带噪奖励回归主 Notebook 2 [原样归档](notebooks/archive/reward_regression_previous_main/README.md)，不能称为完整 QAM critic。
+新的主 Notebook 2 是[多步稀疏任务的 TD-Critic/条件 Flow AM 实验](notebooks/02_qam_td_terminal_error.ipynb)。它明确分开环境时间 `k`、动作生成内部的 Flow 时间 `tau` 与 Actor 更新次数 `N`。实验 A 在固定后续策略下训练 TD critic，并用解析的同策略长期 `Q` 作 Oracle 对照；实验 B 则以当前 Actor 产生 TD 后继动作，交替更新 Critic 与 AM Actor。两者不混表，B 不冒用 A 的 Oracle。**该 Notebook 实验**没有新鲁棒算法，也不是官方 QAM 的逐行复现。此前的单步带噪奖励回归主 Notebook 2 [原样归档](notebooks/archive/reward_regression_previous_main/README.md)，不能称为完整 QAM critic。
 
 历史[二维小球避障 Notebook](notebooks/02_qam_point_obstacle.ipynb)完成了单 seed、`N=10` 的端到端 **smoke**，包含普通/数值表两条训练线、[并排动画](runs/02-qam-point-obstacle-smoke-e6eff27267/showcase.gif)与[学习曲线](runs/02-qam-point-obstacle-smoke-e6eff27267/learning-curves.png)。独立 MC 与网格/策略积分加密检查显示，该数值表**未达到高精度参考的验收要求**；旧 formal 入口仍由代码阻止，不能把旧 smoke 的差距解释为已证明的梯度性能损失。[原始阻塞说明](runs/02-qam-point-obstacle-smoke-e6eff27267/report.md)保持不变。上方 Notebook 2c 使用单独冻结、梯度导向的直接 MC 协议，不是解锁或改写这个旧入口。
 

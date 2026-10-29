@@ -1,0 +1,29 @@
+{
+  "protocol": "terminal-consistent-pathwise-robust-qam-v1",
+  "status": "exploratory fixed-path minimax comparison",
+  "development_seed": 59000,
+  "formal_seeds": [59101, 59102, 59103],
+  "epsilon_scales": [0.0, 0.05, 0.1, 0.2, 0.4],
+  "epsilon_scale_definition": "epsilon = selected multiplier times median norm of the initialization critic mean action-gradient on held-out validation transitions; frozen before actor updates",
+  "development_updates": 300,
+  "formal_updates": 300,
+  "checkpoints": [0, 50, 100, 150, 200, 250, 300],
+  "development_episodes": 2048,
+  "curve_episodes": 1024,
+  "final_episodes": 4096,
+  "paired_episodes": 50,
+  "gradient_scale_validation_points": 1024,
+  "epsilon_selection": "maximize held-out development success; tie: minimize collision; tie: maximize discounted return; final tie: smaller epsilon scale",
+  "shared_across_methods": [
+    "offline transitions",
+    "initial Base",
+    "initial Critic and target Critic",
+    "Actor initialization",
+    "TD update count",
+    "Actor update count",
+    "minibatch and flow noise streams within each seed",
+    "evaluation noise banks"
+  ],
+  "uncertainty_model": "one terminal-gradient perturbation per sampled Flow trajectory, shared across all internal Flow steps; the perturbation may differ between trajectories",
+  "claims_boundary": "pathwise frozen-trajectory robust Hamiltonian target; not a globally coherent delta(s,a1) field or a proven robust-policy improvement"
+}

@@ -10,15 +10,25 @@
 
 ## 研究问题
 
+**二维避障长训练扩展（2026-10-29）**：[Notebook 2c](notebooks/02c_qam_point_long_training.ipynb)
+将 Ordinary QAM / current-policy MC-reference QAM 延长到三个 seed、各 300 次 Actor 更新，
+用固定快照检查差距是否随训练扩大、收敛或反转。[协议](configs/point_long_training_mc.json)与
+[执行及审计说明](docs/reproduction.md#二维避障延长训练三个-seed各-300-次-actor-更新)单独记录；
+旧二维 smoke 与数值表审计 FAIL 不被覆盖。这是额外模拟预算支持的特权参考对比，不是新 PAGR 算法。
+现已完成：独立最终评价的平均成功率为 Ordinary **51.12%**、MC-reference **65.80%**，
+三 seed 均为 reference 更好，平均差 **14.67 个百分点**。21 次抽样梯度审计与六个最终 checkpoint
+重放核验通过。早期 N=10 已相差约 13.57 个百分点，因此不是“延长训练后才拉开差距”，
+也不是单调扩大。[结果及证据边界](docs/results.md#二维避障长训练扩展300-次更新之后差距仍在)。
+
 在固定真实控制目标下，即使终点代价的数值估计较准确，其梯度误差仍可能通过 adjoint 传播，污染中间时刻的学习信号，降低有限训练预算下的控制性能。我们希望刻画并抑制其中真正有害的部分，同时保留有效的控制信号。
 
 区分三件事：终点数值误差、传播后的标签/actor 更新误差、最终真实控制代价。梯度 disagreement 不是已校准的梯度误差；局部 matching loss 的下降也不是一般意义的真实控制代价下降。
 
 新的主 Notebook 2 是[多步稀疏任务的 TD-Critic/条件 Flow AM 实验](notebooks/02_qam_td_terminal_error.ipynb)。它明确分开环境时间 `k`、动作生成内部的 Flow 时间 `tau` 与 Actor 更新次数 `N`。实验 A 在固定后续策略下训练 TD critic，并用解析的同策略长期 `Q` 作 Oracle 对照；实验 B 则以当前 Actor 产生 TD 后继动作，交替更新 Critic 与 AM Actor。两者不混表，B 不冒用 A 的 Oracle。本轮没有新鲁棒算法，也不是官方 QAM 的逐行复现。此前的单步带噪奖励回归主 Notebook 2 [原样归档](notebooks/archive/reward_regression_previous_main/README.md)，不能称为完整 QAM critic。
 
-正在开发的[二维小球避障 Notebook](notebooks/02_qam_point_obstacle.ipynb)已完成一个单 seed、`N=10` 的端到端 **smoke**，包含普通/数值表两条训练线、[并排动画](runs/02-qam-point-obstacle-smoke-e6eff27267/showcase.gif)与[学习曲线](runs/02-qam-point-obstacle-smoke-e6eff27267/learning-curves.png)。但独立 MC 与网格/策略积分加密检查显示，当前数值表**尚未达到高精度参考的验收要求**；正式三 seed 训练被代码阻止，不能把 smoke 的差距解释为已证明的梯度性能损失。[完整阻塞说明](runs/02-qam-point-obstacle-smoke-e6eff27267/report.md)。旧 16D 结果仍是已完成的主结果，直到二维正式协议完成。
+历史[二维小球避障 Notebook](notebooks/02_qam_point_obstacle.ipynb)完成了单 seed、`N=10` 的端到端 **smoke**，包含普通/数值表两条训练线、[并排动画](runs/02-qam-point-obstacle-smoke-e6eff27267/showcase.gif)与[学习曲线](runs/02-qam-point-obstacle-smoke-e6eff27267/learning-curves.png)。独立 MC 与网格/策略积分加密检查显示，该数值表**未达到高精度参考的验收要求**；旧 formal 入口仍由代码阻止，不能把旧 smoke 的差距解释为已证明的梯度性能损失。[原始阻塞说明](runs/02-qam-point-obstacle-smoke-e6eff27267/report.md)保持不变。上方 Notebook 2c 使用单独冻结、梯度导向的直接 MC 协议，不是解锁或改写这个旧入口。
 
-新的[17 点预注册 reference 精度审计](runs/02-qam-point-obstacle-reference-audit-n0-v2/report.md)在冻结的 Ordinary `N=0` Actor 上逐轴加密数值表，并以每点两组独立 8192 轨迹 MC 与动作有限差分交叉核验。梯度表自身最高两档漂移 / Critic–reference 差距约为 **0.00125**，但数值 (Q) 与独立 MC 的最大差距仍达 **7.01 个 MC 标准误**，因此整体 `reference_validated=false`。这一很小的梯度漂移比率**不是**通过精度认证；正式 3 seed、50 个配对测试和 PAGR 方法开发均未启动。完整 CSV、图、自动判定及数值误差来源记录在该审计目录。
+此前的[17 点预注册 reference 精度审计](runs/02-qam-point-obstacle-reference-audit-n0-v2/report.md)在冻结的 Ordinary `N=0` Actor 上逐轴加密数值表，并以每点两组独立 8192 轨迹 MC 与动作有限差分交叉核验。梯度表自身最高两档漂移 / Critic–reference 差距约为 **0.00125**，但数值 (Q) 与独立 MC 的最大差距仍达 **7.01 个 MC 标准误**，因此该历史审计的整体 `reference_validated=false`。这一很小的梯度漂移比率**不是**通过精度认证；该次审计没有启动旧协议正式训练、50 个配对测试或 PAGR 方法开发。完整 CSV、图、自动判定及数值误差来源仍在该审计目录。
 
 正式三 seed 的新实验已执行：[报告、数据与 checkpoint](runs/02-qam-td-formal-31c55defef/report.md)、[独立高样本最终评价](runs/02-qam-td-formal-31c55defef/final-independent-evaluation.csv)、[数值审计](runs/02-qam-td-formal-31c55defef/validation.json)及[结果解释](docs/results.md#当前主-notebook-2多步稀疏任务的-td-q-梯度实验)。实验 A 在固定 `N=300` 的三个探索 seed 中，Oracle 的内层提取目标和真实闭环成功率均优于 Learned；但验证 `Q` RMSE 约0.167，相对真实Q均值并不小，**不能声称本轮已证明“Q值准确、只有梯度不准确”**。实验 B 的联合更新可运行并改善闭环表现，但没有当前策略的精确 Oracle，不被算入 A 的估计误差因果对照。
 
@@ -77,7 +87,7 @@ Oracle 比 learned 的真实奖励提高 **0.012208（3/3 seed）**，但真实 
 
 ## 安装与快速运行
 
-参考环境为 Python 3.13.11、PyTorch 2.9.1、NumPy 2.3.5、SciPy 1.16.3，CPU、单线程。项目不需要 CUDA、远端服务器、API key 或下载私有数据。
+历史参考环境为 Python 3.13.11、PyTorch 2.9.1、NumPy 2.3.5、SciPy 1.16.3，CPU、单线程。新二维长训练扩展用独立 Python 3.11.13 / CUDA 环境加速参考 MC，具体设置见复现指南；CPU 仍可执行但更慢。项目不需要 API key 或下载私有数据。
 
 ```bash
 git clone https://github.com/ruio248/pagr.git
@@ -103,6 +113,7 @@ python -m pagr replay --task arm --seed 18001 --method am_adam --output runs/arm
 | **Notebook 1：可解析 motivation、AM 标签误差、因果干预与反例** | [01_motivation_analytic.ipynb](notebooks/01_motivation_analytic.ipynb) · [完整 Python 脚本](notebooks/01_motivation_analytic.py) |
 | **Notebook 2：多步 TD-Q 动作梯度可靠性与条件 Flow AM** | [notebook](notebooks/02_qam_td_terminal_error.ipynb) · [完整 Python 脚本](notebooks/02_qam_td_terminal_error.py) · [冻结配置](configs/qam_td_terminal_error.json) |
 | **Notebook 2b：联合 TD＋AM 的当前策略 Monte Carlo 梯度诊断** | [notebook](notebooks/02b_joint_mc_reference_diagnostic.ipynb) · [完整 Python 脚本](notebooks/02b_joint_mc_reference_diagnostic.py) · [诊断配置](configs/qam_joint_mc_diagnostic.json) |
+| **Notebook 2c：二维避障，三 seed × 300 次更新的 QAM / MC-reference 对比** | [notebook](notebooks/02c_qam_point_long_training.ipynb) · [源码](notebooks/02c_qam_point_long_training.py) · [冻结协议](configs/point_long_training_mc.json) |
 | 历史三任务单步奖励回归 Notebook 2 | [原样保留的 notebook](notebooks/02_flow_am_dimension_coupling.ipynb) · [归档说明](notebooks/archive/reward_regression_previous_main/README.md) |
 | 三任务原始执行输出：本次重分析前字节不变 | [原始 notebook 归档](notebooks/archive/dimension_coupling_initial/README.md) · [来源 manifest](notebooks/archive/dimension_coupling_initial/manifest.json) |
 | 历史二维四模式 Flow Notebook 2：负结果与全部输出保留 | [字节不变的归档](notebooks/archive/flow_am_four_mode/README.md) · [原位置入口](notebooks/02_flow_am_terminal_gradient.ipynb) · [来源 SHA-256](notebooks/archive/flow_am_four_mode/manifest.json) |

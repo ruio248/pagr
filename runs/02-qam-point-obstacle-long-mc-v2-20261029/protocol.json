@@ -1,0 +1,156 @@
+{
+  "protocol": {
+    "protocol": "point-obstacle-long-training-mc-gradient-reference-v2",
+    "question": "Does the QAM versus current-policy reference-gradient QAM gap grow, shrink, or reverse as equal Actor update budgets increase?",
+    "seeds": [
+      59001,
+      59002,
+      59003
+    ],
+    "actor_updates": 300,
+    "curve_updates": [
+      0,
+      10,
+      25,
+      50,
+      100,
+      150,
+      200,
+      300
+    ],
+    "audit_updates": [
+      0,
+      50,
+      150,
+      300
+    ],
+    "curve_episodes": 1024,
+    "final_episodes": 4096,
+    "success_thresholds": [
+      0.6,
+      0.7,
+      0.8
+    ],
+    "reference_estimator": "iid-monte-carlo-score",
+    "reference_mc_episodes": 8192,
+    "audit_reference_mc_episodes": 32768,
+    "initialization_source_run": "runs/02-qam-point-obstacle-long-gradient-v1-20261029",
+    "reference_grid": 81,
+    "reference_policy_samples": 32,
+    "reference_transition_samples": 512,
+    "reference_gradient_samples": 8192,
+    "audit_higher_grid": 121,
+    "audit_higher_policy_samples": 64,
+    "audit_higher_transition_samples": 1024,
+    "audit_geometry_ids": [
+      "A01",
+      "A03",
+      "A05",
+      "A07",
+      "A10",
+      "A12",
+      "A16",
+      "A17"
+    ],
+    "audit_endpoint_count": 8,
+    "audit_mc_episodes_per_split": 8192,
+    "gradient_z_rms_max": 2.5,
+    "gradient_z_max": 5.0,
+    "gradient_zero_se_abs_max": 0.01,
+    "gradient_error_to_critic_gap_max": 0.25,
+    "gradient_error_absolute_floor": 0.02,
+    "mc_se_absolute_floor": 0.01,
+    "gradient_nondegenerate_norm": 0.03,
+    "meaningful_opposite_directions_max": 1,
+    "q_value_consistency_is_blocking": false,
+    "audit_failure_behavior": "Save observations/checkpoint and pause; no post-result threshold adjustment.",
+    "training_budget": "Equal Actor/TD update counts, batch sizes, initial weights and training RNG streams. Reference uses 8192 independent simulator rollouts per endpoint, with additional cost reported.",
+    "reference_precision": "Compare independent MC gradients using the sum of both estimators' variances; separately require training-reference and audit standard errors to be small. Higher-sample reference is independent. Numerical-table parameters are retained for provenance only and are not used by this estimator.",
+    "amendment": "The v1 table run stopped at seed 59001 reference N=50. Its near-goal endpoint gradient disagreed with independent MC, including after grid and quadrature refinement. v2 changes the estimator, not the task, Actor objective or acceptance thresholds; all Actor branches restart at N=0. Seed 59001 has therefore been seen during numerical development; the three-seed study is exploratory."
+  },
+  "config": {
+    "dimension": 2,
+    "horizon": 28,
+    "start_x": [
+      0.08,
+      0.18
+    ],
+    "start_y": [
+      0.35,
+      0.65
+    ],
+    "goal_center": [
+      0.85,
+      0.5
+    ],
+    "goal_radius": 0.06,
+    "obstacle_center": [
+      0.5,
+      0.5
+    ],
+    "obstacle_radius": 0.16,
+    "delta": 0.06,
+    "sigma_env": 0.012,
+    "gamma": 0.98,
+    "train_episodes": 2400,
+    "valid_episodes": 400,
+    "behavior_mix": [
+      0.475,
+      0.475,
+      0.05
+    ],
+    "behavior_action_noise": 0.12,
+    "base_updates": 10000,
+    "base_batch": 256,
+    "critic_pretrain_updates": 1500,
+    "critic_batch": 128,
+    "critic_members": 3,
+    "critic_lr": 0.0005,
+    "critic_ema": 0.01,
+    "actor_updates": 300,
+    "actor_batch": 64,
+    "actor_lr": 0.0003,
+    "actor_clip": 5.0,
+    "beta": 4.0,
+    "flow_steps": 8,
+    "warmup_steps": 2,
+    "flow_epsilon": 0.05,
+    "curve_updates": [
+      0,
+      10,
+      25,
+      50,
+      100,
+      150,
+      200,
+      300
+    ],
+    "curve_episodes": 1024,
+    "final_episodes": 4096,
+    "reference_grid": 81,
+    "reference_policy_samples": 32,
+    "reference_transition_samples": 512,
+    "reference_gradient_samples": 8192,
+    "formal_seeds": [
+      59001,
+      59002,
+      59003
+    ]
+  },
+  "source_hashes": {
+    "scripts/run_point_long_training.py": "c2f6ea1c824eef382d6320b89e7123b1e94960b7720f48288ed8b75a17bba77a",
+    "scripts/point_reference_accelerated.py": "dc6920f7ee5849b8444314c335f864738e7e2f298a865885738b1d3c94ee534c",
+    "notebooks/02_qam_point_obstacle.py": "a333b77ca235f74d300daeadef0622f9317f1adafd28a0ec282916087a49008a",
+    "notebooks/02_qam_td_terminal_error.py": "9cc41036e422f58d0dfb66393114be8f9e229c76443b3fe4d4a8f35e9a350589",
+    "configs/qam_point_obstacle.json": "dd24dcf15c9105421aaf484a96159417bf7b7f1c3682be623f18406b45013de5",
+    "configs/reference_audit_points.json": "8e1028f0e6075827b5bc1b167e552cc22a4af761179ee29c8ac92e517496f77b"
+  },
+  "config_hash": "112a6d01188948f82e6df548a81d00ac7febf00b8430ca896f86d3e3cc9fcbd0",
+  "frozen_at": 1793249894.2157378,
+  "python": "3.11.13 (main, Aug 18 2025, 19:19:13) [Clang 20.1.4 ]",
+  "torch": "2.9.1+cu128",
+  "numpy": "2.3.5",
+  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4090"
+}

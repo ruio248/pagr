@@ -1,0 +1,5 @@
+,success_rate,success_rate,success_rate,collision_rate,collision_rate,collision_rate,discounted_return,discounted_return,discounted_return
+,mean,std,count,mean,std,count,mean,std,count
+method,,,,,,,,,
+learned,0.51123046875,0.01311105623251714,3,0.4886881510416667,0.013220464692905862,3,-0.0354338332986076,0.021181817151919986,3
+reference,0.657958984375,0.006796587356970241,3,0.342041015625,0.006796587356970241,3,0.21031404476282098,0.01243244967650297,3

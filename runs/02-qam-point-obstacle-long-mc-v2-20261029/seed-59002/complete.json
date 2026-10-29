@@ -1,0 +1,29 @@
+{
+  "seed": 59002,
+  "N": 300,
+  "final": [
+    {
+      "seed": 59002,
+      "method": "learned",
+      "N": 300,
+      "success_rate": 0.4970703125,
+      "collision_rate": 0.5029296875,
+      "timeout_rate": 0.0,
+      "discounted_return": -0.058226678803593335,
+      "mean_success_length": 13.44253438113949,
+      "episodes": 4096
+    },
+    {
+      "seed": 59002,
+      "method": "reference",
+      "N": 300,
+      "success_rate": 0.6640625,
+      "collision_rate": 0.3359375,
+      "timeout_rate": 0.0,
+      "discounted_return": 0.2223469947367359,
+      "mean_success_length": 13.50625,
+      "episodes": 4096
+    }
+  ],
+  "completed_at": 1793250829.9502547
+}

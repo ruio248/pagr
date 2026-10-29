@@ -68,6 +68,34 @@ class LongTrainingProtocolTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'provenance'):
                 L.state_from_initial(base, critic, critic, c, 59001, output, 'learned', 'changed')
 
+    def test_stochastic_reference_cannot_pass_by_inflating_its_own_se(self):
+        import json
+        protocol = json.loads((ROOT/'configs/point_long_training_mc.json').read_text())
+        g = np.array([[.2, .3], [.3, -.4], [.4, .7]])
+        result = L.gradient_gate(g, g, g, np.full_like(g, .001), g+.3, protocol,
+                                 reference_se=np.ones_like(g))
+        self.assertFalse(result['passed'])
+        self.assertFalse(result['checks']['training_reference_precision'])
+
+    def test_local_reference_matches_mc_and_rejects_stale_actor(self):
+        from dataclasses import replace
+        c = replace(L.M.Config(), horizon=4, flow_steps=2)
+        task = L.M.PointObstacle(c)
+        torch.manual_seed(319)
+        actor = L.M.core.ConditionalVelocity(c)
+        p, a = np.array([[.72, .5]]), np.array([[1.4, -.2]])
+        reference = L.MonteCarloReference(task, actor, actor, 1024, 714, 'cpu')
+        q, gradient = reference.q_gradient([1], p, a)
+        expected = L.independent_mc(task, actor, actor, 1, p[0], a[0], 1024, 714, 'cpu')
+        self.assertEqual(q[0], expected['q'])
+        np.testing.assert_array_equal(gradient[0], expected['gradient'])
+        np.testing.assert_array_equal(reference.gradient_se[0], expected['gradient_se'])
+        reference.assert_current(actor, actor)
+        with torch.no_grad():
+            next(actor.parameters()).add_(.01)
+        with self.assertRaisesRegex(ValueError, 'stale MC'):
+            reference.assert_current(actor, actor)
+
 
 if __name__ == '__main__':
     unittest.main()

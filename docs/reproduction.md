@@ -1,6 +1,6 @@
 # 复现指南
 
-以下命令从仓库根目录执行。所有实验只用 CPU；无需远端训练服务、GPU、API key、TRQAM 环境或原作者绝对路径。
+以下命令从仓库根目录执行。历史实验只用 CPU；新的二维避障 300-update 扩展使用 CUDA 加速 MC rollout 中的 Actor 前向，也支持较慢的 CPU 执行。无需 API key、TRQAM 环境或原作者绝对路径。
 
 ## 环境
 
@@ -70,7 +70,47 @@ python -m pagr replay --task arm --seed 18001 --method silu --inputs runs/genera
 
 ## Notebook
 
-### 二维避障设计 smoke（正式三 seed 尚未启动）
+### 二维避障延长训练：三个 seed，各 300 次 Actor 更新
+
+入口为 [Notebook 2c](../notebooks/02c_qam_point_long_training.ipynb)，协议为
+[`point_long_training_mc.json`](../configs/point_long_training_mc.json)。它继承二维任务的环境、
+数据构造、Base、TD、lean adjoint 和 Adam，比较 Ordinary QAM 与当前策略的直接 MC 梯度 reference。
+两条分支各做 300 次 Actor / TD 更新；训练 seed 为 59001–59003，曲线用 1024 条配对轨迹，
+固定最终 checkpoint 另用 4096 条独立配对轨迹。Reference 每个训练端点额外使用 8192 条模拟轨迹；
+这是相同更新次数的特权参考实验，**不是相同计算量或相同环境交互预算的算法比赛**。
+
+```bash
+python -u scripts/run_point_long_training.py \
+  --protocol configs/point_long_training_mc.json \
+  --output runs/point-long-my-replay --device cuda
+python scripts/analyze_point_long_training.py runs/point-long-my-replay
+python scripts/validate_point_long_training.py runs/point-long-my-replay --replay
+PAGR_LONG_RUN=runs/point-long-my-replay python scripts/execute_notebook.py \
+  --notebook notebooks/02c_qam_point_long_training.ipynb \
+  --output runs/point-long-my-replay/notebook.executed.ipynb
+```
+
+没有 CUDA 时改为 `--device cpu`。此次 Ubuntu 实测环境为 Python 3.11.13、Torch 2.9.1+cu128、
+NumPy 2.3.5、SciPy 1.16.3、RTX 4090；历史本地 Python 3.13 环境不是同一解释器。
+环境转移仍使用原 NumPy 实现，GPU 只加速参考 rollout 的 Actor 前向。
+MC 随机数消耗和 CPU 原实现已做逐数值一致性测试；CUDA 计算存在浮点误差，不能承诺跨平台 bitwise 重放。
+
+若只同步 CSV/JSON/报告作轻量浏览，可用 `analyze_point_long_training.py RUN --plots-only`
+重绘曲线，不替换远端基于完整逐回合数据生成的最终报告；完整 `--replay` 核验仍需全部 checkpoint 和原始评估文件。
+
+每次更新保存 Actor、Critic、target、两个 Adam 与训练 RNG，固定快照额外保留。
+同一命令可续跑；科学源码或协议 hash 改变会拒绝续跑。协议中的旧初始化目录若存在，
+会验证任务配置后复用该 seed 的预训练输入，并记录来源 hash；不存在则从头生成同 seed 的数据与预训练。
+`N=0/50/150/300` 的抽样梯度审计必须通过，失败即保存现场并停止；
+用户选择的本轮 admission 规则不以标量 Q–MC 一致性作为否决项。
+
+历史数值表版 v1 在 seed 59001、reference N=50 的近目标端点出现梯度不一致，已停止并保留。
+网格与积分加密未解决该偏差，v2 因此改用局部直接 MC，**所有 Actor 从 N=0 重新开始**，
+没有放宽原梯度阈值；随机参考的差异标准误需合并两份独立估计的方差。
+seed 59001 已用于数值开发，因此这三个 seed 是探索性证据，不是全新确认性实验。
+旧 smoke 和旧审计 FAIL 记录不变，下列旧命令不能代替本轮入口。
+
+### 历史二维避障设计 smoke（旧 formal 入口仍锁定）
 
 [已执行的二维 Notebook](../notebooks/02_qam_point_obstacle.ipynb)当前展示的是唯一目录
 [`02-qam-point-obstacle-smoke-e6eff27267`](../runs/02-qam-point-obstacle-smoke-e6eff27267/report.md)

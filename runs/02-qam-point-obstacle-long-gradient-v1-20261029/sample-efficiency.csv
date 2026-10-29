@@ -1,0 +1,7 @@
+seed,method,success_threshold,first_observed_update,reached,max_observed_update,success_auc,normalized_success_auc
+59001,learned,0.6,,False,50,24.7216796875,0.49443359375
+59001,learned,0.7,,False,50,24.7216796875,0.49443359375
+59001,learned,0.8,,False,50,24.7216796875,0.49443359375
+59001,reference,0.6,10.0,True,50,29.0673828125,0.58134765625
+59001,reference,0.7,,False,50,29.0673828125,0.58134765625
+59001,reference,0.8,,False,50,29.0673828125,0.58134765625

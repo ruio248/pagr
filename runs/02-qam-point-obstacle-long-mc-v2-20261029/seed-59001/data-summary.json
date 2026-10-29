@@ -1,0 +1,36 @@
+{
+  "train": {
+    "episodes": 2400,
+    "transitions": 30067,
+    "success": 1729,
+    "collision": 642,
+    "timeout": 29,
+    "route_counts": [
+      1106,
+      1171,
+      123
+    ],
+    "route_success": [
+      830,
+      899,
+      0
+    ]
+  },
+  "valid": {
+    "episodes": 400,
+    "transitions": 4958,
+    "success": 292,
+    "collision": 103,
+    "timeout": 5,
+    "route_counts": [
+      179,
+      198,
+      23
+    ],
+    "route_success": [
+      137,
+      155,
+      0
+    ]
+  }
+}

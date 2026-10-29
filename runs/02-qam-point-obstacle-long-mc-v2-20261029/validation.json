@@ -1,0 +1,65 @@
+{
+  "passed": true,
+  "seeds": [
+    59001,
+    59002,
+    59003
+  ],
+  "actor_updates_per_branch": 300,
+  "td_updates_per_branch": 300,
+  "actual_gradient_audits": 21,
+  "replayed_final_checkpoints": 6,
+  "final_episodes_per_branch": 4096,
+  "estimator": "iid-monte-carlo-score",
+  "final": [
+    {
+      "seed": 59001,
+      "method": "learned",
+      "success_rate": 0.52294921875,
+      "collision_rate": 0.476806640625,
+      "timeout_rate": 0.000244140625,
+      "discounted_return": -0.016354050395974665
+    },
+    {
+      "seed": 59001,
+      "method": "reference",
+      "success_rate": 0.650634765625,
+      "collision_rate": 0.349365234375,
+      "timeout_rate": 0.0,
+      "discounted_return": 0.19751731232111128
+    },
+    {
+      "seed": 59002,
+      "method": "learned",
+      "success_rate": 0.4970703125,
+      "collision_rate": 0.5029296875,
+      "timeout_rate": 0.0,
+      "discounted_return": -0.058226678803593335
+    },
+    {
+      "seed": 59002,
+      "method": "reference",
+      "success_rate": 0.6640625,
+      "collision_rate": 0.3359375,
+      "timeout_rate": 0.0,
+      "discounted_return": 0.2223469947367359
+    },
+    {
+      "seed": 59003,
+      "method": "learned",
+      "success_rate": 0.513671875,
+      "collision_rate": 0.486328125,
+      "timeout_rate": 0.0,
+      "discounted_return": -0.03172077069625495
+    },
+    {
+      "seed": 59003,
+      "method": "reference",
+      "success_rate": 0.6591796875,
+      "collision_rate": 0.3408203125,
+      "timeout_rate": 0.0,
+      "discounted_return": 0.21107782723061583
+    }
+  ],
+  "interpretation": "Integrity and sampled gradient checks; not a universal accuracy or algorithm superiority proof."
+}

@@ -1,0 +1,33 @@
+{
+  "passed": false,
+  "checks": {
+    "mc_gradient_consistency": false,
+    "zero_se_absolute": true,
+    "mc_precision": true,
+    "absolute_or_relative_error": true,
+    "higher_precision_stability": true,
+    "meaningful_direction": true
+  },
+  "critic_reference_rms": 0.4692368407812862,
+  "reference_mc_rms": 0.02315425139879186,
+  "mc_se_rms": 0.016002735157259744,
+  "gradient_z_rms": 7.716487617184087,
+  "gradient_z_max": 42.88124773594066,
+  "higher_precision_drift_rms": 0.009338974590927092,
+  "error_limit": 0.11730921019532155,
+  "mc_se_limit": 0.11730921019532155,
+  "meaningful_opposite_directions": 0,
+  "seed": 59001,
+  "N": 50,
+  "method": "reference",
+  "actor_hash": "2038293f3d7790498f0b5a816be2be2e012bab2fa570b6b19a59ae21b08e5de4",
+  "points": 16,
+  "endpoint_points": 8,
+  "seconds": 7.640301674953662,
+  "q_mc_abs_rms": 0.02376754946104835,
+  "q_mc_z_rms": 8.795825567297108,
+  "q_mc_z_max": 30.09708517649774,
+  "q_value_gate": false,
+  "primary_table_seconds": 0.8365617269882932,
+  "higher_table_seconds": 6.1168344769394025
+}

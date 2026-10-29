@@ -78,7 +78,33 @@ def independent_mc(task, actor, base, k, p, a, episodes, seed, device):
                 gradient_se=(chain*score.std(0, ddof=1)/np.sqrt(episodes)).tolist())
 
 
-def gradient_gate(g, higher, mc, se, critic, protocol):
+class MonteCarloReference:
+    """Local, high-sample current-policy score estimate, without value-grid bias."""
+    def __init__(self, task, actor, base, episodes, seed, device):
+        self.task, self.c = task, task.c
+        self.actor_hash, self.base_hash = M.model_hash(actor), M.model_hash(base)
+        self.policy = copy.deepcopy(actor).to(device).eval()
+        self.base, self.episodes, self.seed, self.device = base, episodes, seed, device
+        self.seconds, self.action_calls = 0., 0
+        self.gradient_se, self.q_se = None, None
+
+    def assert_current(self, actor, base):
+        if M.model_hash(actor) != self.actor_hash or M.model_hash(base) != self.base_hash:
+            raise ValueError('stale MC reference')
+
+    def q_gradient(self, k, p, a):
+        k = np.broadcast_to(np.asarray(k, dtype=int), (len(p),))
+        start = time.monotonic()
+        rows = [independent_mc(self.task, self.policy, self.base, int(k[i]), p[i], a[i],
+                              self.episodes, self.seed+7919*i, self.device)
+                for i in range(len(p))]
+        self.seconds += time.monotonic()-start
+        self.gradient_se = np.asarray([row['gradient_se'] for row in rows])
+        self.q_se = np.asarray([row['q_se'] for row in rows])
+        return np.asarray([row['q'] for row in rows]), np.asarray([row['gradient'] for row in rows])
+
+
+def gradient_gate(g, higher, mc, se, critic, protocol, reference_se=None):
     """No Q scalar can trigger this gate. Fixed tolerances precede training."""
     gap = rms(critic-g)
     error_limit = max(protocol['gradient_error_absolute_floor'],
@@ -86,8 +112,12 @@ def gradient_gate(g, higher, mc, se, critic, protocol):
     se_limit = max(protocol['mc_se_absolute_floor'],
                    protocol['gradient_error_to_critic_gap_max']*gap)
     diff = np.abs(g-mc)
-    positive = se >= 1e-8
-    zz = diff[positive]/se[positive]
+    reference_se = np.zeros_like(se) if reference_se is None else reference_se
+    # Unlike a fixed value table, a stochastic training reference also has MC
+    # uncertainty. Independent estimates require the sum of their variances.
+    comparison_se = np.hypot(se, reference_se)
+    positive = comparison_se >= 1e-8
+    zz = diff[positive]/comparison_se[positive]
     z_rms = rms(zz) if len(zz) else 0.
     z_max = float(np.max(zz)) if len(zz) else 0.
     norms = np.linalg.norm(mc, axis=1)
@@ -99,17 +129,23 @@ def gradient_gate(g, higher, mc, se, critic, protocol):
                                  and z_max <= protocol['gradient_z_max']),
         zero_se_absolute=(bool(np.all(diff[~positive] <= protocol['gradient_zero_se_abs_max']))),
         mc_precision=rms(se) <= se_limit,
+        training_reference_precision=rms(reference_se) <= se_limit,
         absolute_or_relative_error=rms(g-mc) <= error_limit,
         higher_precision_stability=rms(g-higher) <= error_limit,
         meaningful_direction=(opposite <= protocol['meaningful_opposite_directions_max']))
     return dict(passed=all(checks.values()), checks=checks, critic_reference_rms=gap,
                 reference_mc_rms=rms(g-mc), mc_se_rms=rms(se), gradient_z_rms=z_rms,
+                training_reference_se_rms=rms(reference_se),
                 gradient_z_max=z_max, higher_precision_drift_rms=rms(g-higher),
                 error_limit=error_limit, mc_se_limit=se_limit,
                 meaningful_opposite_directions=opposite)
 
 
-def make_table(task, actor, base, protocol, device, higher=False):
+def make_table(task, actor, base, protocol, device, higher=False, sampling_seed=216):
+    if protocol.get('reference_estimator') == 'iid-monte-carlo-score':
+        return MonteCarloReference(task, actor, base,
+                   protocol['audit_reference_mc_episodes'] if higher else protocol['reference_mc_episodes'],
+                   sampling_seed, device)
     return AcceleratedPolicyTable(task, actor, base,
              protocol['audit_higher_grid'] if higher else protocol['reference_grid'],
              protocol['audit_higher_policy_samples'] if higher else protocol['reference_policy_samples'],
@@ -149,10 +185,13 @@ def audit_snapshot(task, actor, base, critic, train, protocol, seed, N, method, 
     write_json(folder/'points.json', dict(ids=ids, k=k.tolist(), p=pos.tolist(), a=action.tolist(),
                                          actor_hash=actor_hash, state_indices=selected.tolist()))
     if primary is None:
-        primary = make_table(task, actor, base, protocol, device)
+        primary = make_table(task, actor, base, protocol, device,
+                             sampling_seed=M.seed_for(seed, 700000+N*1000))
     primary.assert_current(actor, base)
     q, g = primary.q_gradient(k, pos, action)
-    high = make_table(task, actor, base, protocol, device, higher=True)
+    reference_se = getattr(primary, 'gradient_se', None)
+    high = make_table(task, actor, base, protocol, device, higher=True,
+                      sampling_seed=M.seed_for(seed, 900000+N*1000))
     qh, gh = high.q_gradient(k, pos, action)
     with torch.enable_grad():
         aa = torch.tensor(action, dtype=torch.float32, requires_grad=True)
@@ -175,7 +214,7 @@ def audit_snapshot(task, actor, base, critic, train, protocol, seed, N, method, 
         write_json(folder/'mc-progress.json', dict(completed=i+1, total=len(ids), rows=mc_rows))
     mc, se = np.asarray(means), np.asarray(ses)
     qm, qs = np.asarray(qmeans), np.asarray(qses)
-    result = gradient_gate(g, gh, mc, se, cg, protocol)
+    result = gradient_gate(g, gh, mc, se, cg, protocol, reference_se)
     qvalid = qs >= 1e-8
     qz = np.abs(q[qvalid]-qm[qvalid])/qs[qvalid]
     result.update(seed=seed, N=N, method=method, actor_hash=actor_hash,
@@ -183,7 +222,8 @@ def audit_snapshot(task, actor, base, critic, train, protocol, seed, N, method, 
                   q_mc_abs_rms=rms(q-qm), q_mc_z_rms=rms(qz) if len(qz) else 0.,
                   q_mc_z_max=float(np.max(qz)) if len(qz) else 0.,
                   q_value_gate=False, primary_table_seconds=primary.seconds,
-                  higher_table_seconds=high.seconds)
+                  higher_table_seconds=high.seconds,
+                  estimator=protocol.get('reference_estimator', 'policy-table'))
     rows = []
     for i, point_id in enumerate(ids):
         rows.append(dict(point_id=point_id, k=int(k[i]),
@@ -250,6 +290,21 @@ def run_seed(c, protocol, seed, output, device, config_hash):
     output.mkdir(exist_ok=True)
     task = M.PointObstacle(c)
     init = output/'shared-initialization.pt'
+    initialization_source = protocol.get('initialization_source_run')
+    if not init.exists() and initialization_source:
+        import shutil
+        source = ROOT/initialization_source/f'seed-{seed}'
+        if (source/'shared-initialization.pt').exists():
+            prior = json.loads((source.parent/'protocol.json').read_text())['config']
+            for key, value in asdict(c).items():
+                if not key.startswith('reference_') and json.loads(json.dumps(value)) != prior[key]:
+                    raise RuntimeError(f'Initialization task/config changed: {key}')
+            names = ('shared-initialization.pt', 'train-transitions.npz', 'valid-transitions.npz',
+                     'base.pt', 'base-log.csv', 'pretrain-critic.csv', 'data-summary.json')
+            for name in names:
+                shutil.copy2(source/name, output/name)
+            write_json(output/'initialization-source.json', dict(source=str(source),
+                         hashes={name: digest(source/name) for name in names}))
     if init.exists():
         archive = np.load(output/'train-transitions.npz')
         train = M.as_torch({key: archive[key] for key in archive.files})
@@ -318,10 +373,14 @@ def run_seed(c, protocol, seed, output, device, config_hash):
             flow = torch.randn((len(indices), c.flow_steps, 2), generator=rng)
             table_seconds = 0.
             if method == 'reference':
-                if table is None:
-                    table = make_table(task, actor, base, protocol, device)
-                table_seconds = table.seconds
+                # Training MC uses a separate stream from all snapshot audits.
+                if table is None or protocol.get('reference_estimator') == 'iid-monte-carlo-score':
+                    table = make_table(task, actor, base, protocol, device,
+                                       sampling_seed=M.seed_for(seed, 500000+N*1000))
                 actor_log = M.reference_actor_step(actor, st['aopt'], base, c, k, pos, z, flow, table)
+                table_seconds = table.seconds
+                if getattr(table, 'gradient_se', None) is not None:
+                    actor_log['reference_gradient_se_rms'] = rms(table.gradient_se)
             else:
                 actor_log = M.core.actor_step(actor, st['aopt'], base, cr, task, c, k, pos, z,
                                               flow, 'learned')

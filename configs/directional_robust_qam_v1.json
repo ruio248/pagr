@@ -1,0 +1,23 @@
+{
+  "protocol": "directional-robust-qam-v1",
+  "development_seed": 59000,
+  "formal_seeds": [59001, 59002, 59003],
+  "alpha_candidates": [0.0, 0.1, 0.3, 1.0, 3.0, 10.0],
+  "development_updates": 50,
+  "formal_updates": 300,
+  "formal_checkpoints": [0, 50, 100, 150, 200, 250, 300],
+  "curve_episodes": 1024,
+  "final_episodes": 4096,
+  "paired_episodes": 50,
+  "diagnostic_interval": 10,
+  "covariance_denominator_epsilon": 1e-12,
+  "condition_limit": 1e12,
+  "development_bank_role": 1502,
+  "formal_curve_bank_role": 501,
+  "formal_final_bank_role": 502,
+  "paired_bank_role": 9502,
+  "alpha_selection": "Maximize held-out development success; tie: minimize collision; tie: maximize discounted return; final tie: smaller alpha",
+  "reference_gradient_training": false,
+  "reference_gradient_tuning": false,
+  "formal_results_exploratory": "Formal seeds 59001-59003 were studied in the preceding reference-gradient experiment and are not unseen. Do not tune alpha on them."
+}

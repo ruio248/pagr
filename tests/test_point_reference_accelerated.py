@@ -16,6 +16,18 @@ SPEC.loader.exec_module(A)
 
 
 class AcceleratedReferenceTests(unittest.TestCase):
+    @unittest.skipUnless(torch.cuda.is_available(), 'CUDA backend required')
+    def test_cuda_sampler_matches_cpu(self):
+        import copy
+        c = A.M.Config()
+        torch.manual_seed(891)
+        actor = A.M.core.ConditionalVelocity(c)
+        p, z = torch.rand(32, 2), torch.randn(32, 2)
+        k = torch.arange(32) % c.horizon
+        expected = A.sample_actor_tensor(actor, c, k, p, z)
+        actual = A.sample_actor_tensor(copy.deepcopy(actor).cuda(), c, k.cuda(), p.cuda(), z.cuda())
+        torch.testing.assert_close(actual.cpu(), expected, atol=2e-6, rtol=2e-6)
+
     def test_integral_matches_numpy_at_obstacle_goal_and_bounds(self):
         c = A.M.Config()
         rng = np.random.default_rng(10944)

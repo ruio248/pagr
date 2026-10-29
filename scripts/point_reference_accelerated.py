@@ -61,7 +61,8 @@ def sample_actor_tensor(actor, c, k, p, z):
     x = z
     h = 1/c.flow_steps
     for j in range(c.flow_steps):
-        x = x+h*actor(k, p, x, (j+.5)*h)
+        tau = torch.tensor((j+.5)*h, dtype=x.dtype, device=x.device)
+        x = x+h*actor(k, p, x, tau)
     return x
 
 

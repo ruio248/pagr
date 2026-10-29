@@ -1,0 +1,30 @@
+{
+  "seed": 59001,
+  "actor_updates": 100,
+  "td_updates": 100,
+  "global_scales": [
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0,
+    4.0
+  ],
+  "global_reference_gradient_calls": 0,
+  "c1_replay_passed": true,
+  "c1_replay_updates": [
+    0,
+    10,
+    25,
+    50,
+    75,
+    100
+  ],
+  "prior_update_diagnostics_protocol_compatible": true,
+  "best_global_scale": 4.0,
+  "global_recovery_of_magnitude_only": 1.071078431372549,
+  "interpretation_case": "A",
+  "projection_status": "not_required_case_a",
+  "completed_at": 1793288208.86835,
+  "status": "complete"
+}

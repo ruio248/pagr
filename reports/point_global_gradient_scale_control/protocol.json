@@ -1,0 +1,162 @@
+{
+  "protocol": {
+    "protocol": "point-obstacle-single-seed-global-terminal-gradient-scale-v1",
+    "seed": 59001,
+    "source_run": "runs/02-qam-point-obstacle-long-mc-v2-20261029",
+    "initialization_source": "seed-59001/shared-initialization.pt",
+    "train_data_source": "seed-59001/train-transitions.npz",
+    "valid_data_source": "seed-59001/valid-transitions.npz",
+    "scales": [
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0,
+      4.0
+    ],
+    "stage1_actor_updates": 100,
+    "stage1_curve_updates": [
+      0,
+      10,
+      25,
+      50,
+      75,
+      100
+    ],
+    "curve_episodes": 1024,
+    "final_episodes": 4096,
+    "actor_update_diagnostic_updates": [
+      0,
+      50,
+      100
+    ],
+    "gradient_zero_tolerance": 1e-08,
+    "beta": 4.0,
+    "replay_baseline": "reports/point_gradient_magnitude_direction",
+    "replay_updates": [
+      0,
+      10,
+      25,
+      50,
+      75,
+      100
+    ],
+    "replay_tolerance": 1e-12,
+    "actor_clip": 5.0,
+    "reference_mc_episodes": 8192,
+    "previous_privileged_controls": "reports/point_gradient_magnitude_direction",
+    "shared_across_global_scales": [
+      "seed-59001 offline transitions and audited shared initialization",
+      "initial Base Flow, Actor, Critic, target Critic, and fresh Actor/Critic Adam states",
+      "TD and Actor minibatch-index RNG streams",
+      "TD sampling and Flow rollout random streams",
+      "common evaluation noise banks at N=0,10,25,50,75,100 and final N=100",
+      "100 Actor updates and 100 TD updates",
+      "critic/actor batch sizes, learning rates, beta, flow_steps, clipping, environment and reward"
+    ],
+    "training_gradient_rule": "terminal_gradient = c * current_branch_learned_Q_gradient; terminal_adjoint = -beta * terminal_gradient",
+    "training_reference_access": "forbidden; reference estimators are fail-closed during all global-scale training and evaluation",
+    "reference_controls": "read the prior experiment's magnitude-only and full-reference evaluations only after the global-scale sweep and c=1 replay checks pass",
+    "best_scale_rule": "maximize N=100 success among the six predeclared global scales; ties choose the smallest c; diagnostic only",
+    "projection_rule": "only if global magnitude recovery is <0.80; use g_proj=(d_L dot g_R)*d_L without clamping its sign",
+    "claims_boundary": "Single-seed diagnostic, not a new deployable algorithm, no beta tuning, and no general causal claim"
+  },
+  "effective_config": {
+    "dimension": 2,
+    "horizon": 28,
+    "start_x": [
+      0.08,
+      0.18
+    ],
+    "start_y": [
+      0.35,
+      0.65
+    ],
+    "goal_center": [
+      0.85,
+      0.5
+    ],
+    "goal_radius": 0.06,
+    "obstacle_center": [
+      0.5,
+      0.5
+    ],
+    "obstacle_radius": 0.16,
+    "delta": 0.06,
+    "sigma_env": 0.012,
+    "gamma": 0.98,
+    "train_episodes": 2400,
+    "valid_episodes": 400,
+    "behavior_mix": [
+      0.475,
+      0.475,
+      0.05
+    ],
+    "behavior_action_noise": 0.12,
+    "base_updates": 10000,
+    "base_batch": 256,
+    "critic_pretrain_updates": 1500,
+    "critic_batch": 128,
+    "critic_members": 3,
+    "critic_lr": 0.0005,
+    "critic_ema": 0.01,
+    "actor_updates": 100,
+    "actor_batch": 64,
+    "actor_lr": 0.0003,
+    "actor_clip": 5.0,
+    "beta": 4.0,
+    "flow_steps": 8,
+    "warmup_steps": 2,
+    "flow_epsilon": 0.05,
+    "curve_updates": [
+      0,
+      10,
+      25,
+      50,
+      75,
+      100
+    ],
+    "curve_episodes": 1024,
+    "final_episodes": 4096,
+    "reference_grid": 41,
+    "reference_policy_samples": 8,
+    "reference_transition_samples": 128,
+    "reference_gradient_samples": 2048,
+    "formal_seeds": [
+      59001,
+      59002,
+      59003
+    ]
+  },
+  "source_hashes": {
+    "source_protocol": "dcb783d5f0f55c7489ca98827ee74b91cdfa017999ec15e52dbaf053dbec122b",
+    "source_complete": "03e80a70f6095fc4b560d7fc7de46da605ea0e7ea8710972bd295d0ced2947b2",
+    "initialization_manifest": "d9197e94c9195398d0688c825cefded01e170a5997078ad19e75897dc25ef6b0",
+    "shared_initialization": "a4f356edf0631a37dccb9c7232fd89e7cea4cbfee11264acc45ff8f0a120ced9",
+    "train_transitions": "88de6128df6a4babd11aebfd655c3057b24eef0e878e0d2246b67687ed01eac6",
+    "valid_transitions": "e2f69044e2967276232a484c415b63d2578b5a7bb602fd8beeeb4ddb37e574e6",
+    "long_training_runner": "c2f6ea1c824eef382d6320b89e7123b1e94960b7720f48288ed8b75a17bba77a",
+    "reference_runner": "dc6920f7ee5849b8444314c335f864738e7e2f298a865885738b1d3c94ee534c",
+    "point_obstacle_notebook": "a333b77ca235f74d300daeadef0622f9317f1adafd28a0ec282916087a49008a",
+    "qam_core": "9cc41036e422f58d0dfb66393114be8f9e229c76443b3fe4d4a8f35e9a350589",
+    "existing_decomposition_runner": "b3df6c4f9d4ad6a480581dbd9b4a7d9d1ae692f44f8b8ae193e8aeaa6a324c04",
+    "global_scale_runner": "b33faaaf5ec60a30e45723229c3778603b5d498441447a3020e47043a5288bce",
+    "global_scale_config": "dfdb529d91c57064dc5f3afa0ca35385f2d29bc19b3ccaeebac520f254f5d739",
+    "learned_only_replay_baseline": "0bb51c16ba13aba44c4fe1f00f20ed74a1d36a7af7282e95ed91007c2fe74907"
+  },
+  "runtime": {
+    "python": "3.11.13 (main, Aug 18 2025, 19:19:13) [Clang 20.1.4 ]",
+    "torch": "2.9.1+cu128",
+    "numpy": "2.3.5",
+    "device_for_reference_projection_only": "cuda",
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 4090"
+  },
+  "initial_branch_hashes": {
+    "actor": "efd59857ac8a78f4bdef6494f24fcf5c849bc1bf3eaeb968ade1fdba2908ef8a",
+    "critic": "d59e1f5a8a6db8e1442f4c6034b4ff30682fc331010c384e7238b89e5f5c013b",
+    "target": "eca0eef8ae0f29d4730ab08adfa6907d9db385c3abe3343b38e547e6c50c6a07"
+  },
+  "config_hash": "26b7c5712677ae1b88dbfa501671fa59a55d4f54fde2cc8183989266d0d769a2",
+  "created_at": 1793288204.0078783
+}

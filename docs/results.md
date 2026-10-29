@@ -1,5 +1,37 @@
 # 结果、motivation 与审计边界
 
+## PointObstacle 固定全局 Q-gradient scale 对照（单 seed）
+
+[完整报告、协议、逐更新日志和输出图表](../reports/point_global_gradient_scale_control/)；runner 与固定配置见
+[脚本](../scripts/run_point_global_gradient_scale_control.py)和[配置](../configs/point_global_gradient_scale_control.json)。
+该实验接续上一节的幅值 × 方向分解，唯一问题是 magnitude-only 的收益能否由固定的 terminal Q-gradient scale
+解释。只用 seed `59001`，固定 `N=100` Actor/TD 更新和 `c∈{1,1.5,2,2.5,3,4}`；beta 保持4，代码只把当前 branch
+自己的 learned `∇a Qφ` 乘 `c`。每条分支之后独立演化自己的 Critic 和 Actor，评价噪声及训练随机流按协议配对。
+
+`c=1` 的 success/collision/discounted return 在 N=0/10/25/50/75/100，以及4096回合独立最终评价，均与此前
+Learned branch 在 `1e-12` 容差内一致；其中 success/collision 完全相同。所有 global-scale 训练与评价期间，MC-reference
+和底层 independent-MC gradient estimator 都被 fail-closed 替换为抛错函数，调用计数为0。只有 sweep 和 replay 通过后，
+才读取此前的 magnitude/full-reference 结果用于 gap-recovery 计算。
+
+| c | effective beta | N=100 success | Collision | Discounted return | 相对 c=1 提升 |
+|---:|---:|---:|---:|---:|---:|
+| 1.0 | 4 | 51.3428% | 48.6572% | -0.03226800 | — |
+| 1.5 | 6 | 54.3945% | 45.6055% | 0.01832077 | +3.0518 pp |
+| 2.0 | 8 | 56.7871% | 43.2129% | 0.05830314 | +5.4443 pp |
+| 2.5 | 10 | 58.7402% | 41.2598% | 0.09079593 | +7.3975 pp |
+| 3.0 | 12 | 60.2783% | 39.7217% | 0.11697935 | +8.9355 pp |
+| 4.0 | 16 | 62.0117% | 37.9883% | 0.14786015 | +10.6689 pp |
+
+预先定义的最高 success rate 规则选中 `c*=4`（只在 global-scale 候选中选，非部署超参数）。它恢复了 magnitude-only 收益的
+**107.11%**，并恢复 full-reference gap 的 **96.90%**，因此符合 **Case A**。按冻结规则没有运行 projection-only 分支：
+在该 seed/toy 上，magnitude-only 的性能收益可由固定全局 guidance scale 解释到全部以上；目前没有证据要求 sample-dependent
+幅值校准，也不能据单个 seed 断言它普遍不必要。
+
+更新诊断显示 `c=4` 在 N=100 的终端梯度范数约为 `c=1` 的3.82倍、匹配参数梯度约3.91倍、虚拟 Adam 步约2.04倍；
+100次训练的平均实际 Adam 步约1.69倍。所有 scales 的训练 clip 命中率都是0%，故这组结果并非 clip=5 饱和造成。不过
+“更大的 Adam step 与收益同现”仍是诊断，不是已识别的唯一因果机制。该实验只有一个开发 seed，不是新算法或跨 seed 确认；
+不做 N=300、额外 c 或调参。训练期从未读取特权梯度，但结果表在事后与既有 privileged controls 对比。
+
 ## PointObstacle Q-gradient 幅值 × 方向机制分解（单 seed 特权诊断）
 
 [完整报告、冻结协议与输出表](../reports/point_gradient_magnitude_direction/)；实验代码见

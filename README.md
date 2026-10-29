@@ -27,6 +27,8 @@
 
 随后完成了[单 seed 的 Q-gradient 幅值 × 方向特权机制分解](reports/point_gradient_magnitude_direction/report.md)，固定 seed `59001`，比较 Learned、仅替换 reference 幅值、仅替换 reference 方向、完整 MC-reference 四分支。预设规则在 `N=100` 停止：direction-only 仅比 Learned 高 **0.15 个百分点**，只恢复约 **1.33%** reference gap；magnitude-only 高 **9.96 个百分点**。这提示在该任务/seed/预算下幅值误差更值得后续检验，**不证明方向误差普遍无关，也不是可部署算法或多 seed 确认结果**。[协议、逐样本梯度分解、独立评价表和避障图](reports/point_gradient_magnitude_direction/)一并发布；为了不公开训练数据或 checkpoint，重跑本实验仍需取得协议中记录的本地源输入。
 
+紧接着完成了[固定 global Q-gradient scale 对照](reports/point_global_gradient_scale_control/report.md)，只用同一个 seed `59001` 和 `N=100`，对预先固定的 `c={1,1.5,2,2.5,3,4}` 做完整闭环训练。`c=1` 在 N=0/10/25/50/75/100 与独立最终评价上于 `1e-12` 容差内复现 Learned 分支；全局 scale 分支训练期没有调用 reference 梯度。最佳 `c=4` 成功率 **62.01%**，恢复 magnitude-only 收益的 **107.11%**、full-reference gap 的 **96.90%**，触发预设 **Case A**：本 seed 上 magnitude-only 表观收益可由固定的全局 guidance 强度放大解释/超过，**尚无必要主张 sample-dependent magnitude calibration**。c=4 的 Adam 步也变大（固定批次虚拟步约2.04×，训练平均实际步约1.69×），但六个 scale 的 clip 命中率均为0%；因此这不是纯粹的标签几何分解，也不能据此称全局调节为新算法。[协议、逐 checkpoint replay、scale 表、诊断与图](reports/point_global_gradient_scale_control/)保留完整证据。该结果同样是单 seed 诊断，不能推广到其它任务或 seed。
+
 在固定真实控制目标下，即使终点代价的数值估计较准确，其梯度误差仍可能通过 adjoint 传播，污染中间时刻的学习信号，降低有限训练预算下的控制性能。我们希望刻画并抑制其中真正有害的部分，同时保留有效的控制信号。
 
 区分三件事：终点数值误差、传播后的标签/actor 更新误差、最终真实控制代价。梯度 disagreement 不是已校准的梯度误差；局部 matching loss 的下降也不是一般意义的真实控制代价下降。

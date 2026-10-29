@@ -1,0 +1,163 @@
+{
+  "protocol": {
+    "protocol": "point-obstacle-scale-confounded-oracle-diagnostic-v1",
+    "development_seed": 59000,
+    "development_source_run": "runs/02-qam-point-obstacle-directional-v1-20261029-002",
+    "development_betas": [
+      4,
+      8,
+      12,
+      16,
+      24,
+      32,
+      48
+    ],
+    "boundary_extension_betas": [
+      64,
+      96
+    ],
+    "formal_seeds_exploratory": [
+      59001,
+      59002,
+      59003
+    ],
+    "formal_source_run": "runs/02-qam-point-obstacle-long-mc-v2-20261029",
+    "online_target_mc_audit_run": "runs/02-qam-point-online-target-mc-audit-59001-20261030-v2",
+    "actor_updates": 300,
+    "curve_updates": [
+      0,
+      50,
+      100,
+      150,
+      200,
+      250,
+      300
+    ],
+    "curve_episodes": 1024,
+    "final_episodes": 4096,
+    "reference_mc_episodes": 8192,
+    "mechanism_snapshots": [
+      0,
+      50,
+      100
+    ],
+    "scale_matched_updates": 100,
+    "scale_matched_seed": 59001,
+    "scale_matching_batch": "independent fixed diagnostic batch at N=0; estimated scales frozen for both 100-update branches",
+    "beta_selection_order": [
+      "success_rate_desc",
+      "collision_rate_asc",
+      "discounted_return_desc",
+      "beta_asc"
+    ],
+    "training_rules": {
+      "learned_gradient": "online critic ensemble mean action gradient",
+      "reference_gradient": "8192-IID current-policy MC score gradient; used only in Actor terminal label",
+      "beta_application": "terminal=-beta*gradient directly; no additional gradient multiplier",
+      "td_targets": "ordinary branch-current-Actor TD targets; MC reference never enters TD or critic training",
+      "shared_randomness": [
+        "offline data",
+        "shared Base and initial Critic/target",
+        "Actor/TD RNG state",
+        "evaluation banks",
+        "per-seed initialization"
+      ],
+      "checkpoint_selection": "fixed N=300 for formal; no best-checkpoint selection",
+      "formal_seed_status": "59001-59003 were previously studied; label results exploratory, not unseen confirmation"
+    },
+    "primary_budget_note": "Development beta selection is run at the same N=300 primary endpoint as formal comparison, correcting the N=100 vs N=300 mismatch in the initial draft."
+  },
+  "stage": "same-beta-exploratory-formal",
+  "seed": 59003,
+  "effective_task_config": {
+    "dimension": 2,
+    "horizon": 28,
+    "start_x": [
+      0.08,
+      0.18
+    ],
+    "start_y": [
+      0.35,
+      0.65
+    ],
+    "goal_center": [
+      0.85,
+      0.5
+    ],
+    "goal_radius": 0.06,
+    "obstacle_center": [
+      0.5,
+      0.5
+    ],
+    "obstacle_radius": 0.16,
+    "delta": 0.06,
+    "sigma_env": 0.012,
+    "gamma": 0.98,
+    "train_episodes": 2400,
+    "valid_episodes": 400,
+    "behavior_mix": [
+      0.475,
+      0.475,
+      0.05
+    ],
+    "behavior_action_noise": 0.12,
+    "base_updates": 10000,
+    "base_batch": 256,
+    "critic_pretrain_updates": 1500,
+    "critic_batch": 128,
+    "critic_members": 3,
+    "critic_lr": 0.0005,
+    "critic_ema": 0.01,
+    "actor_updates": 300,
+    "actor_batch": 64,
+    "actor_lr": 0.0003,
+    "actor_clip": 5.0,
+    "beta": 4.0,
+    "flow_steps": 8,
+    "warmup_steps": 2,
+    "flow_epsilon": 0.05,
+    "curve_updates": [
+      0,
+      50,
+      100,
+      150,
+      200,
+      250,
+      300
+    ],
+    "curve_episodes": 1024,
+    "final_episodes": 4096,
+    "reference_grid": 41,
+    "reference_policy_samples": 8,
+    "reference_transition_samples": 128,
+    "reference_gradient_samples": 2048,
+    "formal_seeds": [
+      59001,
+      59002,
+      59003
+    ]
+  },
+  "source_run": "runs/02-qam-point-obstacle-long-mc-v2-20261029",
+  "input_hashes": {
+    "shared-initialization": "c7f918c459a2ff1067c49993c7a250030aef43645687b1ba8bae631f5888710b",
+    "train-transitions": "fc0473befb2d77a296fae1fbc36b840604ca5ffb8aa3e7898f3b829b2e885efb",
+    "valid-transitions": "c8ec3660ba52af2624b2e5d5d3bb37738f6ffe42d39784cb313889d8643519e3"
+  },
+  "source_hashes": {
+    "scripts/run_point_long_training.py": "c2f6ea1c824eef382d6320b89e7123b1e94960b7720f48288ed8b75a17bba77a",
+    "scripts/point_reference_accelerated.py": "dc6920f7ee5849b8444314c335f864738e7e2f298a865885738b1d3c94ee534c",
+    "scripts/run_point_gradient_magnitude_direction.py": "b3df6c4f9d4ad6a480581dbd9b4a7d9d1ae692f44f8b8ae193e8aeaa6a324c04",
+    "notebooks/02_qam_point_obstacle.py": "a333b77ca235f74d300daeadef0622f9317f1adafd28a0ec282916087a49008a",
+    "notebooks/02_qam_td_terminal_error.py": "9cc41036e422f58d0dfb66393114be8f9e229c76443b3fe4d4a8f35e9a350589",
+    "configs/qam_point_obstacle.json": "dd24dcf15c9105421aaf484a96159417bf7b7f1c3682be623f18406b45013de5"
+  },
+  "runtime": {
+    "python": "3.11.13 (main, Aug 18 2025, 19:19:13) [Clang 20.1.4 ]",
+    "torch": "2.9.1+cu128",
+    "numpy": "2.3.5",
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 4090"
+  },
+  "config_hash": "ffb59112e96e3466cd93e6200ff74a0767071bb78c8579c922624ff4b90ce7cf",
+  "created_at": 1793296166.2873113
+}

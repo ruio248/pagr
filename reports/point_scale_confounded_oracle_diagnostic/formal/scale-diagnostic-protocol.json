@@ -1,0 +1,34 @@
+{
+  "seed": 59001,
+  "snapshots": [
+    0,
+    50,
+    100
+  ],
+  "diagnostic_batch": 64,
+  "mc_episodes_per_endpoint": 8192,
+  "same_actor_critic_base_paths_optimizer_history": true,
+  "beta": 16.0,
+  "device": "cuda",
+  "runner_sha256": "eff72e2141cb2c312fc67fea02be7446ab63958619228d5a30ce9eaac0e91e2e",
+  "config_sha256": "ed7c0bd4a4ee2e7c84f8fb36185d9f88f03d59a499e15b50b75f8908cc22556d",
+  "input_manifest": {
+    "source": "runs/02-qam-point-obstacle-long-gradient-v1-20261029/seed-59001",
+    "hashes": {
+      "shared-initialization.pt": "a4f356edf0631a37dccb9c7232fd89e7cea4cbfee11264acc45ff8f0a120ced9",
+      "train-transitions.npz": "88de6128df6a4babd11aebfd655c3057b24eef0e878e0d2246b67687ed01eac6",
+      "valid-transitions.npz": "e2f69044e2967276232a484c415b63d2578b5a7bb602fd8beeeb4ddb37e574e6",
+      "base.pt": "ca8e73046864b62159f2b63252d95be536ac9d9935fe3e22949c3019d51c7b27",
+      "base-log.csv": "2d92b9feb0edf7ad545362595107b3d3907cb40db384038a8e068d5260b7a7db",
+      "pretrain-critic.csv": "f24f72ffcde00e41041b7a0f1eab71bb7275b501fe5d6bbdc56d96b71dc026ad",
+      "data-summary.json": "4285d64ecf89d1cd6139a1e31658b2db3fbdfbf3df3647650790ba1990073b11"
+    },
+    "historical_input_hashes_verified": true,
+    "validation": "strict source protocol, completion record, and input manifest",
+    "experiment_frozen_input_hashes": {
+      "shared-initialization.pt": "a4f356edf0631a37dccb9c7232fd89e7cea4cbfee11264acc45ff8f0a120ced9",
+      "train-transitions.npz": "88de6128df6a4babd11aebfd655c3057b24eef0e878e0d2246b67687ed01eac6",
+      "valid-transitions.npz": "e2f69044e2967276232a484c415b63d2578b5a7bb602fd8beeeb4ddb37e574e6"
+    }
+  }
+}

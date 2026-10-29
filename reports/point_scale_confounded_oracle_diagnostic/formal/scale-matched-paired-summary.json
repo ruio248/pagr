@@ -1,0 +1,14 @@
+{
+  "seed": 59001,
+  "paired_episodes": 4096,
+  "success_delta_reference_minus_best_scaled_learned_pp": 2.24609375,
+  "paired_episode_se_pp": 0.6739871771670761,
+  "approximate_95_percent_paired_episode_interval_pp": [
+    0.9250788827525308,
+    3.5671086172474693
+  ],
+  "reference_only_successes": 428,
+  "learned_only_successes": 336,
+  "ties": 3332,
+  "interpretation_limit": "episode-level evaluation uncertainty only; does not quantify training-seed variation"
+}

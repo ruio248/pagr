@@ -1,0 +1,30 @@
+{
+  "protocol": "point-obstacle-scale-confounded-oracle-diagnostic-v1",
+  "development_seed": 59000,
+  "development_source_run": "runs/02-qam-point-obstacle-directional-v1-20261029-002",
+  "development_betas": [4, 8, 12, 16, 24, 32, 48],
+  "boundary_extension_betas": [64, 96],
+  "formal_seeds_exploratory": [59001, 59002, 59003],
+  "formal_source_run": "runs/02-qam-point-obstacle-long-mc-v2-20261029",
+  "online_target_mc_audit_run": "runs/02-qam-point-online-target-mc-audit-59001-20261030-v2",
+  "actor_updates": 300,
+  "curve_updates": [0, 50, 100, 150, 200, 250, 300],
+  "curve_episodes": 1024,
+  "final_episodes": 4096,
+  "reference_mc_episodes": 8192,
+  "mechanism_snapshots": [0, 50, 100],
+  "scale_matched_updates": 100,
+  "scale_matched_seed": 59001,
+  "scale_matching_batch": "independent fixed diagnostic batch at N=0; estimated scales frozen for both 100-update branches",
+  "beta_selection_order": ["success_rate_desc", "collision_rate_asc", "discounted_return_desc", "beta_asc"],
+  "training_rules": {
+    "learned_gradient": "online critic ensemble mean action gradient",
+    "reference_gradient": "8192-IID current-policy MC score gradient; used only in Actor terminal label",
+    "beta_application": "terminal=-beta*gradient directly; no additional gradient multiplier",
+    "td_targets": "ordinary branch-current-Actor TD targets; MC reference never enters TD or critic training",
+    "shared_randomness": ["offline data", "shared Base and initial Critic/target", "Actor/TD RNG state", "evaluation banks", "per-seed initialization"],
+    "checkpoint_selection": "fixed N=300 for formal; no best-checkpoint selection",
+    "formal_seed_status": "59001-59003 were previously studied; label results exploratory, not unseen confirmation"
+  },
+  "primary_budget_note": "Development beta selection is run at the same N=300 primary endpoint as formal comparison, correcting the N=100 vs N=300 mismatch in the initial draft."
+}

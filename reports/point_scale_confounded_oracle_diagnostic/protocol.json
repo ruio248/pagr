@@ -1,0 +1,71 @@
+{
+  "protocol": "point-obstacle-scale-confounded-oracle-diagnostic-v1",
+  "repository": "ruio248/pagr",
+  "baseline_commit": "b0f7a5b7e8c86025bd35cbb57c433f85d6dc243c",
+  "run_date": "2026-10-30",
+  "status": "complete",
+  "development_beta_sweep": {
+    "seed": 59000,
+    "beta_candidates": [4, 8, 12, 16, 24, 32, 48],
+    "selected_beta": 16,
+    "actor_and_td_updates": 300,
+    "curve_checkpoints": [0, 50, 100, 150, 200, 250, 300],
+    "curve_episodes": 1024,
+    "final_episodes": 4096,
+    "reference_oracle_access": false,
+    "selection_order": [
+      "success_rate_desc",
+      "collision_rate_asc",
+      "discounted_return_desc",
+      "beta_asc"
+    ],
+    "protocol_note": "N=300 was used instead of the pasted draft's N=100 to match the primary formal endpoint and avoid training-horizon mismatch.",
+    "source_provenance": "Legacy development run lacks historical per-input hashes; frozen protocol and source-code hashes were checked and current input hashes recorded in beta-dev/protocol.json."
+  },
+  "formal_comparison": {
+    "seeds": [59001, 59002, 59003],
+    "seed_status": "Previously studied; exploratory, not unseen confirmation.",
+    "branches": ["learned_tuned", "reference_same_beta"],
+    "frozen_beta": 16,
+    "actor_and_td_updates": 300,
+    "curve_checkpoints": [0, 50, 100, 150, 200, 250, 300],
+    "curve_episodes": 1024,
+    "final_episodes": 4096,
+    "reference_mc_episodes_per_endpoint": 8192,
+    "reference_usage": "MC gradient is used only as the Reference branch Actor terminal label; not used for TD targets, Critic training, reward, environment, Base Flow, or checkpoint selection.",
+    "shared_controls": [
+      "offline transitions",
+      "Base Flow and initial Actor",
+      "initial Critic and target Critic",
+      "optimizer initialization",
+      "minibatch indices",
+      "Flow noise and TD random stream",
+      "evaluation banks",
+      "beta and all training hyperparameters"
+    ],
+    "formal_input_validation": "Strict source protocol, completion record, and historical input manifest checks passed for each formal seed."
+  },
+  "scale_mechanism_diagnostic": {
+    "seed": 59001,
+    "snapshots": [0, 50, 100],
+    "diagnostic_batch_size": 64,
+    "mc_episodes_per_endpoint": 8192,
+    "same_actor_critic_base_paths_optimizer_history": true,
+    "scale_matched_updates": 100,
+    "learned_scale_c_g": 2.6660008820374967,
+    "reference_scale_alpha": 0.6427317690122679,
+    "matching_rule": "At N=0, freeze alpha so RMS(beta*c_g*g_L) equals RMS(beta*alpha*g_R) on the fixed diagnostic batch; no success/return is used for scale selection.",
+    "limitation": "Single training seed; privileged scale fit uses MC reference gradients and is a mechanism diagnostic, not a deployable Learned-QAM rule."
+  },
+  "online_vs_target_audit": {
+    "type": "Read-only audit of saved long-MC-v2 seed-59001 checkpoints; it is not a target-Critic retraining or the new beta-16 formal run.",
+    "artifact": "formal/online-target-mc-gradient-diagnostic.csv"
+  },
+  "objective_note": "J_SOC is not reported because the current PointObstacle task does not define a separate control-energy/KL objective.",
+  "runner_hashes": {
+    "formal_runner_sha256": "e73aba59f93c3bafa4258c459cd86c34e7b1f0cf45dd43563d334ec51410d4c0",
+    "scale_runner_sha256": "eff72e2141cb2c312fc67fea02be7446ab63958619228d5a30ce9eaac0e91e2e",
+    "config_sha256": "ed7c0bd4a4ee2e7c84f8fb36185d9f88f03d59a499e15b50b75f8908cc22556d"
+  },
+  "remote_run_directory": "runs/02-qam-point-scale-confounded-oracle-diagnostic-20261030"
+}

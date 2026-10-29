@@ -1,0 +1,22 @@
+{
+  "status": "complete",
+  "development_beta_sweep": {
+    "status": "complete",
+    "selected_beta": 16
+  },
+  "formal_comparison": {
+    "status": "complete",
+    "seeds": [59001, 59002, 59003],
+    "updates_per_seed": 300
+  },
+  "scale_mechanism_diagnostic": {
+    "status": "complete",
+    "seed": 59001,
+    "updates": 100
+  },
+  "report": "report.md",
+  "detailed_formal_report": "formal/report.md",
+  "remote_run_directory": "runs/02-qam-point-scale-confounded-oracle-diagnostic-20261030",
+  "checkpoints_preserved_remotely_not_copied_into_report_bundle": true,
+  "completed_date": "2026-10-30"
+}

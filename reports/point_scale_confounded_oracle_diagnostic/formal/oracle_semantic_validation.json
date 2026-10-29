@@ -1,0 +1,28 @@
+{
+  "first_action_is_fixed_query_action": true,
+  "future_actions_use_supplied_current_actor": true,
+  "discounted_return_uses_gamma_from_query_time": true,
+  "terminal_mask_is_task_transition_done": true,
+  "gaussian_score_and_tanh_chain_rule_present": true,
+  "mc_estimator_does_not_read_critic": true,
+  "online_critic_gradient_uses_critic_mean": true,
+  "target_critic_gradient_uses_same_action_derivative": true,
+  "interpretation": "MC estimates the current-policy action-value gradient for a fixed query action; it is a finite-sample reference, not an exact oracle. The target Critic is an EMA estimate and is not automatically the same object as Q^pi_current.",
+  "source_hashes": {
+    "run_point_long_training.py": "c2f6ea1c824eef382d6320b89e7123b1e94960b7720f48288ed8b75a17bba77a",
+    "run_point_gradient_magnitude_direction.py": "b3df6c4f9d4ad6a480581dbd9b4a7d9d1ae692f44f8b8ae193e8aeaa6a324c04",
+    "point_obstacle_notebook.py": "a333b77ca235f74d300daeadef0622f9317f1adafd28a0ec282916087a49008a"
+  },
+  "seed": 59001,
+  "snapshots": [
+    0,
+    50,
+    100
+  ],
+  "reference_episodes_per_split_per_endpoint": 8192,
+  "diagnostic_batch_size": 64,
+  "endpoint_generation": "same fixed state, z, and Flow-noise batch at each snapshot",
+  "critic_source": "saved learned-N checkpoint online critic and EMA target critic",
+  "reference_source": "two independent current-policy IID MC score estimates, averaged",
+  "no_training_or_optimizer_updates": true
+}

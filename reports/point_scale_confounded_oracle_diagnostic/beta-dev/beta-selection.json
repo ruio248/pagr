@@ -1,0 +1,99 @@
+{
+  "selected_beta": 16.0,
+  "selection_order": [
+    "success_rate_desc",
+    "collision_rate_asc",
+    "discounted_return_desc",
+    "beta_asc"
+  ],
+  "final_candidates_ranked": [
+    {
+      "seed": 59000,
+      "N": 300,
+      "beta": 16.0,
+      "branch": "beta16",
+      "success_rate": 0.654052734375,
+      "collision_rate": 0.345947265625,
+      "timeout_rate": 0.0,
+      "discounted_return": 0.2080866604415555,
+      "mean_success_length": 13.444195595371408,
+      "episodes": 4096
+    },
+    {
+      "seed": 59000,
+      "N": 300,
+      "beta": 12.0,
+      "branch": "beta12",
+      "success_rate": 0.62841796875,
+      "collision_rate": 0.37158203125,
+      "timeout_rate": 0.0,
+      "discounted_return": 0.16346646381561036,
+      "mean_success_length": 13.452214452214452,
+      "episodes": 4096
+    },
+    {
+      "seed": 59000,
+      "N": 300,
+      "beta": 8.0,
+      "branch": "beta8",
+      "success_rate": 0.592529296875,
+      "collision_rate": 0.407470703125,
+      "timeout_rate": 0.0,
+      "discounted_return": 0.10116448432479855,
+      "mean_success_length": 13.438401318500206,
+      "episodes": 4096
+    },
+    {
+      "seed": 59000,
+      "N": 300,
+      "beta": 24.0,
+      "branch": "beta24",
+      "success_rate": 0.581787109375,
+      "collision_rate": 0.418212890625,
+      "timeout_rate": 0.0,
+      "discounted_return": 0.10530977953420642,
+      "mean_success_length": 13.538396978598405,
+      "episodes": 4096
+    },
+    {
+      "seed": 59000,
+      "N": 300,
+      "beta": 4.0,
+      "branch": "beta4",
+      "success_rate": 0.532470703125,
+      "collision_rate": 0.467529296875,
+      "timeout_rate": 0.0,
+      "discounted_return": 0.0009357197490444946,
+      "mean_success_length": 13.45392022008253,
+      "episodes": 4096
+    },
+    {
+      "seed": 59000,
+      "N": 300,
+      "beta": 32.0,
+      "branch": "beta32",
+      "success_rate": 0.480224609375,
+      "collision_rate": 0.519775390625,
+      "timeout_rate": 0.0,
+      "discounted_return": -0.04342232820620292,
+      "mean_success_length": 13.54753431621759,
+      "episodes": 4096
+    },
+    {
+      "seed": 59000,
+      "N": 300,
+      "beta": 48.0,
+      "branch": "beta48",
+      "success_rate": 0.3134765625,
+      "collision_rate": 0.6865234375,
+      "timeout_rate": 0.0,
+      "discounted_return": -0.28991724468917657,
+      "mean_success_length": 13.399532710280374,
+      "episodes": 4096
+    }
+  ],
+  "boundary_extension_triggered": false,
+  "mc_reference_calls": 0,
+  "actor_updates_per_candidate": 300,
+  "status": "complete"
+}

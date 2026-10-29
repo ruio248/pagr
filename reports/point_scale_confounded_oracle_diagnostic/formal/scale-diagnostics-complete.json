@@ -1,0 +1,12 @@
+{
+  "status": "complete",
+  "beta": 16.0,
+  "formal_mean_gap_pp": 11.287434895833334,
+  "scale_matched_seed59001_gap_pp": 2.24609375,
+  "scale_matched_paired_episode_95_percent_interval_pp": [
+    0.9250788827525308,
+    3.5671086172474693
+  ],
+  "classification": "Mixed/inconclusive \u2014 global scale explains a large part of the N=100 gap, while non-scalar residuals remain large; the single-seed performance residual is below the predeclared 4-pp multi-seed bar.",
+  "completed_at": 1793297309.4142282
+}

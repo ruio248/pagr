@@ -1,0 +1,42 @@
+{
+  "protocol": "point-obstacle-scale-confounded-oracle-diagnostic-v1",
+  "phase": "same-beta-formal-comparison",
+  "selected_beta": 16.0,
+  "seeds": [
+    59001,
+    59002,
+    59003
+  ],
+  "actor_and_td_updates": 300,
+  "curve_updates": [
+    0,
+    50,
+    100,
+    150,
+    200,
+    250,
+    300
+  ],
+  "curve_episodes": 1024,
+  "final_episodes": 4096,
+  "mc_episodes": 8192,
+  "formal_seed_status": "previously studied; exploratory, not unseen confirmation",
+  "smoke_only": false,
+  "training_rules": {
+    "learned_gradient": "online critic ensemble mean action gradient",
+    "reference_gradient": "8192-IID current-policy MC score gradient; used only in Actor terminal label",
+    "beta_application": "terminal=-beta*gradient directly; no additional gradient multiplier",
+    "td_targets": "ordinary branch-current-Actor TD targets; MC reference never enters TD or critic training",
+    "shared_randomness": [
+      "offline data",
+      "shared Base and initial Critic/target",
+      "Actor/TD RNG state",
+      "evaluation banks",
+      "per-seed initialization"
+    ],
+    "checkpoint_selection": "fixed N=300 for formal; no best-checkpoint selection",
+    "formal_seed_status": "59001-59003 were previously studied; label results exploratory, not unseen confirmation"
+  },
+  "device": "cuda",
+  "created_at": 1793295219.8455904
+}

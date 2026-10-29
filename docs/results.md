@@ -56,6 +56,12 @@
 
 **结论：本次候选没有超过 Lean AM，也没有验证鲁棒抑制有效。** 这不否定终端梯度误差影响控制学习的 motivation；它说明当前“梯度误差球 + 冻结路径 + 二次 Hamiltonian 惩罚”构造，在这个 toy、这套半径尺度和有限样本下未形成有效改善。三个探索性 seed、一个任务不能支持普遍结论；成功率也不是完整含能量/KL的 AM 目标。完整本地训练数据、曲线、checkpoint 与逐路径评价在 `runs/02-qam-point-obstacle-terminal-consistent-robust-dev-20261029-182005-558a/formal/`，notebook/代码单测只验证实现与数值求解，不是方法有效性的证明。
 
+### Oracle-radius 与梯度方向诊断（中止的探索实验）
+
+[完整记录](oracle_radius_gradient_diagnostic.md)与[固定配置](../configs/oracle_radius_gradient_diagnostic.json)。新候选将每个样本的 MC-reference/learned 梯度误差范数作为鲁棒半径，但不提供误差方向；这属于特权诊断，不是可部署方法。seed 59103 在 N=240 中止，故只有 59101、59102 两个 seed 完成 300 次更新及4096回合评价：成功率配对差分别为 −6.18、−5.93 个百分点。两次均明显低于 Lean AM；不报告三 seed 正式均值，也不继续该候选训练。
+
+对已有 MC 梯度 audit 的只读分解中，156 个可靠非零点的 mean relative error 从 learned 的0.883降到 magnitude-only的0.859、direction-only的0.688。direction-only 使用了特权参考方向，未进行 actor 训练，不能视为方法收益。结果提示误差方向可能比单纯误差半径更关键，但没有提供一个无需 Oracle 的可靠方向估计器，也没有证明该机制会改善控制性能。完整证据边界和部分 checkpoint 说明见上述报告。
+
 ## 当前主 Notebook 2：多步稀疏任务的 TD-Q 梯度实验
 
 完整执行输出在[新 formal run](../runs/02-qam-td-formal-31c55defef/report.md)，[Notebook 2](../notebooks/02_qam_td_terminal_error.ipynb) 已实际执行，6个代码单元没有错误。三个预设 seed `49001–49003` 共享同一个16维、8步任务设计、目标和半径；训练各512 episode（4096转移），成功数分别为113/107/108，只有最后环境步有非零奖励。解析 `Q^{pi_ref}` 的独立 Monte Carlo、中心差分、Bellman、终止与数值边界核验通过。[验证记录](../runs/02-qam-td-formal-31c55defef/validation.json)确认历史单步 notebook 字节未动，所有预设固定 `N` checkpoint、数据和机制 NPZ 均存在。不能把这项新任务说成官方 QAM 使用的 benchmark。

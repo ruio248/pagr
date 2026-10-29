@@ -23,6 +23,8 @@
 随后实现并测试了[终端一致的路径级鲁棒 Hamiltonian 候选](scripts/terminal_consistent_robust_qam.py)，
 实验协议见[配置](configs/terminal_consistent_robust_qam.json)。它在每条冻结 Flow 路径上共享一个终端梯度扰动并做内层二次最大化；这不是全局一致的梯度误差场或严格 HJBI 控制律。开发选择器选中 `epsilon_scale=0`；将 `0.05` 作为非零半径敏感性检查，在三个新 seed 上得到平均成功率 **53.22%**，低于配对 Lean AM 的 **53.34%**（差 **−0.12 个百分点**）。因此当前候选没有胜出，不能宣称鲁棒方法有效；[负结果与限制](docs/results.md#二维避障终端一致的路径级鲁棒-hamiltonian-候选)。
 
+后续 [Oracle-radius 探索诊断](docs/oracle_radius_gradient_diagnostic.md)把特权 MC 梯度误差范数作为逐样本鲁棒半径，但两个已完成 seed 都比 Lean AM 低约6个百分点；第三 seed 在 N=240 中止。该候选已停止，方向分解仅为只读审计，不是已验证的改进算法。
+
 在固定真实控制目标下，即使终点代价的数值估计较准确，其梯度误差仍可能通过 adjoint 传播，污染中间时刻的学习信号，降低有限训练预算下的控制性能。我们希望刻画并抑制其中真正有害的部分，同时保留有效的控制信号。
 
 区分三件事：终点数值误差、传播后的标签/actor 更新误差、最终真实控制代价。梯度 disagreement 不是已校准的梯度误差；局部 matching loss 的下降也不是一般意义的真实控制代价下降。

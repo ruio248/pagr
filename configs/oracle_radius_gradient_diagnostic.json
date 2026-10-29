@@ -1,0 +1,23 @@
+{
+  "protocol": "point-obstacle-oracle-radius-and-gradient-decomposition-v1",
+  "purpose": "Test whether a privileged MC estimate of gradient-error magnitude makes the existing symmetric pathwise robust set useful; separately decompose Q-gradient errors into magnitude and direction components.",
+  "paired_baseline_run": "runs/02-qam-point-obstacle-terminal-consistent-robust-dev-20261029-182005-558a/formal",
+  "direction_audit_source_run": "runs/02-qam-point-obstacle-long-mc-v2-20261029",
+  "seeds": [59101, 59102, 59103],
+  "direction_audit_seeds": [59001, 59002, 59003],
+  "actor_updates": 300,
+  "checkpoints": [0, 50, 100, 150, 200, 250, 300],
+  "curve_episodes": 1024,
+  "final_episodes": 4096,
+  "paired_episodes": 50,
+  "oracle_radius_estimator": "epsilon_i = norm(g_MC_current_policy_i - g_learned_i), where each MC gradient uses 8192 IID simulator continuations; the robust solver receives only epsilon_i, never the error direction.",
+  "reference_mc_episodes": 8192,
+  "direction_audit_checkpoints": [0, 50, 150, 300],
+  "direction_audit_source": "pre-existing held-out current-policy MC gradient audits from the same obstacle task; use only reference gradients whose norm exceeds max(0.03, 3 times the vector MC standard error).",
+  "shared_across_lean_and_oracle_radius": [
+    "offline dataset, Base, initial Critic and target Critic",
+    "Actor initialization, optimizer, TD and Actor update counts",
+    "minibatch/Flow RNG stream and fixed evaluation noise banks"
+  ],
+  "claims_boundary": "Privileged exploratory diagnostic, not deployable; epsilon is a finite-MC point estimate rather than a certified upper bound. Direction/magnitude decomposition is read-only and cannot establish policy-level causal effects."
+}

@@ -9,8 +9,40 @@ from __future__ import annotations
 import torch
 
 
+def decompose_gradient_errors(g_learned: torch.Tensor,
+                              g_reference: torch.Tensor):
+    """Construct privileged magnitude-only and direction-only gradients.
+
+    Shapes must match [..., d]. Zero vectors stay zero rather than receiving an
+    arbitrary direction. This helper is diagnostic; it uses reference
+    information and is not a deployable estimator.
+    """
+    if g_learned.shape != g_reference.shape or g_learned.ndim < 1:
+        raise ValueError("learned and reference gradients must have matching [..., d] shapes")
+    if not bool(torch.isfinite(g_learned).all()) or not bool(torch.isfinite(g_reference).all()):
+        raise FloatingPointError("non-finite gradient in privileged decomposition")
+    n_learned = g_learned.norm(dim=-1, keepdim=True)
+    n_reference = g_reference.norm(dim=-1, keepdim=True)
+    learned_unit = torch.where(n_learned > 1e-12,
+                               g_learned / n_learned.clamp_min(1e-12),
+                               torch.zeros_like(g_learned))
+    reference_unit = torch.where(n_reference > 1e-12,
+                                 g_reference / n_reference.clamp_min(1e-12),
+                                 torch.zeros_like(g_reference))
+    magnitude_only = n_reference * learned_unit
+    direction_only = n_learned * reference_unit
+    cosine = ((g_learned * g_reference).sum(-1) /
+              (n_learned.squeeze(-1) * n_reference.squeeze(-1)).clamp_min(1e-12))
+    both_nonzero = (n_learned.squeeze(-1) > 1e-12) & (n_reference.squeeze(-1) > 1e-12)
+    cosine = torch.where(both_nonzero, cosine.clamp(-1., 1.), torch.zeros_like(cosine))
+    return dict(magnitude_only=magnitude_only, direction_only=direction_only,
+                cosine=cosine, learned_norm=n_learned.squeeze(-1),
+                reference_norm=n_reference.squeeze(-1))
+
+
 def solve_unit_ball_quadratic(A: torch.Tensor, B: torch.Tensor,
-                              kappa: float, iterations: int = 64) -> torch.Tensor:
+                              kappa: float | torch.Tensor,
+                              iterations: int = 64) -> torch.Tensor:
     """Solve max_{||q||<=1} q'A - kappa/2 q'Bq, for PSD B.
 
     A is [batch, d], B is [batch, d, d]. A secular-equation bisection handles
@@ -20,24 +52,26 @@ def solve_unit_ball_quadratic(A: torch.Tensor, B: torch.Tensor,
     """
     if A.ndim != 2 or B.shape != (len(A), A.shape[1], A.shape[1]):
         raise ValueError("expected A=[batch,d] and B=[batch,d,d]")
-    if kappa < 0 or not torch.isfinite(torch.tensor(float(kappa))):
-        raise ValueError("kappa must be finite and nonnegative")
     if not bool(torch.isfinite(A).all()) or not bool(torch.isfinite(B).all()):
         raise FloatingPointError("non-finite robust quadratic coefficients")
-    if kappa == 0:
-        norm = A.norm(dim=-1, keepdim=True)
-        return torch.where(norm > 0, A / norm.clamp_min(1e-30), torch.zeros_like(A))
 
     dtype = torch.float64
     a = A.to(dtype)
     b = B.to(dtype)
+    k = torch.as_tensor(kappa, dtype=dtype, device=A.device)
+    if k.ndim == 0:
+        k = k.expand(len(a))
+    if k.shape != (len(a),):
+        raise ValueError("kappa must be scalar or one value per batch row")
+    if not bool(torch.isfinite(k).all()) or bool((k < 0).any()):
+        raise ValueError("kappa must be finite and nonnegative")
     b = .5 * (b + b.transpose(-1, -2))
     eigvals, eigvecs = torch.linalg.eigh(b)
     if bool((eigvals[:, 0] < -1e-9).any()):
         raise ValueError("B must be positive semidefinite")
     eigvals = eigvals.clamp_min(0.)
     coords = (eigvecs.transpose(-1, -2) @ a.unsqueeze(-1)).squeeze(-1)
-    denom = kappa * eigvals
+    denom = k[:, None] * eigvals
     tolerance = 1e-12
     quotient = torch.where(denom > tolerance,
                            coords / denom.clamp_min(tolerance),
@@ -111,8 +145,12 @@ def pathwise_terminal_robust_target(base, c, k, y, paths, p_hat, epsilon):
     epsilon bounds the terminal Q-gradient error; kappa=beta*epsilon bounds
     the terminal costate error. The sampled path and Base Jacobians are frozen.
     """
-    if epsilon < 0:
-        raise ValueError("epsilon must be nonnegative")
+    eps = torch.as_tensor(epsilon, dtype=paths.dtype, device=paths.device)
+    if eps.ndim == 0:
+        eps = eps.expand(len(paths))
+    if eps.shape != (len(paths),) or not bool(torch.isfinite(eps).all()) \
+            or bool((eps < 0).any()):
+        raise ValueError("epsilon must be a finite nonnegative scalar or [batch] tensor")
     h = (1. - c.flow_epsilon) / c.flow_steps
     t = c.flow_epsilon + h * torch.arange(c.flow_steps, dtype=paths.dtype,
                                           device=paths.device)
@@ -134,9 +172,9 @@ def pathwise_terminal_robust_target(base, c, k, y, paths, p_hat, epsilon):
                  nominal_optimal_drift.unsqueeze(-1)).squeeze(-1).sum(1)
         PTP = P_right.transpose(-1, -2) @ P_right
         B = h * (nu[None, :, None, None].square() * PTP).sum(1)
-        kappa = float(c.beta * epsilon)
+        kappa = c.beta * eps
         q = solve_unit_ball_quadratic(A, B, kappa)
-        robust_p = p_hat + kappa * (P @ q[:, None, :, None]).squeeze(-1)
+        robust_p = p_hat + kappa[:, None, None] * (P @ q[:, None, :, None]).squeeze(-1)
         robust_drift = drift - nu[None, :, None].square() * robust_p[:, 1:]
         q_norm = q.norm(dim=-1)
         target_shift = (robust_p[:, 1:] - p_right).norm(dim=-1).mean(1)
@@ -148,6 +186,9 @@ def pathwise_terminal_robust_target(base, c, k, y, paths, p_hat, epsilon):
     info = dict(
         q_norm_mean=float(q_norm.mean()),
         q_boundary_fraction=float((q_norm > 1. - 1e-5).float().mean()),
+        epsilon_mean=float(eps.mean()),
+        epsilon_median=float(eps.median()),
+        epsilon_max=float(eps.max()),
         target_shift_mean=float(target_shift.mean()),
         nominal_drift_norm_mean=float(nominal_norm.mean()),
         robust_drift_norm_mean=float(robust_norm.mean()),
@@ -176,5 +217,5 @@ def terminal_consistent_actor_step(actor, opt, base, critic, task, c, k, y, z,
     opt.step()
     actor.zero_grad(set_to_none=True)
     info.update(matching_loss=loss, matching_gradient_norm=float(q_grad.norm()),
-                pre_clip_norm=float(clipped), terminal_q_error_radius=float(epsilon))
+                pre_clip_norm=float(clipped))
     return info

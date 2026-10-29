@@ -49,6 +49,30 @@ def test_quadratic_solver_matches_dense_circle_search_and_singular_case():
     assert value1 >= values.max() - 2e-7
 
 
+def test_quadratic_solver_supports_per_trajectory_radii():
+    torch.manual_seed(19)
+    a = torch.randn(4, 2, dtype=torch.float64)
+    raw = torch.randn(4, 2, 2, dtype=torch.float64)
+    b = raw.transpose(-1, -2) @ raw
+    kappa = torch.tensor([0., .1, .5, 1.2], dtype=torch.float64)
+    batched = robust.solve_unit_ball_quadratic(a, b, kappa)
+    separate = torch.cat([
+        robust.solve_unit_ball_quadratic(a[i:i+1], b[i:i+1], float(kappa[i]))
+        for i in range(len(a))
+    ])
+    assert torch.allclose(batched, separate, atol=1e-9, rtol=1e-9)
+    assert torch.allclose(batched[0], a[0] / a[0].norm(), atol=1e-9)
+
+
+def test_privileged_gradient_decomposition_separates_magnitude_and_direction():
+    learned = torch.tensor([[2., 0.], [0., 3.], [0., 0.]])
+    reference = torch.tensor([[0., 5.], [0., -1.], [4., 0.]])
+    result = robust.decompose_gradient_errors(learned, reference)
+    assert torch.allclose(result["magnitude_only"], torch.tensor([[5., 0.], [0., 1.], [0., 0.]]))
+    assert torch.allclose(result["direction_only"], torch.tensor([[0., 2.], [0., -3.], [0., 0.]]))
+    assert torch.allclose(result["cosine"], torch.tensor([0., -1., 0.]))
+
+
 def test_discrete_propagator_matches_lean_adjoint_recurrence():
     torch.manual_seed(21)
     c = point.Config(flow_steps=4, warmup_steps=1, horizon=5)
@@ -115,3 +139,23 @@ def test_positive_radius_uses_one_terminal_perturbation_across_the_path():
         actor, opt, base, critic, None, c, k, y, z, xi, .08, point.core)
     assert torch.isfinite(point.core.parameter_vector(actor)).all()
     assert 0. <= result["q_norm_mean"] <= 1. + 1e-6
+
+
+def test_per_trajectory_oracle_radius_keeps_zero_radius_rows_nominal():
+    torch.manual_seed(41)
+    c = point.Config(flow_steps=3, warmup_steps=1, actor_batch=3, horizon=5)
+    base = point.core.ConditionalVelocity(c)
+    for p in base.parameters():
+        p.requires_grad_(False)
+    k = torch.tensor([0, 1, 2])
+    y = torch.randn(3, 2)
+    paths = torch.randn(3, c.flow_steps + 1, 2)
+    terminal = torch.randn(3, 2)
+    p_hat = point.core.lean_adjoint(base, c, k, y, paths, terminal)
+    eps = torch.tensor([0., .01, .03])
+    p_robust, q, _ = robust.pathwise_terminal_robust_target(
+        base, c, k, y, paths, p_hat, eps)
+    assert torch.equal(p_robust[0], p_hat[0])
+    assert torch.allclose(p_robust[1:], p_hat[1:] + c.beta * eps[1:, None, None] *
+                          (robust.adjoint_propagators(base, c, k, y, paths)[1:] @
+                           q[1:, None, :, None]).squeeze(-1), atol=1e-6, rtol=1e-6)
